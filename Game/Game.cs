@@ -1,4 +1,5 @@
 ﻿// Include the namespaces (code libraries) you need below.
+using Microsoft.VisualBasic;
 using System;
 using System.Numerics;
 
@@ -11,7 +12,7 @@ namespace MohawkGame2D;
 public class Game
 {
     // Place your variables here:
-
+    Vector2 Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
     /// <summary>
     ///     Setup runs once before the game loop begins.
@@ -20,7 +21,7 @@ public class Game
     {
         // Set up window
         Window.SetTitle("TEST");
-        Window.SetSize(400, 400);
+        Window.SetSize(800, 600);
         // Remove outlines
         Draw.LineColor = Color.Clear;
     }
@@ -33,10 +34,16 @@ public class Game
         // Reset background
         Window.ClearBackground(Color.OffWhite);
 
+        if (Input.IsKeyboardKeyDown(KeyboardInput.Down))
+            Start += new Vector2(0, 1);
+
         Draw.FillColor = Color.Red;
-        Draw.Circle(Window.Width/2, Window.Height/2, 50);
+        Draw.Circle(Start, 50);
 
+        Vector2 Dir = Vector2.Normalize( Input.GetMousePosition() - Start);
 
+        Draw.FillColor = Color.Blue;
+        Draw.Circle(Start + (Dir * 100), 30);
     }
 
 }

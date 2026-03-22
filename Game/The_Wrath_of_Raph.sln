@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.3.11527.330 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lady Bacon (Challenge)", "Lady Bacon (Challenge).csproj", "{B7D4832C-FD24-4673-AEA3-46528CD93782}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "The_Wrath_of_Raph", "The_Wrath_of_Raph.csproj", "{9BB16B81-D844-1EB2-801B-3D12B19031B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B7D4832C-FD24-4673-AEA3-46528CD93782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7D4832C-FD24-4673-AEA3-46528CD93782}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7D4832C-FD24-4673-AEA3-46528CD93782}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7D4832C-FD24-4673-AEA3-46528CD93782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BB16B81-D844-1EB2-801B-3D12B19031B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BB16B81-D844-1EB2-801B-3D12B19031B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BB16B81-D844-1EB2-801B-3D12B19031B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BB16B81-D844-1EB2-801B-3D12B19031B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {308EE1DF-8B01-4FF9-BE99-066D4650F8BE}
+		SolutionGuid = {D1FFAE8F-627C-48BD-B72C-E1944AFE9D46}
 	EndGlobalSection
 EndGlobal
