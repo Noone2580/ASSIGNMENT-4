@@ -2,6 +2,7 @@
 using Microsoft.VisualBasic;
 using System;
 using System.Numerics;
+using System.Threading;
 
 // The namespace your code is in.
 namespace MohawkGame2D;
@@ -14,6 +15,8 @@ public class Game
     // Place your variables here:
     Vector2 Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
+    BaseCharacter Dude = new BaseCharacter();
+
     /// <summary>
     ///     Setup runs once before the game loop begins.
     /// </summary>
@@ -21,9 +24,11 @@ public class Game
     {
         // Set up window
         Window.SetTitle("TEST");
-        Window.SetSize(800, 600);
+        Window.SetSize(1100, 900);
         // Remove outlines
         Draw.LineColor = Color.Clear;
+
+        Dude.Setup();
     }
 
     /// <summary>
@@ -34,16 +39,16 @@ public class Game
         // Reset background
         Window.ClearBackground(Color.OffWhite);
 
-        if (Input.IsKeyboardKeyDown(KeyboardInput.Down))
-            Start += new Vector2(0, 1);
+        if (Input.IsKeyboardKeyDown(KeyboardInput.W))
+            Dude.Move( new Vector2(0,-1) );
+        if (Input.IsKeyboardKeyDown(KeyboardInput.S))
+            Dude.Move( new Vector2(0,1) );
+        if (Input.IsKeyboardKeyDown(KeyboardInput.A))
+            Dude.Move( new Vector2(-1,0) );
+        if (Input.IsKeyboardKeyDown(KeyboardInput.D))
+            Dude.Move( new Vector2(1,0) );
 
-        Draw.FillColor = Color.Red;
-        Draw.Circle(Start, 50);
-
-        Vector2 Dir = Vector2.Normalize( Input.GetMousePosition() - Start);
-
-        Draw.FillColor = Color.Blue;
-        Draw.Circle(Start + (Dir * 100), 30);
+        Dude.Render();
     }
 
 }
