@@ -14,6 +14,7 @@ public class BaseCharacter
     Texture2D BodyTexture;
     string BodyTextureLocation = "../../../Assets/Textures/Dude.png";
     public Vector2 SpriteOffest = new Vector2(-63f);
+    Vector2 NewSpriteOffest = Vector2.Zero;
 
     public void Setup()
     {
@@ -27,11 +28,13 @@ public class BaseCharacter
         Position += Mag * MovementSpeed * Time.DeltaTime;
     }
 
-    public virtual float UpdateRotation() 
+    public virtual float UpdateRotation()
     {
         Direction = Vector2.Normalize(Input.GetMousePosition() - Position);// TEST REMOVE SOON
 
         Rotation = float.RadiansToDegrees(MathF.Atan2(Direction.X, Direction.Y) * -1f) + 90f; // DON'T TOUCH!!!!
+
+        NewSpriteOffest = (SpriteOffest * Rotation);
 
 
         return Rotation;
@@ -50,7 +53,7 @@ public class BaseCharacter
 
         // Sprite
         Graphics.Rotation = Rotation;
-        Graphics.Draw(BodyTexture, SpriteOffest + Position);
+        Graphics.Draw(BodyTexture, NewSpriteOffest + Position);
 
         // Noise
         Draw.FillColor = Color.Blue;
