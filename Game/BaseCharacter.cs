@@ -9,10 +9,11 @@ public class BaseCharacter
     public Vector2 Position = Vector2.Zero;
     public Vector2 Velocity = Vector2.Zero;
     public float Rotation = 0f;
+    public Vector2 Direction = Vector2.Zero;
 
     Texture2D BodyTexture;
     string BodyTextureLocation = "../../../Assets/Textures/Dude.png";
-    public Vector2 SpriteOffest = new Vector2(0);
+    public Vector2 SpriteOffest = new Vector2(-63f);
 
     public void Setup()
     {
@@ -26,26 +27,34 @@ public class BaseCharacter
         Position += Mag * MovementSpeed * Time.DeltaTime;
     }
 
+    public virtual float UpdateRotation() 
+    {
+        Direction = Vector2.Normalize(Input.GetMousePosition() - Position);// TEST REMOVE SOON
+
+        Rotation = float.RadiansToDegrees(MathF.Atan2(Direction.X, Direction.Y) * -1f) + 90f; // DON'T TOUCH!!!!
+
+
+        return Rotation;
+    }
+
     public virtual void Render()
     {
+        UpdateRotation();
+
         // Body
         Draw.FillColor = Color.Red;
         Draw.Circle(Position, 20);
 
-        Vector2 Dir = Vector2.Normalize(Input.GetMousePosition() - Position);
-        Rotation = float.RadiansToDegrees(MathF.Atan2(Dir.X, Dir.Y) * -1f) + 90f; // DON'T TOUCH!!!!
+        // Rotation Debug
+        Console.WriteLine($"Row:{Rotation}");
 
+        // Sprite
+        Graphics.Rotation = Rotation;
+        Graphics.Draw(BodyTexture, SpriteOffest + Position);
 
         // Noise
         Draw.FillColor = Color.Blue;
-        Draw.Circle(Position + (Dir * 30), 10);
-
-        //Console.WriteLine($"Cos:{COS} Sin:{SIN}");
-        //Console.WriteLine($"Cos:{Dir.X} Sin:{Dir.Y}");
-        Console.WriteLine($"Row:{Rotation}");
-
-        Graphics.Rotation = Rotation;
-        Graphics.Draw(BodyTexture,  + Position);
+        Draw.Circle(Position + (Direction * 30), 10);
     }
 
 }
