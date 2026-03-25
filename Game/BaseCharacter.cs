@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Numerics;
+using System.Timers;
 using MohawkGame2D;
 
 public class BaseCharacter
 {
-    float MovementSpeed = 200f;
+    //
+    float[] Timers = new float[200];
 
+    // User Vars
+    float MovementSpeed = 150f;
     public Vector2 Position = Vector2.Zero;
     public Vector2 Velocity = Vector2.Zero;
     public float Rotation = 0f;
     public float VelRotation = 0f;
     public Vector2 Direction = Vector2.Zero;
+    Vector2 LastDirection = Vector2.Zero;
     public float Grip = 10f;
 
     // Body Sprites and Offsets
@@ -29,6 +34,25 @@ public class BaseCharacter
     {
         BodyTexture = Graphics.LoadTexture(BodyTextureLocation);
         LegsTexture = Graphics.LoadTexture(LegsTextureLocation);
+    }
+
+    public void SetTimer(int TimerIndex, float setTime) // Sets a new timer
+    {
+        if (Timers[TimerIndex] <= 0)
+        {
+            Timers[TimerIndex] = setTime + Time.SecondsElapsed;
+        }
+    }
+
+    public bool IsTimerDone(int TimerIndex) // Check if a timer is done
+    {
+        if (Time.SecondsElapsed >= Timers[TimerIndex])
+        {
+            Timers[TimerIndex] = 0;
+            return true;
+        }
+        else
+            return false;
     }
 
     public virtual void Move(Vector2 Mag)
@@ -72,23 +96,25 @@ public class BaseCharacter
 
         UpdateRotation();
 
-        // Body
-        Draw.FillColor = Color.Red;
-        Draw.Circle(Position, 20);
+        //// Body
+        //Draw.FillColor = Color.Red;
+        //Draw.Circle(Position, 20);
 
         // Rotation Debug
         //Console.WriteLine($"Row:{Rotation}");
 
         // Sprite
+        // Body
         Graphics.Rotation = VelRotation;
         Graphics.Draw(LegsTexture, NewLegsSpriteOffest + Position);
 
+        //Legs
         Graphics.Rotation = Rotation;
         Graphics.Draw(BodyTexture, NewBodySpriteOffest + Position);
 
-        // Noise
-        Draw.FillColor = Color.Blue;
-        Draw.Circle(Position + (Direction * 30), 10);
+        //// Noise
+        //Draw.FillColor = Color.Blue;
+        //Draw.Circle(Position + (Direction * 30), 10);
     }
 
 }
