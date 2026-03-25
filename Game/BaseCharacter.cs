@@ -4,44 +4,72 @@ using MohawkGame2D;
 
 public class BaseCharacter
 {
-    float MovementSpeed = 300f;
+    float MovementSpeed = 200f;
 
     public Vector2 Position = Vector2.Zero;
     public Vector2 Velocity = Vector2.Zero;
     public float Rotation = 0f;
+    public float VelRotation = 0f;
     public Vector2 Direction = Vector2.Zero;
+    public float Grip = 10f;
 
-    Texture2D BodyTexture;
-    string BodyTextureLocation = "../../../Assets/Textures/Dude.png";
-    public Vector2 SpriteOffest = new Vector2(-63f);
-    Vector2 NewSpriteOffest = Vector2.Zero;
+    // Body Sprites and Offsets
+    public Texture2D BodyTexture;
+    public string BodyTextureLocation = "../../../Assets/Textures/Dude.png";
+    public Vector2 BodySpriteOffest = new Vector2(63f,-63f);
+    Vector2 NewBodySpriteOffest = Vector2.Zero;
+
+    // Legs Sprites and Offsets
+    public Texture2D LegsTexture;
+    public string LegsTextureLocation = "../../../Assets/Textures/Dude_Legs.png";
+    public Vector2 LegsSpriteOffest = new Vector2(63f,-63f);
+    Vector2 NewLegsSpriteOffest = Vector2.Zero;
 
     public void Setup()
     {
         BodyTexture = Graphics.LoadTexture(BodyTextureLocation);
+        LegsTexture = Graphics.LoadTexture(LegsTextureLocation);
     }
 
     public virtual void Move(Vector2 Mag)
     {
         Mag = Vector2.Normalize(Mag);
 
-        Position += Mag * MovementSpeed * Time.DeltaTime;
+        Velocity += (Mag * MovementSpeed);
+
+
     }
 
     public virtual float UpdateRotation()
     {
         Direction = Vector2.Normalize(Input.GetMousePosition() - Position);// TEST REMOVE SOON
 
-        Rotation = float.RadiansToDegrees(MathF.Atan2(Direction.X, Direction.Y) * -1f) + 90f; // DON'T TOUCH!!!!
+        float RotationAngle =  MathF.Atan2(Direction.X, Direction.Y) * -1f; // Gets an angle form Direction
+        Rotation = float.RadiansToDegrees(RotationAngle) + 90f; // Turns that angle into Degrees and adds 90 Degrees
 
-        NewSpriteOffest = (SpriteOffest * Rotation);
+        float VelRotationAngle = MathF.Atan2(Velocity.X, Velocity.Y) * -1f; // Gets an angle form Velocity
+        VelRotation = float.RadiansToDegrees(VelRotationAngle) + 90f; // Turns that angle into Degrees and adds 90 Degrees
 
+        // Rotates the Body's offset Sprite poition
+        NewBodySpriteOffest.X = (BodySpriteOffest.X * MathF.Cos(RotationAngle)) - (BodySpriteOffest.Y * MathF.Sin(RotationAngle)) ;
+        NewBodySpriteOffest.Y = (BodySpriteOffest.Y * MathF.Cos(RotationAngle)) + (BodySpriteOffest.X * MathF.Sin(RotationAngle)) ;
+
+        // Rotates the Legs's offset Sprite poition
+        NewLegsSpriteOffest.X = (LegsSpriteOffest.X * MathF.Cos(VelRotationAngle)) - (LegsSpriteOffest.Y * MathF.Sin(VelRotationAngle)) ;
+        NewLegsSpriteOffest.Y = (LegsSpriteOffest.Y * MathF.Cos(VelRotationAngle)) + (LegsSpriteOffest.X * MathF.Sin(VelRotationAngle)) ;
 
         return Rotation;
     }
 
     public virtual void Render()
     {
+        // Update Poition
+        Position += Velocity * Time.DeltaTime;
+        
+        // Update Velocity
+        Velocity -= Velocity * Grip * Time.DeltaTime;
+
+
         UpdateRotation();
 
         // Body
@@ -49,11 +77,14 @@ public class BaseCharacter
         Draw.Circle(Position, 20);
 
         // Rotation Debug
-        Console.WriteLine($"Row:{Rotation}");
+        //Console.WriteLine($"Row:{Rotation}");
 
         // Sprite
+        Graphics.Rotation = VelRotation;
+        Graphics.Draw(LegsTexture, NewLegsSpriteOffest + Position);
+
         Graphics.Rotation = Rotation;
-        Graphics.Draw(BodyTexture, NewSpriteOffest + Position);
+        Graphics.Draw(BodyTexture, NewBodySpriteOffest + Position);
 
         // Noise
         Draw.FillColor = Color.Blue;
