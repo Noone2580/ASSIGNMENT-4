@@ -3,6 +3,11 @@ using System.Numerics;
 using System.Timers;
 using MohawkGame2D;
 
+
+/// <summary>
+///     All Players and Enemys inhairint this class    
+///     This Class is used for Movement, Collision, and Sprite Rotations/Offsets
+/// </summary>
 public class BaseCharacter
 {
     //
