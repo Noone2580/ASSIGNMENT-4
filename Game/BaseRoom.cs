@@ -9,12 +9,17 @@ public class BaseRoom
 {
     BaseDoor[] Doors = new BaseDoor[4];
 
+    Texture2D RoomTexture;
+    string RoomTextureLocation = "../../../Assets/Textures/BaseRoom.png";
+
     Game GetGame;
 
     public virtual void Setup(Game game)
     {
         GetGame = game;
         
+        RoomTexture = Graphics.LoadTexture(RoomTextureLocation);
+
         for (int i = 0; i < Doors.Length; i++)
         {
             Doors[i] = new BaseDoor();
@@ -49,6 +54,8 @@ public class BaseRoom
     public virtual void Render()
     {
         BasePlayer[] PlayerPositions = GetGame.GetAllPlayers();
+
+        Graphics.Draw(RoomTexture, 0, 0);
 
         for (int i = 0; i < Doors.Length; i++)
         {

@@ -60,6 +60,9 @@ public class Game
         // Reset background
         Window.ClearBackground(Color.OffWhite);
 
+        Graphics.Tint = new Color(255/2);
+        Graphics.Rotation = 0;
+
         CurrentRoom.Render();
 
         if (Input.IsKeyboardKeyDown(KeyboardInput.W))
