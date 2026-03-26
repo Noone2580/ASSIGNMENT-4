@@ -15,7 +15,8 @@ public class Game
     // Place your variables here:
     Vector2 Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
-    BaseCharacter Dude = new BasePlayer();
+    BasePlayer[] Players = new BasePlayer[1];
+    BaseRoom CurrentRoom = new BaseRoom();
 
     /// <summary>
     ///     Setup runs once before the game loop begins.
@@ -28,7 +29,27 @@ public class Game
         // Remove outlines
         Draw.LineColor = Color.Clear;
 
-        Dude.Setup();
+        CurrentRoom.Setup();
+        for (int i = 0; i < Players.Length; i++)
+        {
+            Players[i] = new BasePlayer();
+            Players[i].Setup();
+        }
+    }
+
+    public BasePlayer[] GetAllPlayers() 
+    {
+        return Players;
+    }
+
+    public Vector2[] GetAllPlayerPositions() 
+    {
+        Vector2[] PlayerPositions = new Vector2[Players.Length];
+        for (int i = 0; i < Players.Length; i++)
+        {
+            PlayerPositions[i] = Players[i].Position;
+        }
+        return PlayerPositions;
     }
 
     /// <summary>
@@ -39,16 +60,18 @@ public class Game
         // Reset background
         Window.ClearBackground(Color.OffWhite);
 
-        if (Input.IsKeyboardKeyDown(KeyboardInput.W))
-            Dude.Move( new Vector2(0,-1) );
-        if (Input.IsKeyboardKeyDown(KeyboardInput.S))
-            Dude.Move( new Vector2(0,1) );
-        if (Input.IsKeyboardKeyDown(KeyboardInput.A))
-            Dude.Move( new Vector2(-1,0) );
-        if (Input.IsKeyboardKeyDown(KeyboardInput.D))
-            Dude.Move( new Vector2(1,0) );
+        CurrentRoom.Render();
 
-        Dude.Render();
+        if (Input.IsKeyboardKeyDown(KeyboardInput.W))
+            Players[0].Move(new Vector2(0, -1));
+        if (Input.IsKeyboardKeyDown(KeyboardInput.S))
+            Players[0].Move(new Vector2(0, 1));
+        if (Input.IsKeyboardKeyDown(KeyboardInput.A))
+            Players[0].Move(new Vector2(-1, 0));
+        if (Input.IsKeyboardKeyDown(KeyboardInput.D))
+            Players[0].Move(new Vector2(1, 0));
+
+        Players[0].Render();
     }
 
 }
