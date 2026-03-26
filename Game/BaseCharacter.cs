@@ -5,7 +5,7 @@ using MohawkGame2D;
 
 
 /// <summary>
-///     All Players and Enemys inhairint this class    
+///     All Players and Enemys inhairint this class.
 ///     This Class is used for Movement, Collision, and Sprite Rotations/Offsets
 /// </summary>
 public class BaseCharacter
@@ -35,12 +35,27 @@ public class BaseCharacter
     public Vector2 LegsSpriteOffest = new Vector2(63f,-63f);
     Vector2 NewLegsSpriteOffest = Vector2.Zero;
 
+    /// <summary>
+    ///     Sets Up the base variables and loads textures.
+    /// </summary>
     public void Setup()
     {
         BodyTexture = Graphics.LoadTexture(BodyTextureLocation);
         LegsTexture = Graphics.LoadTexture(LegsTextureLocation);
+        CustomSetup();
     }
 
+    /// <summary>
+    ///     Can be Overided to Setup Custom Variables.
+    /// </summary>
+    public virtual void CustomSetup() 
+    {
+
+    }
+
+    /// <summary>
+    ///     Sets a Timer on a index and takes time.
+    /// </summary>
     public void SetTimer(int TimerIndex, float setTime) // Sets a new timer
     {
         if (Timers[TimerIndex] <= 0)
@@ -49,7 +64,11 @@ public class BaseCharacter
         }
     }
 
-    public bool IsTimerDone(int TimerIndex) // Check if a timer is done
+    /// <summary>
+    ///     Checks if a Timer at a index is done.
+    ///     Returns a bool.
+    /// </summary>
+    public bool IsTimerDone(int TimerIndex) 
     {
         if (Time.SecondsElapsed >= Timers[TimerIndex])
         {
@@ -60,15 +79,20 @@ public class BaseCharacter
             return false;
     }
 
+    /// <summary>
+    ///     Moves the pawn in a direction
+    /// </summary>
     public virtual void Move(Vector2 Mag)
     {
         Mag = Vector2.Normalize(Mag);
 
         Velocity += (Mag * MovementSpeed);
 
-
     }
 
+    /// <summary>
+    ///     For Updateing Pawn and sprite rotation / offsets.
+    /// </summary>
     public virtual float UpdateRotation()
     {
         Direction = Vector2.Normalize(Input.GetMousePosition() - Position);// TEST REMOVE SOON
@@ -90,6 +114,9 @@ public class BaseCharacter
         return Rotation;
     }
 
+    /// <summary>
+    ///     Renders the pawn to the screen. Can be Overided
+    /// </summary>
     public virtual void Render()
     {
         // Update Poition
