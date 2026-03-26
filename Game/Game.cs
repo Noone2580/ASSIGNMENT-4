@@ -15,7 +15,7 @@ public class Game
     // Place your variables here:
     Vector2 Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
-    BaseCharacter Dude = new BaseCharacter();
+    BaseCharacter Dude = new BasePlayer();
 
     /// <summary>
     ///     Setup runs once before the game loop begins.

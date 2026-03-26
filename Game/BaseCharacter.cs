@@ -5,7 +5,6 @@ using MohawkGame2D;
 
 
 /// <summary>
-///     All Players and Enemys inhairint this class.
 ///     This Class is used for Movement, Collision, and Sprite Rotations/Offsets
 /// </summary>
 public class BaseCharacter
@@ -95,8 +94,6 @@ public class BaseCharacter
     /// </summary>
     public virtual float UpdateRotation()
     {
-        Direction = Vector2.Normalize(Input.GetMousePosition() - Position);// TEST REMOVE SOON
-
         float RotationAngle =  MathF.Atan2(Direction.X, Direction.Y) * -1f; // Gets an angle form Direction
         Rotation = float.RadiansToDegrees(RotationAngle) + 90f; // Turns that angle into Degrees and adds 90 Degrees
 
@@ -125,15 +122,7 @@ public class BaseCharacter
         // Update Velocity
         Velocity -= Velocity * Grip * Time.DeltaTime;
 
-
         UpdateRotation();
-
-        //// Body
-        //Draw.FillColor = Color.Red;
-        //Draw.Circle(Position, 20);
-
-        // Rotation Debug
-        //Console.WriteLine($"Row:{Rotation}");
 
         // Sprite
         // Body
@@ -144,9 +133,5 @@ public class BaseCharacter
         Graphics.Rotation = Rotation;
         Graphics.Draw(BodyTexture, NewBodySpriteOffest + Position);
 
-        //// Noise
-        //Draw.FillColor = Color.Blue;
-        //Draw.Circle(Position + (Direction * 30), 10);
     }
-
 }
