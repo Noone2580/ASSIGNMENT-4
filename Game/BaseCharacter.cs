@@ -13,14 +13,14 @@ public class BaseCharacter
     float[] Timers = new float[200];
 
     // User Vars
-    float MovementSpeed = 150f;
+    float MovementSpeed = 120f;
     public Vector2 Position = Vector2.Zero;
     public Vector2 Velocity = Vector2.Zero;
     public float Rotation = 0f;
     public float VelRotation = 0f;
     public Vector2 Direction = Vector2.Zero;
     Vector2 LastDirection = Vector2.Zero;
-    public float Grip = 10f;
+    public float Grip = 5f;
 
     // Body Sprites and Offsets
     public Texture2D BodyTexture;
@@ -85,7 +85,7 @@ public class BaseCharacter
     {
         Mag = Vector2.Normalize(Mag);
 
-        Velocity += (Mag * MovementSpeed);
+        Velocity += (Mag * MovementSpeed)/2;
 
     }
 

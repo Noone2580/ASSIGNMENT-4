@@ -16,7 +16,9 @@ public class Game
     Vector2 Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
     BasePlayer[] Players = new BasePlayer[1];
-    BaseRoom CurrentRoom = new BaseRoom();
+    BaseRoom CurrentRoom = new StartingRoom();
+
+    public bool CanUseDoor = true;
 
     /// <summary>
     ///     Setup runs once before the game loop begins.
@@ -37,12 +39,31 @@ public class Game
         }
     }
 
-    public BasePlayer[] GetAllPlayers() 
+    public void EnterNewRoom(BaseRoom NewRoom, Vector2 DoorPosition)
+    {
+        if (NewRoom != null)
+        {
+            CanUseDoor = false;
+            CurrentRoom = NewRoom;
+            CurrentRoom.Setup(this);
+
+            for (int i = 0; i < Players.Length; i++)
+            {
+                Players[i].Velocity = Vector2.Zero;
+                Players[i].Position = DoorPosition;
+            }
+
+        }
+        else
+            return;
+    }
+
+    public BasePlayer[] GetAllPlayers()
     {
         return Players;
     }
 
-    public Vector2[] GetAllPlayerPositions() 
+    public Vector2[] GetAllPlayerPositions()
     {
         Vector2[] PlayerPositions = new Vector2[Players.Length];
         for (int i = 0; i < Players.Length; i++)
@@ -60,7 +81,7 @@ public class Game
         // Reset background
         Window.ClearBackground(Color.OffWhite);
 
-        Graphics.Tint = new Color(255/2);
+        //Graphics.Tint = new Color(255/2);
         Graphics.Rotation = 0;
 
         CurrentRoom.Render();
@@ -74,7 +95,10 @@ public class Game
         if (Input.IsKeyboardKeyDown(KeyboardInput.D))
             Players[0].Move(new Vector2(1, 0));
 
-        Players[0].Render();
-    }
 
+
+
+        Players[0].Render();
+
+    }
 }
