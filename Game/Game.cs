@@ -29,7 +29,7 @@ public class Game
         // Remove outlines
         Draw.LineColor = Color.Clear;
 
-        CurrentRoom.Setup();
+        CurrentRoom.Setup(this);
         for (int i = 0; i < Players.Length; i++)
         {
             Players[i] = new BasePlayer();
