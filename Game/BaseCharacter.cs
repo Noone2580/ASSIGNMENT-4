@@ -25,14 +25,14 @@ public class BaseCharacter
     // Body Sprites and Offsets
     public Texture2D BodyTexture;
     public string BodyTextureLocation = "../../../Assets/Textures/Dude.png";
-    public Vector2 BodySpriteOffest = new Vector2(63f,-63f);
-    Vector2 NewBodySpriteOffest = Vector2.Zero;
+    public Vector2 BodySpriteOffset = new Vector2(63f, -63f);
+    Vector2 NewBodySpriteOffset = Vector2.Zero;
 
     // Legs Sprites and Offsets
     public Texture2D LegsTexture;
     public string LegsTextureLocation = "../../../Assets/Textures/Dude_Legs.png";
-    public Vector2 LegsSpriteOffest = new Vector2(63f,-63f);
-    Vector2 NewLegsSpriteOffest = Vector2.Zero;
+    public Vector2 LegsSpriteOffset = new Vector2(63f, -63f);
+    Vector2 NewLegsSpriteOffset = Vector2.Zero;
 
     /// <summary>
     ///     Sets Up the base variables and loads textures.
@@ -47,7 +47,7 @@ public class BaseCharacter
     /// <summary>
     ///     Can be Overided to Setup Custom Variables.
     /// </summary>
-    public virtual void CustomSetup() 
+    public virtual void CustomSetup()
     {
 
     }
@@ -67,7 +67,7 @@ public class BaseCharacter
     ///     Checks if a Timer at a index is done.
     ///     Returns a bool.
     /// </summary>
-    public bool IsTimerDone(int TimerIndex) 
+    public bool IsTimerDone(int TimerIndex)
     {
         if (Time.SecondsElapsed >= Timers[TimerIndex])
         {
@@ -94,19 +94,19 @@ public class BaseCharacter
     /// </summary>
     public virtual float UpdateRotation()
     {
-        float RotationAngle =  MathF.Atan2(Direction.X, Direction.Y) * -1f; // Gets an angle form Direction
+        float RotationAngle = MathF.Atan2(Direction.X, Direction.Y) * -1f; // Gets an angle form Direction
         Rotation = float.RadiansToDegrees(RotationAngle) + 90f; // Turns that angle into Degrees and adds 90 Degrees
 
         float VelRotationAngle = MathF.Atan2(Velocity.X, Velocity.Y) * -1f; // Gets an angle form Velocity
         VelRotation = float.RadiansToDegrees(VelRotationAngle) + 90f; // Turns that angle into Degrees and adds 90 Degrees
 
         // Rotates the Body's offset Sprite poition
-        NewBodySpriteOffest.X = (BodySpriteOffest.X * MathF.Cos(RotationAngle)) - (BodySpriteOffest.Y * MathF.Sin(RotationAngle)) ;
-        NewBodySpriteOffest.Y = (BodySpriteOffest.Y * MathF.Cos(RotationAngle)) + (BodySpriteOffest.X * MathF.Sin(RotationAngle)) ;
+        NewBodySpriteOffset.X = (BodySpriteOffset.X * MathF.Cos(RotationAngle)) - (BodySpriteOffset.Y * MathF.Sin(RotationAngle));
+        NewBodySpriteOffset.Y = (BodySpriteOffset.Y * MathF.Cos(RotationAngle)) + (BodySpriteOffset.X * MathF.Sin(RotationAngle));
 
         // Rotates the Legs's offset Sprite poition
-        NewLegsSpriteOffest.X = (LegsSpriteOffest.X * MathF.Cos(VelRotationAngle)) - (LegsSpriteOffest.Y * MathF.Sin(VelRotationAngle)) ;
-        NewLegsSpriteOffest.Y = (LegsSpriteOffest.Y * MathF.Cos(VelRotationAngle)) + (LegsSpriteOffest.X * MathF.Sin(VelRotationAngle)) ;
+        NewLegsSpriteOffset.X = (LegsSpriteOffset.X * MathF.Cos(VelRotationAngle)) - (LegsSpriteOffset.Y * MathF.Sin(VelRotationAngle));
+        NewLegsSpriteOffset.Y = (LegsSpriteOffset.Y * MathF.Cos(VelRotationAngle)) + (LegsSpriteOffset.X * MathF.Sin(VelRotationAngle));
 
         return Rotation;
     }
@@ -118,7 +118,7 @@ public class BaseCharacter
     {
         // Update Poition
         Position += Velocity * Time.DeltaTime;
-        
+
         // Update Velocity
         Velocity -= Velocity * Grip * Time.DeltaTime;
 
@@ -127,11 +127,11 @@ public class BaseCharacter
         // Sprite
         // Body
         Graphics.Rotation = VelRotation;
-        Graphics.Draw(LegsTexture, NewLegsSpriteOffest + Position);
+        Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
 
         //Legs
         Graphics.Rotation = Rotation;
-        Graphics.Draw(BodyTexture, NewBodySpriteOffest + Position);
+        Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
 
     }
 }
