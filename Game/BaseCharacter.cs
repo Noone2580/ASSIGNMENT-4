@@ -9,8 +9,9 @@ using MohawkGame2D;
 /// </summary>
 public class BaseCharacter
 {
-    //
+    // Game Vars
     float[] Timers = new float[200];
+    Game GetGame;
 
     // User Vars
     float MovementSpeed = 120f;
@@ -20,6 +21,7 @@ public class BaseCharacter
     public float VelRotation = 0f;
     public Vector2 Direction = Vector2.Zero;
     Vector2 LastDirection = Vector2.Zero;
+    public float HitBoxSize = 15f;
     public float Grip = 5f;
 
     // Body Sprites and Offsets
@@ -37,8 +39,9 @@ public class BaseCharacter
     /// <summary>
     ///     Sets Up the base variables and loads textures.
     /// </summary>
-    public void Setup()
+    public void Setup(Game game)
     {
+        GetGame = game;
         BodyTexture = Graphics.LoadTexture(BodyTextureLocation);
         LegsTexture = Graphics.LoadTexture(LegsTextureLocation);
         CustomSetup();
@@ -85,7 +88,7 @@ public class BaseCharacter
     {
         Mag = Vector2.Normalize(Mag);
 
-        Velocity += (Mag * MovementSpeed)/2;
+        Velocity += (Mag * MovementSpeed) / 2;
 
     }
 
@@ -111,17 +114,59 @@ public class BaseCharacter
         return Rotation;
     }
 
+    public virtual void CheckForCal()
+    {
+        float[] RoomCal = GetGame.GetRoomCal();
+
+        for (int i = 0; i < RoomCal.Length; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    if (Position.X - HitBoxSize < RoomCal[i])
+                    {
+                        Velocity.X = 0;
+                        Position.X = RoomCal[i] + HitBoxSize;
+                    }
+                    break;
+                case 1:
+                    if (Position.X + HitBoxSize > RoomCal[i])
+                    {
+                        Velocity.X = 0;
+                        Position.X = RoomCal[i] - HitBoxSize;
+                    }
+                    break;
+                case 2:
+                    if (Position.Y - HitBoxSize < RoomCal[i])
+                    {
+                        Velocity.Y = 0;
+                        Position.Y = RoomCal[i] + HitBoxSize;
+                    }
+                    break;
+                case 3:
+                    if (Position.Y + HitBoxSize > RoomCal[i])
+                    {
+                        Velocity.Y = 0;
+                        Position.Y = RoomCal[i] - HitBoxSize;
+                    }
+                    break;
+            }
+        }
+    }
+
     /// <summary>
     ///     Renders the pawn to the screen. Can be Overided
     /// </summary>
     public virtual void Render()
     {
+
         // Update Poition
         Position += Velocity * Time.DeltaTime;
 
         // Update Velocity
         Velocity -= Velocity * Grip * Time.DeltaTime;
 
+        CheckForCal();
         UpdateRotation();
 
         // Sprite

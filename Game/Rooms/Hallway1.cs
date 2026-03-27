@@ -26,7 +26,11 @@ public class Hallway1 : BaseRoom
             }
             Doors[i].Setup();
         }
+        LeftWallCal = 50;
+        RightWallCal = Window.Width - 50;
 
+        TopWallCal = 50;
+        BottomWallCal = Window.Height - 50;
 
     }
 

@@ -31,12 +31,40 @@ public class Game
         // Remove outlines
         Draw.LineColor = Color.Clear;
 
+        Start = new Vector2(Window.Width / 2, Window.Height / 2);
+
         CurrentRoom.Setup(this);
         for (int i = 0; i < Players.Length; i++)
         {
             Players[i] = new BasePlayer();
-            Players[i].Setup();
+            Players[i].Setup(this);
+            Players[i].Position = Start;
         }
+    }
+
+    public float[] GetRoomCal()
+    {
+        float[] RoomCal = new float[4];
+        for (int i = 0; i < RoomCal.Length; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    RoomCal[i] = CurrentRoom.LeftWallCal; 
+                    break;
+                case 1:
+                    RoomCal[i] = CurrentRoom.RightWallCal; 
+                    break;
+                case 2:
+                    RoomCal[i] = CurrentRoom.TopWallCal; 
+                    break;
+                case 3:
+                    RoomCal[i] = CurrentRoom.BottomWallCal; 
+                    break;
+            }
+        }
+
+        return RoomCal;
     }
 
     public void EnterNewRoom(BaseRoom NewRoom, Vector2 DoorPosition)

@@ -11,6 +11,11 @@ public class BaseRoom
 
     public BaseRoom[] ConectedRooms = new BaseRoom[4];
 
+    public float LeftWallCal;
+    public float RightWallCal;
+    public float TopWallCal;
+    public float BottomWallCal;
+
     public Texture2D RoomTexture;
     public string RoomTextureLocation = "../../../Assets/Textures/BaseRoom.png";
 
@@ -19,11 +24,15 @@ public class BaseRoom
     public void Setup(Game game)
     {
         GetGame = game;
+        LeftWallCal = 50;
+        RightWallCal = Window.Width - 50;
+
+        TopWallCal = 50;
+        BottomWallCal = Window.Height - 50;
 
         CustomSetup();
 
         RoomTexture = Graphics.LoadTexture(RoomTextureLocation);
-
     }
 
 
@@ -59,7 +68,10 @@ public class BaseRoom
             Doors[i].Setup();
         }
 
+        
+
     }
+
 
     public void CheckIfPlayerInDoor()
     {
@@ -71,7 +83,7 @@ public class BaseRoom
         {
             if (GetGame.CanUseDoor)
             {
-                if (Vector2.Distance(Players[0], Doors[i].Position) <= 50)
+                if (Vector2.Distance(Players[0], Doors[i].Position) <= 80)
                 {
                     Graphics.UnloadTexture(RoomTexture);
                     GetGame.EnterNewRoom(ConectedRooms[i], Doors[i].EndPosition);
@@ -79,7 +91,7 @@ public class BaseRoom
                     break;
                 }
             }
-            else if (Vector2.Distance(Players[0], Doors[i].Position) >= 50)
+            else if (Vector2.Distance(Players[0], Doors[i].Position) >= 80)
             {
                 GetGame.CanUseDoor = Reset;
             }
