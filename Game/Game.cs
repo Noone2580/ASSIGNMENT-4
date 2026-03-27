@@ -1,6 +1,7 @@
 ﻿// Include the namespaces (code libraries) you need below.
 using Microsoft.VisualBasic;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Threading;
 
@@ -17,6 +18,7 @@ public class Game
 
     BasePlayer[] Players = new BasePlayer[1];
     BaseRoom CurrentRoom = new StartingRoom();
+    BaseEnemy[] Enemies = new BaseEnemy[4];
 
     public bool CanUseDoor = true;
 
@@ -34,11 +36,20 @@ public class Game
         Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
         CurrentRoom.Setup(this);
+
         for (int i = 0; i < Players.Length; i++)
         {
             Players[i] = new BasePlayer();
             Players[i].Setup(this);
-            Players[i].Position = Start;
+            Players[i].Position = Start * 1.5f;
+        }
+
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            Enemies[i] = new BaseEnemy();
+            Enemies[i].Setup(this);
+            Enemies[i].Position = Start;
+
         }
     }
 
@@ -50,16 +61,16 @@ public class Game
             switch (i)
             {
                 case 0:
-                    RoomCal[i] = CurrentRoom.LeftWallCal; 
+                    RoomCal[i] = CurrentRoom.LeftWallCal;
                     break;
                 case 1:
-                    RoomCal[i] = CurrentRoom.RightWallCal; 
+                    RoomCal[i] = CurrentRoom.RightWallCal;
                     break;
                 case 2:
-                    RoomCal[i] = CurrentRoom.TopWallCal; 
+                    RoomCal[i] = CurrentRoom.TopWallCal;
                     break;
                 case 3:
-                    RoomCal[i] = CurrentRoom.BottomWallCal; 
+                    RoomCal[i] = CurrentRoom.BottomWallCal;
                     break;
             }
         }
@@ -123,10 +134,14 @@ public class Game
         if (Input.IsKeyboardKeyDown(KeyboardInput.D))
             Players[0].Move(new Vector2(1, 0));
 
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            Enemies[i].Render();
+        }
 
-
-
-        Players[0].Render();
-
+        for (int i = 0; i < Players.Length; i++)
+        {
+            Players[i].Render();
+        }
     }
 }

@@ -11,16 +11,15 @@ public class BaseCharacter
 {
     // Game Vars
     float[] Timers = new float[200];
-    Game GetGame;
+    public Game GetGame;
 
     // User Vars
-    float MovementSpeed = 120f;
+    public float MovementSpeed = 120f;
     public Vector2 Position = Vector2.Zero;
     public Vector2 Velocity = Vector2.Zero;
     public float Rotation = 0f;
     public float VelRotation = 0f;
     public Vector2 Direction = Vector2.Zero;
-    Vector2 LastDirection = Vector2.Zero;
     public float HitBoxSize = 15f;
     public float Grip = 5f;
 
