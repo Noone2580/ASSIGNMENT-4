@@ -5,7 +5,7 @@ using MohawkGame2D;
 
 
 /// <summary>
-///     This Class is used for Movement, Collision, and Sprite Rotations/Offsets
+///     This Class is used for Movement, Collision, Sprite Rotations/Offsets, And Damage.
 /// </summary>
 public class BaseCharacter
 {
@@ -14,6 +14,8 @@ public class BaseCharacter
     public Game GetGame;
 
     // User Vars
+    public float MaxHP = 100f;
+    public float HP = 100f;
     public float MovementSpeed = 120f;
     public Vector2 Position = Vector2.Zero;
     public Vector2 Velocity = Vector2.Zero;
@@ -43,7 +45,9 @@ public class BaseCharacter
         GetGame = game;
         BodyTexture = Graphics.LoadTexture(BodyTextureLocation);
         LegsTexture = Graphics.LoadTexture(LegsTextureLocation);
+        HP = MaxHP;
         CustomSetup();
+
     }
 
     /// <summary>
@@ -55,14 +59,41 @@ public class BaseCharacter
     }
 
     /// <summary>
+    ///     Handles taking damage.
+    /// </summary>
+    public virtual void TakeDamage(float Damage, Vector2 HitForce)
+    {
+        HP -= Damage;
+        Velocity += HitForce;
+        if (HP <= 0)
+            Die();
+    }
+
+    /// <summary>
+    ///     Handles taking damage.
+    /// </summary>
+    public virtual void DealDamage(BaseCharacter Target, float Damage, Vector2 HitForce)
+    {
+        if (Target != null)
+        {
+            Target.TakeDamage(Damage, HitForce);
+        }
+    }
+
+    /// <summary>
+    ///     Handles Dieing. Aka Kill pawn
+    /// </summary>
+    public virtual void Die()
+    {
+        Console.WriteLine($"{this} IS DEAD");
+    }
+
+    /// <summary>
     ///     Sets a Timer on a index and takes time.
     /// </summary>
     public void SetTimer(int TimerIndex, float setTime) // Sets a new timer
     {
-        if (Timers[TimerIndex] <= 0)
-        {
-            Timers[TimerIndex] = setTime + Time.SecondsElapsed;
-        }
+        Timers[TimerIndex] = setTime + Time.SecondsElapsed;
     }
 
     /// <summary>
@@ -113,6 +144,9 @@ public class BaseCharacter
         return Rotation;
     }
 
+    /// <summary>
+    ///     Checks if pawn is calideing with a wall
+    /// </summary>
     public virtual void CheckForCal()
     {
         float[] RoomCal = GetGame.GetRoomCal();

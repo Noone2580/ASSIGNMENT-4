@@ -5,7 +5,10 @@ using MohawkGame2D;
 public class BaseEnemy : BaseAI
 {
 
-    BaseCharacter Target;
+    public BaseCharacter Target;
+    public float AttackCooldown = .7f;
+    public float AttackRange = 20f;
+    public float TargetSlowdown = .8f;
 
     public override void CustomSetup()
     {
@@ -16,11 +19,6 @@ public class BaseEnemy : BaseAI
 
     public override void Render()
     {
-        Target = GetClosetPlayer();
-        Direction = Vector2.Normalize(Target.Position - Position);
-
         base.Render();
-        Move(Direction);
-
     }
 }

@@ -10,5 +10,6 @@ public class BasePlayer : BaseCharacter
         Direction = Vector2.Normalize( Input.GetMousePosition() - Position);
 
         base.Render();
+        Text.Draw($"{HP}", new Vector2( Position.X, Position.Y + 10 ));
     }
 }

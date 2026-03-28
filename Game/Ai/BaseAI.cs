@@ -4,10 +4,10 @@ using System.Numerics;
 
 public class BaseAI : BaseCharacter
 {
-	
 
-	public BasePlayer GetClosetPlayer() 
-	{
+
+    public BasePlayer GetClosetPlayer()
+    {
         Vector2[] PlayerPos = GetGame.GetAllPlayerPositions();
         float Dis = 99999999999f;
         int Index = 0;
@@ -23,4 +23,24 @@ public class BaseAI : BaseCharacter
 
         return GetGame.GetAllPlayers()[Index];
     }
+    public BaseAI GetClosetAI()
+    {
+        Vector2[] AiPos = GetGame.GetAllAiPositions();
+        float Dis = 99999999999f;
+        int Index = 0;
+
+        for (int i = 0; i < AiPos.Length; i++)
+        {
+            if (GetGame.GetAllAis()[i] != this)
+                if (Vector2.Distance(Position, AiPos[i]) <= Dis)
+                {
+                    Dis = Vector2.Distance(Position, AiPos[i]);
+                    Index = i;
+                }
+        }
+
+        return GetGame.GetAllAis()[Index];
+    }
+
+
 }

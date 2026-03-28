@@ -46,9 +46,9 @@ public class Game
 
         for (int i = 0; i < Enemies.Length; i++)
         {
-            Enemies[i] = new BaseEnemy();
+            Enemies[i] = new Zombie();
             Enemies[i].Setup(this);
-            Enemies[i].Position = Start;
+            Enemies[i].Position += Start;
 
         }
     }
@@ -101,6 +101,10 @@ public class Game
     {
         return Players;
     }
+    public BaseAI[] GetAllAis()
+    {
+        return Enemies;
+    }
 
     public Vector2[] GetAllPlayerPositions()
     {
@@ -110,6 +114,15 @@ public class Game
             PlayerPositions[i] = Players[i].Position;
         }
         return PlayerPositions;
+    }
+    public Vector2[] GetAllAiPositions()
+    {
+        Vector2[] AiPositions = new Vector2[Enemies.Length];
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            AiPositions[i] = Enemies[i].Position;
+        }
+        return AiPositions;
     }
 
     /// <summary>
