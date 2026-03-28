@@ -97,6 +97,27 @@ public class Game
             return;
     }
 
+    public void DamageAllInRadius(BaseCharacter self, Vector2 position, float radius, float damage, Vector2 force)
+    {
+        for (int i = 0; i < Players.Length; i++)
+        {
+            if (self != null && Players[i] != null && self != Players[i])
+            {
+                if (Vector2.Distance(Players[i].Position, position) + Players[i].HitBoxSize <= radius)
+                    Players[i].TakeDamage(damage, force);
+            }
+        }
+
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            if (self != null && Enemies[i] != null && self != Enemies[i])
+            {
+                if (Vector2.Distance(Enemies[i].Position, position) + Enemies[i].HitBoxSize <= radius)
+                    Enemies[i].TakeDamage(damage, force);
+            }
+        }
+    }
+
     public BasePlayer[] GetAllPlayers()
     {
         return Players;

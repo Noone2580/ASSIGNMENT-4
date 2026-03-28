@@ -6,6 +6,7 @@ public class BaseEnemy : BaseAI
 {
 
     public BaseCharacter Target;
+    public float AttackDamage = 1;
     public float AttackCooldown = .7f;
     public float AttackRange = 20f;
     public float TargetSlowdown = .8f;

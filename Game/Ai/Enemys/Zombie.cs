@@ -8,6 +8,7 @@ public class Zombie : BaseEnemy
     public override void CustomSetup()
     {
         MovementSpeed = MohawkGame2D.Random.Float(30f, 80f);
+        AttackDamage = 1f;
         AttackRange = 45f;
         TargetSlowdown = 6f;
         Position = MohawkGame2D.Random.Vector2(new Vector2(0), new Vector2(400));
@@ -26,7 +27,7 @@ public class Zombie : BaseEnemy
 
         if (Vector2.Distance(KeepAway.Position, Position) <= HitBoxSize)
         {
-            Vector2 DirPos = (Position - KeepAway.Position) * (HitBoxSize) ;
+            Vector2 DirPos = (Position - KeepAway.Position) * (HitBoxSize);
 
             Position += DirPos * Time.DeltaTime;
         }
@@ -39,8 +40,10 @@ public class Zombie : BaseEnemy
             if (IsTimerDone(0))
             {
                 SetTimer(0, AttackCooldown);
-                DealDamage(Target, 1, Vector2.Zero);
+                DealDamage(Target, AttackDamage, Vector2.Zero);
             }
         }
+        else
+            SetTimer(0, AttackCooldown);
     }
 }
