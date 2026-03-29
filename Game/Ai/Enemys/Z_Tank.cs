@@ -3,17 +3,18 @@ using System;
 
 using System.Numerics;
 
-public class Zombie : BaseEnemy
+public class Z_Tank : BaseEnemy
 {
     public override void CustomSetup()
     {
         base.CustomSetup();
-        MovementSpeed = MohawkGame2D.Random.Float(30f, 80f);
-        MaxHP = 5f;
+        MovementSpeed = MohawkGame2D.Random.Float(20f, 40f);
+        MaxHP = 20f;
         HP = MaxHP;
-        AttackDamage = 1f;
+        AttackDamage = 5f;
         AttackRange = 45f;
-        TargetSlowdown = 6.5f;
+        AttackCooldown = 2f;
+        TargetSlowdown = 8f;
         Position = MohawkGame2D.Random.Vector2(new Vector2(0), new Vector2(400));
     }
 
