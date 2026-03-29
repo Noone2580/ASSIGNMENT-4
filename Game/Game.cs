@@ -17,8 +17,8 @@ public class Game
     Vector2 Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
     BasePlayer[] Players = new BasePlayer[1];
-    BaseRoom CurrentRoom = new StartingRoom();
     BaseEnemy[] Enemies = new BaseEnemy[4];
+    public BaseRoom CurrentRoom { get; protected set; } = new StartingRoom();
 
     public bool CanUseDoor = true;
 
@@ -78,7 +78,7 @@ public class Game
         return RoomCal;
     }
 
-    public void EnterNewRoom(BaseRoom NewRoom, Vector2 DoorPosition)
+    public void EnterNewRoom(BaseRoom NewRoom, Vector2 EnterDoorPosition, Vector2 ExitDoorPostion)
     {
         if (NewRoom != null)
         {
@@ -89,7 +89,11 @@ public class Game
             for (int i = 0; i < Players.Length; i++)
             {
                 Players[i].Velocity = Vector2.Zero;
-                Players[i].Position = DoorPosition;
+                Players[i].Position = EnterDoorPosition;
+            }
+            for (int i = 0; i < Enemies.Length; i++)
+            {
+                Enemies[i].NewRoom(EnterDoorPosition, ExitDoorPostion);
             }
 
         }
@@ -177,5 +181,8 @@ public class Game
         {
             Players[i].Render();
         }
+
+        Graphics.Rotation = 0;
+        Graphics.Draw(CurrentRoom.RoomLightTexture, Vector2.Zero);
     }
 }

@@ -17,7 +17,9 @@ public class BaseRoom
     public float BottomWallCal;
 
     public Texture2D RoomTexture;
-    public string RoomTextureLocation = "../../../Assets/Textures/BaseRoom.png";
+    public Texture2D RoomLightTexture;
+    public string RoomTextureLocation = "../../../Assets/Textures/T_Floor.png";
+    public string RoomLightTextureLocation = "../../../Assets/Textures/T_Floor_Lighting_A.png";
 
     Game GetGame;
 
@@ -33,6 +35,7 @@ public class BaseRoom
         CustomSetup();
 
         RoomTexture = Graphics.LoadTexture(RoomTextureLocation);
+        RoomLightTexture = Graphics.LoadTexture(RoomLightTextureLocation);
     }
 
 
@@ -86,7 +89,8 @@ public class BaseRoom
                 if (Vector2.Distance(Players[0], Doors[i].Position) <= 80)
                 {
                     Graphics.UnloadTexture(RoomTexture);
-                    GetGame.EnterNewRoom(ConectedRooms[i], Doors[i].EndPosition);
+                    Graphics.UnloadTexture(RoomLightTexture);
+                    GetGame.EnterNewRoom(ConectedRooms[i], Doors[i].EndPosition , Doors[i].Position);
                     Reset = false;
                     break;
                 }
@@ -100,7 +104,7 @@ public class BaseRoom
 
     public virtual void Render()
     {
-        Graphics.Draw(RoomTexture, 0, 0);
+        Graphics.Draw(RoomTexture , 0, 0);
 
         for (int i = 0; i < Doors.Length; i++)
         {

@@ -10,25 +10,25 @@ using MohawkGame2D;
 public class BaseCharacter
 {
     // Game Vars
-    float[] Timers = new float[200];
+    public float[] Timers { get; protected set; } = new float[200];
     public Game GetGame;
 
     // User Vars
     public float MaxHP = 100f;
-    public float HP = 100f;
+    public float HP { get; protected set; } = 100f;
     public float MovementSpeed = 120f;
     public Vector2 Position = Vector2.Zero;
     public Vector2 Velocity = Vector2.Zero;
-    public float Rotation = 0f;
-    public float VelRotation = 0f;
+    public float Rotation { get; protected set; } = 0f;
+    public float VelRotation { get; protected set; } = 0f;
     public Vector2 Direction = Vector2.Zero;
-    public float HitBoxSize = 15f;
+    public float HitBoxSize { get; protected set; } = 15f;
     public float Grip = 5f;
 
     // Body Sprites and Offsets
-    public Texture2D BodyTexture;
-    public string BodyTextureLocation = "../../../Assets/Textures/Dude.png";
-    public Vector2 BodySpriteOffset = new Vector2(63f, -63f);
+    public Texture2D BodyTexture  ;
+    public string BodyTextureLocation { get; protected set; } = "../../../Assets/Textures/Dude.png";
+    public Vector2 BodySpriteOffset { get; protected set; } = new Vector2(63f, -63f);
     Vector2 NewBodySpriteOffset = Vector2.Zero;
 
     // Legs Sprites and Offsets

@@ -12,7 +12,7 @@ public class BasePlayer : BaseCharacter
         if (Input.IsMouseButtonPressed(MouseInput.Left)) 
         {
 
-            GetGame.DamageAllInRadius(this,Position,50f,1f,Direction * 400f);
+            GetGame.DamageAllInRadius(this,Position,100f,1f,Direction * 600f);
         }
 
         base.Render();
