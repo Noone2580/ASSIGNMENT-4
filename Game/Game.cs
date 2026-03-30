@@ -41,7 +41,7 @@ public class Game
         {
             Players[i] = new BasePlayer();
             Players[i].Setup(this);
-            Players[i].Position = Start * 1.5f;
+            Players[i].Position = Start;
         }
 
         for (int i = 0; i < Enemies.Length; i++)
