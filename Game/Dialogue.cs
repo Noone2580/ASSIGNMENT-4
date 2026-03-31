@@ -3,9 +3,11 @@ using System;
 using System.Numerics;
 using System.Threading;
 
-public class PlayerCharacter
+// Double \n\n for new lines. The font is kinda small. 
+
+public static class TextBoxDialogue
 {
-    string[] PlayerText =
+    static string[] PlayerText =
         [
         "",
         "",
@@ -13,11 +15,7 @@ public class PlayerCharacter
 
         ];
 
-}
-
-public class Narration
-{
-    string[] NarrationText =
+    static string[] NarrationText =
         [
         "Welcome to 'The Wrath of Raph'.",
         ""
@@ -25,11 +23,7 @@ public class Narration
 
         ];
 
-}
-
-public class gameSystem
-{
-    string[] SystemText =
+    static string[] SystemText =
         [
         "You've encountered an Error",
         "You've avoided an Error",
@@ -37,16 +31,12 @@ public class gameSystem
 
         ];
 
-}
-
-public class Raph
-{
-    string[] BossRaphText =
-        [
-            "Ahhh, come to stop my minions of darkness?",
+    static string[] BossRaphText =
+       [
+           "Ahhh, come to stop my minions of darkness?",
             "Foolish, FOOLISH! No mere mortal is capable of withstanding my Wrath.",
             "The great shapeshifting master of evil",
         ];
 
-
 }
+
