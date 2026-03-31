@@ -245,6 +245,6 @@ public class Game
         }
         // THIS IS FOR TESTING THE TEXT BOX
         
-        TextBox.Write("the the the");
+        TextBox.Write("the the the\n\nwoo");
     }
 }

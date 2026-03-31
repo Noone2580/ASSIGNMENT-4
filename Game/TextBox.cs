@@ -23,7 +23,7 @@ public static class TextBox
         Draw.Rectangle(190,690,720,220);
         Draw.FillColor = Color.White;
         Draw.Rectangle(200, 700, 700, 200);
-        Text.Draw(text, new Vector2(200,700), BitCount);
+        Text.Draw(text, new Vector2(210,710), BitCount);
     }
 }
 
