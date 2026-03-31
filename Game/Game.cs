@@ -1,6 +1,7 @@
 ﻿// Include the namespaces (code libraries) you need below.
 using Microsoft.VisualBasic;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Threading;
 
@@ -16,7 +17,12 @@ public class Game
     Vector2 Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
     BasePlayer[] Players = new BasePlayer[1];
-    BaseRoom CurrentRoom = new BaseRoom();
+    BaseEnemy[] Enemies = new BaseEnemy[4];
+    BaseItem[] Items = new BaseItem[0];
+
+    public BaseRoom CurrentRoom { get; protected set; } = new StartingRoom();
+
+    public bool CanUseDoor = true;
 
     /// <summary>
     ///     Setup runs once before the game loop begins.
@@ -29,20 +35,151 @@ public class Game
         // Remove outlines
         Draw.LineColor = Color.Clear;
 
+        Start = new Vector2(Window.Width / 2, Window.Height / 2);
+
         CurrentRoom.Setup(this);
+
         for (int i = 0; i < Players.Length; i++)
         {
             Players[i] = new BasePlayer();
-            Players[i].Setup();
+            Players[i].Setup(this);
+            Players[i].Position = Start;
+        }
+
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            Enemies[i] = new Zombie();
+            Enemies[i].Setup(this);
+            Enemies[i].Position += Start;
+
+        }
+
+        // Debug Romove SOON!
+        Items = new BaseItem[1];
+        Items[0] = new BaseItem();
+        Items[0].Setup(CurrentRoom, Start);
+        Items[0].NewRoom(CurrentRoom);
+    }
+
+    public float[] GetRoomCal()
+    {
+        float[] RoomCal = new float[4];
+        for (int i = 0; i < RoomCal.Length; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    RoomCal[i] = CurrentRoom.LeftWallCal;
+                    break;
+                case 1:
+                    RoomCal[i] = CurrentRoom.RightWallCal;
+                    break;
+                case 2:
+                    RoomCal[i] = CurrentRoom.TopWallCal;
+                    break;
+                case 3:
+                    RoomCal[i] = CurrentRoom.BottomWallCal;
+                    break;
+            }
+        }
+
+        return RoomCal;
+    }
+
+
+
+    public BaseItem PickupItem(Vector2 position)
+    {
+        float DIS = 9999999999f;
+        BaseItem CloseItem = null;
+        int Index = 0;
+
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i] != null)
+            {
+                if (Vector2.Distance(position, Items[i].Position) <= DIS && Items[i].InRoom && Items[i].CanPickup)
+                {
+                    DIS = Vector2.Distance(position, Items[i].Position);
+                    CloseItem = Items[i];
+                    Index = i;
+                }
+            }
+        }
+
+        if (CloseItem != null)
+        {
+            Items[Index] = null;
+            CloseItem.PickUp();
+            return CloseItem;
+        }
+
+        return CloseItem;
+    }
+
+    public void EnterNewRoom(BaseRoom NewRoom, Vector2 EnterDoorPosition, Vector2 ExitDoorPostion)
+    {
+        if (NewRoom != null)
+        {
+            CanUseDoor = false;
+            CurrentRoom = NewRoom;
+            CurrentRoom.Setup(this);
+
+            for (int i = 0; i < Players.Length; i++)
+            {
+                if (Players[i] != null)
+                {
+                    Players[i].Velocity = Vector2.Zero;
+                    Players[i].Position = EnterDoorPosition;
+                }
+            }
+            for (int i = 0; i < Enemies.Length; i++)
+            {
+                if (Enemies[i] != null)
+                    Enemies[i].NewRoom(EnterDoorPosition, ExitDoorPostion);
+            }
+            for (int i = 0; i < Items.Length; i++)
+            {
+                if (Items[i] != null)
+                    Items[i].NewRoom(CurrentRoom);
+            }
+
+        }
+        else
+            return;
+    }
+
+    public void DamageAllInRadius(BaseCharacter self, Vector2 position, float radius, float damage, Vector2 force)
+    {
+        for (int i = 0; i < Players.Length; i++)
+        {
+            if (self != null && Players[i] != null && self != Players[i])
+            {
+                if (Vector2.Distance(Players[i].Position, position) + Players[i].HitBoxSize <= radius)
+                    Players[i].TakeDamage(damage, force);
+            }
+        }
+
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            if (self != null && Enemies[i] != null && self != Enemies[i])
+            {
+                if (Vector2.Distance(Enemies[i].Position, position) + Enemies[i].HitBoxSize <= radius)
+                    Enemies[i].TakeDamage(damage, force);
+            }
         }
     }
 
-    public BasePlayer[] GetAllPlayers() 
+    public BasePlayer[] GetAllPlayers()
     {
         return Players;
     }
+    public BaseAI[] GetAllAis()
+    {
+        return Enemies;
+    }
 
-    public Vector2[] GetAllPlayerPositions() 
+    public Vector2[] GetAllPlayerPositions()
     {
         Vector2[] PlayerPositions = new Vector2[Players.Length];
         for (int i = 0; i < Players.Length; i++)
@@ -50,6 +187,15 @@ public class Game
             PlayerPositions[i] = Players[i].Position;
         }
         return PlayerPositions;
+    }
+    public Vector2[] GetAllAiPositions()
+    {
+        Vector2[] AiPositions = new Vector2[Enemies.Length];
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            AiPositions[i] = Enemies[i].Position;
+        }
+        return AiPositions;
     }
 
     /// <summary>
@@ -60,21 +206,42 @@ public class Game
         // Reset background
         Window.ClearBackground(Color.OffWhite);
 
-        Graphics.Tint = new Color(255/2);
+        //Graphics.Tint = new Color(255/2);
         Graphics.Rotation = 0;
 
         CurrentRoom.Render();
 
-        if (Input.IsKeyboardKeyDown(KeyboardInput.W))
-            Players[0].Move(new Vector2(0, -1));
-        if (Input.IsKeyboardKeyDown(KeyboardInput.S))
-            Players[0].Move(new Vector2(0, 1));
-        if (Input.IsKeyboardKeyDown(KeyboardInput.A))
-            Players[0].Move(new Vector2(-1, 0));
-        if (Input.IsKeyboardKeyDown(KeyboardInput.D))
-            Players[0].Move(new Vector2(1, 0));
 
-        Players[0].Render();
+
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            if (Enemies[i] != null)
+                Enemies[i].Render();
+        }
+
+
+        for (int i = 0; i < Players.Length; i++)
+        {
+            if (Players[i] != null)
+                Players[i].Render();
+        }
+
+
+        // Draws shaows
+        Graphics.Rotation = 0;
+        Graphics.Draw(CurrentRoom.RoomLightTexture, Vector2.Zero);
+
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i] != null)
+                Items[i].Render();
+        }
+
+        // Draw player inv on top
+        for (int i = 0; i < Players.Length; i++)
+        {
+            if (Players[i] != null)
+                Players[i].DrawInventoryHud();
+        }
     }
-
 }
