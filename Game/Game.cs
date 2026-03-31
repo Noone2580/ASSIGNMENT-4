@@ -53,10 +53,12 @@ public class Game
             Enemies[i].Position += Start;
 
         }
+
+        // Debug Romove SOON!
         Items = new BaseItem[1];
         Items[0] = new BaseItem();
-        Items[0].Setup();
-        Items[0].Position = Start;
+        Items[0].Setup(CurrentRoom, Start);
+        Items[0].NewRoom(CurrentRoom);
     }
 
     public float[] GetRoomCal()
@@ -96,7 +98,7 @@ public class Game
         {
             if (Items[i] != null)
             {
-                if (Vector2.Distance(position, Items[i].Position) <= DIS)
+                if (Vector2.Distance(position, Items[i].Position) <= DIS && Items[i].InRoom && Items[i].CanPickup)
                 {
                     DIS = Vector2.Distance(position, Items[i].Position);
                     CloseItem = Items[i];
@@ -125,12 +127,21 @@ public class Game
 
             for (int i = 0; i < Players.Length; i++)
             {
-                Players[i].Velocity = Vector2.Zero;
-                Players[i].Position = EnterDoorPosition;
+                if (Players[i] != null)
+                {
+                    Players[i].Velocity = Vector2.Zero;
+                    Players[i].Position = EnterDoorPosition;
+                }
             }
             for (int i = 0; i < Enemies.Length; i++)
             {
-                Enemies[i].NewRoom(EnterDoorPosition, ExitDoorPostion);
+                if (Enemies[i] != null)
+                    Enemies[i].NewRoom(EnterDoorPosition, ExitDoorPostion);
+            }
+            for (int i = 0; i < Items.Length; i++)
+            {
+                if (Items[i] != null)
+                    Items[i].NewRoom(CurrentRoom);
             }
 
         }
@@ -200,7 +211,7 @@ public class Game
 
         CurrentRoom.Render();
 
-        
+
 
         for (int i = 0; i < Enemies.Length; i++)
         {

@@ -7,6 +7,9 @@ public class BaseItem
 {
     public Vector2 Position { get; set; } = Vector2.Zero;
     public string Name { get; protected set; } = "";
+    public string RoomName { get; protected set; } = string.Empty;
+    public bool InRoom { get; protected set; } = false;
+    public bool InInvetory { get; protected set; } = false;
     public string Description { get; protected set; } = "";
     public int ID { get; protected set; } = 0;
     public bool CanPickup { get; protected set; } = true;
@@ -15,10 +18,12 @@ public class BaseItem
     public Texture2D InventoryTexture;
     public string InventoryTextureLocation = "../../../Assets/Textures/Inv_Pistol.png";
     public Texture2D HoldingTexture;
-    public string HoldingTextureLocation;
+    public string HoldingTextureLocation = string.Empty;
 
-    public void Setup() 
+    public void Setup(BaseRoom SpawnRoom, Vector2 position) 
     {
+        RoomName = $"{SpawnRoom}";
+        Position = position;
         CustomSetup();
         InventoryTexture = Graphics.LoadTexture(InventoryTextureLocation);
         //HoldingTexture = Graphics.LoadTexture(HoldingTextureLocation);
@@ -34,7 +39,28 @@ public class BaseItem
         if(!CanPickup)
             return false;
 
+        InInvetory = true;
         return true;
+    }
+
+    public virtual void NewRoom(BaseRoom NewRoom)
+    {
+        if (InInvetory)
+            return;
+        if (NewRoom == null) 
+            return;
+
+        if (RoomName == $"{NewRoom}")
+        {
+            InRoom = true;
+            return;
+        }
+        else
+        {
+            InRoom = false;
+            return;
+        }
+
     }
 
     /// <summary>
@@ -81,10 +107,13 @@ public class BaseItem
     /// <summary>
     ///     Used for rendering the item on the map. 
     /// </summary>
-    public virtual void Render() 
+    public virtual void Render()
     {
-        Graphics.Rotation = 0f;
-        Vector2 Offset = new Vector2(InventoryTexture.Width / 2, InventoryTexture.Height / 2);
-        Graphics.Draw(InventoryTexture, Position - Offset);
+        if (InRoom)
+        {
+            Graphics.Rotation = 0f;
+            Vector2 Offset = new Vector2(InventoryTexture.Width / 2, InventoryTexture.Height / 2);
+            Graphics.Draw(InventoryTexture, Position - Offset);
+        }
     }
 }

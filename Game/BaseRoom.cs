@@ -19,17 +19,16 @@ public class BaseRoom
     public Texture2D RoomTexture;
     public Texture2D RoomLightTexture;
     public string RoomTextureLocation = "../../../Assets/Textures/T_Floor.png";
-    public string RoomLightTextureLocation = "../../../Assets/Textures/T_Floor_Lighting_A.png";
-
-    public string[] RRRR = ["../../../Assets/Textures/T_Floor_Lighting_A.png",
+    public string[] RoomLightTextureLocation = ["../../../Assets/Textures/T_Floor_Lighting_A.png",
         "../../../Assets/Textures/T_Floor_Lighting_1.png",
         "../../../Assets/Textures/T_Floor_Lighting_2.png",
         "../../../Assets/Textures/T_Floor_Lighting_3.png",
         "../../../Assets/Textures/T_Floor_Lighting_4.png",
         "../../../Assets/Textures/T_Floor_Lighting_5.png",
         "../../../Assets/Textures/T_Floor_Lighting_6.png"
-        
         ];
+    protected int LightIndex = 2;
+
 
     Game? GetGame;
 
@@ -43,8 +42,6 @@ public class BaseRoom
     {
         GetGame = game;
 
-        RoomLightTextureLocation = RRRR[MohawkGame2D.Random.Integer(0, RRRR.Length)];
-
         LeftWallCal = 50;
         RightWallCal = Window.Width - 50;
         TopWallCal = 50;
@@ -53,7 +50,7 @@ public class BaseRoom
         CustomSetup();
 
         RoomTexture = Graphics.LoadTexture(RoomTextureLocation);
-        RoomLightTexture = Graphics.LoadTexture(RoomLightTextureLocation);
+        RoomLightTexture = Graphics.LoadTexture(RoomLightTextureLocation[LightIndex]);
     }
 
 
