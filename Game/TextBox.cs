@@ -7,19 +7,23 @@ using System.Security.Cryptography.X509Certificates;
 
 
 
-public class TextBox
+public static class TextBox
 {
     
-    public Font BitCount;
+    public static Font BitCount;
 
-    public void initialize()
+    public static void initialize()
     {
         BitCount = Text.LoadFont("..\\..\\..\\Game\\Fonts\\Bitcount - Regular.ttf");
     }
 
-    public void Write(string text)
+    public static void Write(string text)
     {
-        Text.Font = BitCount;
+        Draw.FillColor = Color.Black;
+        Draw.Rectangle(190,690,720,220);
+        Draw.FillColor = Color.White;
+        Draw.Rectangle(200, 700, 700, 200);
+        Text.Draw(text, new Vector2(200,700), BitCount);
     }
 }
 

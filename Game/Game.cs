@@ -243,5 +243,8 @@ public class Game
             if (Players[i] != null)
                 Players[i].DrawInventoryHud();
         }
+        // THIS IS FOR TESTING THE TEXT BOX
+        
+        TextBox.Write("the the the");
     }
 }
