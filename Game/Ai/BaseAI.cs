@@ -5,7 +5,7 @@ using System.Numerics;
 
 public class BaseAI : BaseCharacter
 {
-    public BaseCharacter Target;
+    public BaseCharacter? Target;
     public string RoomName { get; protected set; } = "";
     public bool InRoom { get; protected set; } = true;
 
@@ -15,28 +15,37 @@ public class BaseAI : BaseCharacter
     public override void CustomSetup()
     {
         base.CustomSetup();
+
+        if (GetGame == null)
+        { return; }
         RoomName = $"{GetGame.CurrentRoom}";
     }
 
     public virtual void NewRoom(Vector2 EnterDoorPos, Vector2 ExitDoorPos)
     {
+        if (GetGame == null)
+        { return; }
+
         EnterRoomDoor = EnterDoorPos;
         ExitRoomDoor = ExitDoorPos;
 
         if (RoomName != $"{GetGame.CurrentRoom}")
         {
             InRoom = false;
-            SetTimer(0,2);
+            SetTimer(0, 2);
         }
-        else 
+        else
         {
             InRoom = true;
-            SetTimer(0,0f);
+            SetTimer(0, 0f);
         }
     }
 
     public BasePlayer GetClosetPlayer()
     {
+        if (GetGame == null)
+        { return null; }
+
         Vector2[] PlayerPos = GetGame.GetAllPlayerPositions();
         float Dis = 99999999999f;
         int Index = 0;
@@ -54,6 +63,9 @@ public class BaseAI : BaseCharacter
     }
     public BaseAI GetClosetAI()
     {
+        if (GetGame == null)
+        { return null; }
+
         Vector2[] AiPos = GetGame.GetAllAiPositions();
         float Dis = 99999999999f;
         int Index = 0;

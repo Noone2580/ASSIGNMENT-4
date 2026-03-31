@@ -21,6 +21,16 @@ public class BaseRoom
     public string RoomTextureLocation = "../../../Assets/Textures/T_Floor.png";
     public string RoomLightTextureLocation = "../../../Assets/Textures/T_Floor_Lighting_A.png";
 
+    public string[] RRRR = ["../../../Assets/Textures/T_Floor_Lighting_A.png",
+        "../../../Assets/Textures/T_Floor_Lighting_1.png",
+        "../../../Assets/Textures/T_Floor_Lighting_2.png",
+        "../../../Assets/Textures/T_Floor_Lighting_3.png",
+        "../../../Assets/Textures/T_Floor_Lighting_4.png",
+        "../../../Assets/Textures/T_Floor_Lighting_5.png",
+        "../../../Assets/Textures/T_Floor_Lighting_6.png"
+        
+        ];
+
     Game? GetGame;
 
     public string RoomName { get; protected set; } = "";
@@ -32,6 +42,8 @@ public class BaseRoom
     public void Setup(Game game)
     {
         GetGame = game;
+
+        RoomLightTextureLocation = RRRR[MohawkGame2D.Random.Integer(0, RRRR.Length)];
 
         LeftWallCal = 50;
         RightWallCal = Window.Width - 50;

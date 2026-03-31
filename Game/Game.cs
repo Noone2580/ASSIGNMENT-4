@@ -18,6 +18,8 @@ public class Game
 
     BasePlayer[] Players = new BasePlayer[1];
     BaseEnemy[] Enemies = new BaseEnemy[4];
+    BaseItem[] Items = new BaseItem[0];
+
     public BaseRoom CurrentRoom { get; protected set; } = new StartingRoom();
 
     public bool CanUseDoor = true;
@@ -51,6 +53,10 @@ public class Game
             Enemies[i].Position += Start;
 
         }
+        Items = new BaseItem[1];
+        Items[0] = new BaseItem();
+        Items[0].Setup();
+        Items[0].Position = Start;
     }
 
     public float[] GetRoomCal()
@@ -76,6 +82,37 @@ public class Game
         }
 
         return RoomCal;
+    }
+
+
+
+    public BaseItem PickupItem(Vector2 position)
+    {
+        float DIS = 9999999999f;
+        BaseItem CloseItem = null;
+        int Index = 0;
+
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i] != null)
+            {
+                if (Vector2.Distance(position, Items[i].Position) <= DIS)
+                {
+                    DIS = Vector2.Distance(position, Items[i].Position);
+                    CloseItem = Items[i];
+                    Index = i;
+                }
+            }
+        }
+
+        if (CloseItem != null)
+        {
+            Items[Index] = null;
+            CloseItem.PickUp();
+            return CloseItem;
+        }
+
+        return CloseItem;
     }
 
     public void EnterNewRoom(BaseRoom NewRoom, Vector2 EnterDoorPosition, Vector2 ExitDoorPostion)
@@ -163,26 +200,37 @@ public class Game
 
         CurrentRoom.Render();
 
-        if (Input.IsKeyboardKeyDown(KeyboardInput.W))
-            Players[0].Move(new Vector2(0, -1));
-        if (Input.IsKeyboardKeyDown(KeyboardInput.S))
-            Players[0].Move(new Vector2(0, 1));
-        if (Input.IsKeyboardKeyDown(KeyboardInput.A))
-            Players[0].Move(new Vector2(-1, 0));
-        if (Input.IsKeyboardKeyDown(KeyboardInput.D))
-            Players[0].Move(new Vector2(1, 0));
+        
 
         for (int i = 0; i < Enemies.Length; i++)
         {
-            Enemies[i].Render();
+            if (Enemies[i] != null)
+                Enemies[i].Render();
         }
+
 
         for (int i = 0; i < Players.Length; i++)
         {
-            Players[i].Render();
+            if (Players[i] != null)
+                Players[i].Render();
         }
 
+
+        // Draws shaows
         Graphics.Rotation = 0;
         Graphics.Draw(CurrentRoom.RoomLightTexture, Vector2.Zero);
+
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i] != null)
+                Items[i].Render();
+        }
+
+        // Draw player inv on top
+        for (int i = 0; i < Players.Length; i++)
+        {
+            if (Players[i] != null)
+                Players[i].DrawInventoryHud();
+        }
     }
 }

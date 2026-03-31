@@ -11,7 +11,7 @@ public class BaseCharacter
 {
     // Game Vars
     public float[] Timers { get; protected set; } = new float[200];
-    public Game GetGame;
+    public Game? GetGame;
 
     // User Vars
     public float MaxHP = 100f;
@@ -149,6 +149,9 @@ public class BaseCharacter
     /// </summary>
     public virtual void CheckForCal()
     {
+        if(GetGame == null)
+            { return; }
+
         float[] RoomCal = GetGame.GetRoomCal();
 
         for (int i = 0; i < RoomCal.Length; i++)
