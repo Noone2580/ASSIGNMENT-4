@@ -35,6 +35,8 @@ public class Game
         // Set up window
         Window.SetTitle("TEST");
         Window.SetSize(1100, 900);
+        Window.TargetFPS = 60;
+
         // Remove outlines
         Draw.LineColor = Color.Clear;
 
