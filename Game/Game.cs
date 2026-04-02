@@ -23,7 +23,6 @@ public class Game
 
     public BaseRoom? CurrentRoom;
     TextBoxDialogue GetDialoguePersonally = new TextBoxDialogue();
-    public BaseRoom CurrentRoom { get; protected set; } = new StartingRoom();
 
     public bool CanUseDoor = true;
     public RoomGrid Grid { get; protected set; } = new RoomGrid();
