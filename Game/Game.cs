@@ -19,11 +19,14 @@ public class Game
     BasePlayer[] Players = new BasePlayer[1];
     BaseEnemy[] Enemies = new BaseEnemy[4];
     BaseItem[] Items = new BaseItem[0];
+    BaseProjectile[] Projectiles = new BaseProjectile[200];
 
+    public BaseRoom? CurrentRoom;
     TextBoxDialogue GetDialoguePersonally = new TextBoxDialogue();
     public BaseRoom CurrentRoom { get; protected set; } = new StartingRoom();
 
     public bool CanUseDoor = true;
+    public RoomGrid Grid { get; protected set; } = new RoomGrid();
 
     /// <summary>
     ///     Setup runs once before the game loop begins.
@@ -36,9 +39,15 @@ public class Game
         // Remove outlines
         Draw.LineColor = Color.Clear;
 
+        Grid.Setup();
+
         Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
-        CurrentRoom.Setup(this);
+        // Where the player starts
+        Grid.CurrentRoomPosition = new Vector2(1,0);
+
+        CurrentRoom = Grid.GetRoomClassAtGrid(Grid.CurrentRoomPosition);
+        CurrentRoom.Setup(this, Grid.CurrentRoomPosition,0);
 
         for (int i = 0; i < Players.Length; i++)
         {
@@ -56,10 +65,18 @@ public class Game
         }
 
         // Debug Romove SOON!
-        Items = new BaseItem[1];
-        Items[0] = new BaseItem();
-        Items[0].Setup(CurrentRoom, Start);
+        Items = new BaseItem[3];
+        Items[0] = new BaseWeapon();
+        Items[0].Setup(this, Grid.CurrentRoomPosition, Start);
         Items[0].NewRoom(CurrentRoom);
+
+        Items[1] = new Keycard();
+        Items[1].Setup(this, Grid.CurrentRoomPosition, Start + new Vector2(100, 0));
+        Items[1].NewRoom(CurrentRoom);
+
+        Items[2] = new Key();
+        Items[2].Setup(this, Grid.CurrentRoomPosition, Start + new Vector2(200, 0));
+        Items[2].NewRoom(CurrentRoom);
     }
 
     public float[] GetRoomCal()
@@ -87,7 +104,23 @@ public class Game
         return RoomCal;
     }
 
+    public int AddProjectile(BaseProjectile projectile)
+    {
+        for (int i = 0; i < Projectiles.Length; i++)
+        {
+            if (Projectiles[i] == null)
+            {
+                Projectiles[i] = projectile;
+                return i;
+            }
+        }
 
+        return -1;
+    }
+    public void RemoveProjectile(int Index)
+    {
+        Projectiles[Index] = null;
+    }
 
     public BaseItem PickupItem(Vector2 position)
     {
@@ -118,46 +151,65 @@ public class Game
         return CloseItem;
     }
 
-    public void EnterNewRoom(BaseRoom NewRoom, Vector2 EnterDoorPosition, Vector2 ExitDoorPostion)
+    public void EnterNewRoom(Vector2 NewRoom, Vector2 EnterDoorPosition, Vector2 ExitDoorPostion)
     {
-        if (NewRoom != null)
+        if (NewRoom != Vector2.Zero)
         {
-            CanUseDoor = false;
-            CurrentRoom = NewRoom;
-            CurrentRoom.Setup(this);
-
-            for (int i = 0; i < Players.Length; i++)
+            if (Grid.GetRoomAtGrid(NewRoom) != Vector4.Zero)
             {
-                if (Players[i] != null)
+                Vector4 GridPostion = Grid.GetRoomAtGrid(NewRoom);
+
+                CanUseDoor = false;
+                CurrentRoom = Grid.GetRoomClassAtGrid(NewRoom);
+                CurrentRoom.Setup(this, new Vector2(GridPostion.X, GridPostion.Y), ((int)GridPostion.W));
+                Grid.CurrentRoomPosition = NewRoom;
+
+                for (int i = 0; i < Players.Length; i++)
                 {
-                    Players[i].Velocity = Vector2.Zero;
-                    Players[i].Position = EnterDoorPosition;
+                    if (Players[i] != null)
+                    {
+                        Players[i].Velocity = Vector2.Zero;
+                        Players[i].Position = EnterDoorPosition;
+                    }
+                }
+                for (int i = 0; i < Enemies.Length; i++)
+                {
+                    if (Enemies[i] != null)
+                        Enemies[i].NewRoom(EnterDoorPosition, ExitDoorPostion);
+                }
+                for (int i = 0; i < Items.Length; i++)
+                {
+                    if (Items[i] != null)
+                        Items[i].NewRoom(CurrentRoom);
                 }
             }
-            for (int i = 0; i < Enemies.Length; i++)
-            {
-                if (Enemies[i] != null)
-                    Enemies[i].NewRoom(EnterDoorPosition, ExitDoorPostion);
-            }
-            for (int i = 0; i < Items.Length; i++)
-            {
-                if (Items[i] != null)
-                    Items[i].NewRoom(CurrentRoom);
-            }
-
         }
         else
             return;
     }
 
-    public void DamageAllInRadius(BaseCharacter self, Vector2 position, float radius, float damage, Vector2 force)
+
+    /// <summary>
+    ///    Used for Player malee damage.
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="position"></param>
+    /// <param name="radius"></param>
+    /// <param name="damage"></param>
+    /// <param name="force"></param>
+    public bool DamageAllInRadiusButSelf(BaseCharacter self, Vector2 position, float radius, float damage, Vector2 force)
     {
+        bool Hit = false;
+
         for (int i = 0; i < Players.Length; i++)
         {
             if (self != null && Players[i] != null && self != Players[i])
             {
-                if (Vector2.Distance(Players[i].Position, position) + Players[i].HitBoxSize <= radius)
+                if (Vector2.Distance(Players[i].Position, position) - Players[i].HitBoxSize <= radius)
+                {
+                    Hit = true;
                     Players[i].TakeDamage(damage, force);
+                }
             }
         }
 
@@ -165,11 +217,60 @@ public class Game
         {
             if (self != null && Enemies[i] != null && self != Enemies[i])
             {
-                if (Vector2.Distance(Enemies[i].Position, position) + Enemies[i].HitBoxSize <= radius)
+                if (Vector2.Distance(Enemies[i].Position, position) - Enemies[i].HitBoxSize <= radius)
+                {
+                    Hit = true;
                     Enemies[i].TakeDamage(damage, force);
+                }
             }
         }
+
+        return Hit;
     }
+
+
+    /// <summary>
+    ///    Used for Player malee damage.
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="position"></param>
+    /// <param name="radius"></param>
+    /// <param name="damage"></param>
+    /// <param name="force"></param>
+    public bool DamageAllInRadius(Vector2 position, float radius, float damage, Vector2 force)
+    {
+        bool Hit = false;
+
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            if (Enemies[i] != null)
+            {
+                if (Vector2.Distance(Enemies[i].Position, position) - Enemies[i].HitBoxSize <= radius)
+                {
+                    Enemies[i].TakeDamage(damage, force);
+                    Hit = true;
+                    Console.WriteLine("gggggggg");
+                }
+            }
+        }
+
+        for (int i = 0; i < Players.Length; i++)
+        {
+            if (Players[i] != null)
+            {
+                if (Vector2.Distance(Players[i].Position, position) - Players[i].HitBoxSize <= radius)
+                {
+                    Players[i].TakeDamage(damage, force);
+                    Hit = true;
+                    Console.WriteLine("gggggggg");
+                }
+            }
+        }
+        return Hit;
+
+    }
+
+
 
     public BasePlayer[] GetAllPlayers()
     {
@@ -212,21 +313,17 @@ public class Game
 
         CurrentRoom.Render();
 
-
-
         for (int i = 0; i < Enemies.Length; i++)
         {
             if (Enemies[i] != null)
                 Enemies[i].Render();
         }
 
-
         for (int i = 0; i < Players.Length; i++)
         {
             if (Players[i] != null)
                 Players[i].Render();
         }
-
 
         // Draws shaows
         Graphics.Rotation = 0;
@@ -238,12 +335,21 @@ public class Game
                 Items[i].Render();
         }
 
+        for (int i = 0; i < Projectiles.Length; ++i)
+        {
+            if (Projectiles[i] != null)
+            {
+                Projectiles[i].Render();
+            }
+        }
+
         // Draw player inv on top
         for (int i = 0; i < Players.Length; i++)
         {
             if (Players[i] != null)
                 Players[i].DrawInventoryHud();
         }
+        //Console.WriteLine(Grid.CurrentRoomPosition);
         // THIS IS FOR TESTING THE TEXT BOX
 
         Text.Kerning = 2;

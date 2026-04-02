@@ -52,14 +52,14 @@ public class Z_Tank : BaseEnemy
             else
                 SetTimer(4, AttackCooldown);
         }
-        else 
+        else
         {
-            if (IsTimerDone(0)) 
+            if (IsTimerDone(0))
             {
                 Velocity = Vector2.Zero;
                 Position = EnterRoomDoor;
                 InRoom = true;
-                RoomName = $"{GetGame.CurrentRoom}";
+                GridPosition = GetGame.Grid.CurrentRoomPosition;
             }
         }
     }

@@ -5,24 +5,31 @@ using MohawkGame2D;
 
 public class BaseItem
 {
-    public Vector2 Position { get; set; } = Vector2.Zero;
-    public string Name { get; protected set; } = "";
-    public string RoomName { get; protected set; } = string.Empty;
-    public bool InRoom { get; protected set; } = false;
-    public bool InInvetory { get; protected set; } = false;
-    public string Description { get; protected set; } = "";
-    public int ID { get; protected set; } = 0;
-    public bool CanPickup { get; protected set; } = true;
-    public float PickupRadius { get; protected set; } = 10f;
+    public Vector2 Position = Vector2.Zero;
+    public string Name = "";
+    public Vector2 GridPosition = Vector2.Zero;
+    public bool InRoom = false;
+    public bool InInvetory = false;
+    public string Description = "";
+    public int ID = 0;
+    public bool CanPickup = true;
+    public float PickupRadius = 10f;
+
+    public int RoomCode { get; set; } = 0;
+
+    public BaseCharacter? Owner;
 
     public Texture2D InventoryTexture;
     public string InventoryTextureLocation = "../../../Assets/Textures/Inv_Pistol.png";
     public Texture2D HoldingTexture;
     public string HoldingTextureLocation = string.Empty;
 
-    public void Setup(BaseRoom SpawnRoom, Vector2 position) 
+    public Game? GetGame;
+
+    public void Setup(Game game, Vector2 GridSpawn, Vector2 position) 
     {
-        RoomName = $"{SpawnRoom}";
+        GetGame = game;
+        GridPosition = GridSpawn;
         Position = position;
         CustomSetup();
         InventoryTexture = Graphics.LoadTexture(InventoryTextureLocation);
@@ -50,7 +57,7 @@ public class BaseItem
         if (NewRoom == null) 
             return;
 
-        if (RoomName == $"{NewRoom}")
+        if (GridPosition == GetGame.Grid.CurrentRoomPosition)
         {
             InRoom = true;
             return;
