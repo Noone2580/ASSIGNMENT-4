@@ -9,7 +9,7 @@ public class BaseRoom
 {
     public BaseDoor[] Doors = new BaseDoor[4];
 
-    public BaseRoom[] ConectedRooms = new BaseRoom[4];
+    //public BaseRoom[] ConectedRooms = new BaseRoom[4];
 
     public float LeftWallCal;
     public float RightWallCal;
@@ -35,17 +35,26 @@ public class BaseRoom
     public string RoomName { get; protected set; } = "";
     public int RoomCode { get; protected set; } = 0;
     public bool IsBossRoom { get; protected set; } = false;
-    public Vector2 MapPosition { get; protected set; } = Vector2.Zero;
+    public Vector2 GridPosition = Vector2.Zero;
+    public int ThisRoomIndex = 0;
+    public RoomGrid? Grid;
 
-
-    public void Setup(Game game)
+    /// <summary>
+    ///     Sets Up the base variables and loads textures.
+    /// </summary>
+    public void Setup(Game game, Vector2 gridPosition, int roomCode)
     {
         GetGame = game;
+        Grid = GetGame.Grid;
+        GridPosition = gridPosition;
+        RoomCode = roomCode;
 
         LeftWallCal = 50;
         RightWallCal = Window.Width - 50;
         TopWallCal = 50;
         BottomWallCal = Window.Height - 50;
+
+        ThisRoomIndex = Grid.GetIndexAtGrid(GridPosition);
 
         CustomSetup();
 
@@ -53,51 +62,26 @@ public class BaseRoom
         RoomLightTexture = Graphics.LoadTexture(RoomLightTextureLocation[LightIndex]);
     }
 
-
+    /// <summary>
+    ///     Can be Overided to Setup Custom Variables.
+    /// </summary>
     public virtual void CustomSetup()
     {
-        for (int i = 0; i < Doors.Length; i++)
-        {
-            Doors[i] = new BaseDoor();
-
-            switch (i)
-            {
-                case 0:
-                    Doors[i].Position = new Vector2(0, Window.Height / 2);
-                    Doors[i].EndPosition = new Vector2(Window.Width, Window.Height / 2);
-
-                    break;
-                case 1:
-                    Doors[i].Position = new Vector2(Window.Width / 2, 0);
-                    Doors[i].EndPosition = new Vector2(Window.Width / 2, Window.Height);
-
-                    break;
-                case 2:
-                    Doors[i].Position = new Vector2(Window.Width, Window.Height / 2);
-                    Doors[i].EndPosition = new Vector2(0, Window.Height / 2);
-
-                    break;
-                case 3:
-                    Doors[i].Position = new Vector2(Window.Width / 2, Window.Height);
-                    Doors[i].EndPosition = new Vector2(Window.Width / 2, 0);
-
-                    break;
-            }
-            Doors[i].Setup();
-        }
-
-
 
     }
 
-    public void AddDoor(int index, Vector2 position, Vector2 endPosition, BaseRoom connectedRoom)
+    public void AddDoor(int index, Vector2 position, Vector2 endPosition, Vector2 connectedRoom)
     {
+        Console.WriteLine(GridPosition + connectedRoom);
+        if (Grid.GetRoomAtGrid(GridPosition + connectedRoom) == Vector4.Zero)
+            return;
         Doors[index] = new BaseDoor();
         Doors[index].Position = position;
         Doors[index].EndPosition = endPosition;
-        Doors[index].Setup();
+        Doors[index].ExitGridPosition = GridPosition + connectedRoom;
 
-        ConectedRooms[index] = connectedRoom;
+        Doors[index].RoomCode = ((int)Grid.GetRoomAtGrid(GridPosition + connectedRoom).W);
+        Doors[index].Setup();
     }
 
     public void CheckIfPlayerInDoor()
@@ -105,81 +89,62 @@ public class BaseRoom
         if (GetGame == null)
             return;
 
-        Vector2[] Players = GetGame.GetAllPlayerPositions();
+        BasePlayer[] Players = GetGame.GetAllPlayers();
         bool Reset = true;
 
         for (int i = 0; i < Doors.Length; i++)
         {
-            if (GetGame.CanUseDoor)
+            if (Doors[i] != null)
             {
-                if (Vector2.Distance(Players[0], Doors[i].Position) <= 80)
+
+                if (GetGame.CanUseDoor)
                 {
-                    Graphics.UnloadTexture(RoomTexture);
-                    Graphics.UnloadTexture(RoomLightTexture);
-                    GetGame.EnterNewRoom(ConectedRooms[i], Doors[i].EndPosition, Doors[i].Position);
-                    Reset = false;
-                    break;
+                    // Checks to see if the Door has a lock on it
+                    if (Doors[i].RoomCode > 0)
+                    {
+                        // Goes through all Players and checks if they are in the Door way and have the right Key
+                        for (int j = 0; j < Players.Length; j++)
+                        {
+                            if (Vector2.Distance(Players[j].Position, Doors[i].Position) <= 100 &&
+                                Players[j].Items[Players[j].InventoryIndex] != null &&
+                                Players[j].Items[Players[j].InventoryIndex].RoomCode == Doors[i].RoomCode)
+                            {
+
+
+                                int RoomIndex = Grid.GetIndexAtGrid(Doors[i].ExitGridPosition);
+                                Vector4 RoomVec = Grid.GetRoomAtIndex(RoomIndex);
+
+                                Graphics.UnloadTexture(RoomTexture);
+                                Graphics.UnloadTexture(RoomLightTexture);
+
+                                // Unlock Door
+                                Grid.SetRoomAtIndex(RoomIndex, new Vector4(RoomVec.X, RoomVec.Y, RoomVec.Z, 0));
+
+                                GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
+                                Reset = false;
+                                return;
+                            }
+                        }
+                    }
+                    else
+
+
+                        if (Vector2.Distance(Players[0].Position, Doors[i].Position) <= 80)
+                        {
+                            Graphics.UnloadTexture(RoomTexture);
+                            Graphics.UnloadTexture(RoomLightTexture);
+                            GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
+                            Reset = false;
+                            return;
+                        }
+                }
+
+                else if (Vector2.Distance(Players[0].Position, Doors[i].Position) >= 80)
+                {
+                    GetGame.CanUseDoor = Reset;
                 }
             }
-            else if (Vector2.Distance(Players[0], Doors[i].Position) >= 80)
-            {
-                GetGame.CanUseDoor = Reset;
-            }
         }
-    }
-
-    public void DrawMiniMap()
-    {
-        float boxW = 62;
-        float boxH = 38;
-        float startX = 120;
-        float startY = 80;
-        float stepX = 76;
-        float stepY = 46;
-
-        Draw.LineColor = Color.Black;
-        Draw.LineSize = 4;
-
-        for (int i = 0; i < ConectedRooms.Length; i++)
-        {
-            if (i >= Doors.Length)
-                break;
-
-            if (ConectedRooms[i] == null)
-                continue;
-
-            Vector2 p1 = new Vector2(startX + (MapPosition.X * stepX), startY + (MapPosition.Y * stepY));
-            Vector2 p2 = new Vector2(startX + (ConectedRooms[i].MapPosition.X * stepX), startY + (ConectedRooms[i].MapPosition.Y * stepY));
-
-            Draw.Line(p1, p2);
-        }
-
-        Draw.LineColor = Color.Red;
-        Draw.LineSize = 3;
-        Draw.FillColor = Color.Clear;
-
-        Draw.Rectangle(startX + (MapPosition.X * stepX) - (boxW / 2), startY + (MapPosition.Y * stepY) - (boxH / 2), boxW, boxH);
-
-        switch (RoomCode)
-        {
-            case 0:
-                Draw.LineColor = Color.Blue;
-                Draw.Circle(new Vector2(startX + (MapPosition.X * stepX), startY + (MapPosition.Y * stepY)), 14);
-                break;
-
-            case 1:
-                Draw.LineColor = Color.Green;
-                Draw.Circle(new Vector2(startX + (MapPosition.X * stepX), startY + (MapPosition.Y * stepY)), 14);
-                break;
-
-            case 2:
-                Draw.LineColor = Color.Black;
-                Draw.Circle(new Vector2(startX + (MapPosition.X * stepX), startY + (MapPosition.Y * stepY)), 10);
-                Text.Draw("Boss", (int)(startX + (MapPosition.X * stepX) + 25), (int)(startY + (MapPosition.Y * stepY) + 10));
-                break;
-        }
-
-        Text.Draw("Start", 25, (int)(startY + (4 * stepY)));
     }
 
     public virtual void Render()
@@ -188,7 +153,8 @@ public class BaseRoom
 
         for (int i = 0; i < Doors.Length; i++)
         {
-            Doors[i].Render();
+            if (Doors[i] != null)
+                Doors[i].Render();
         }
 
         CheckIfPlayerInDoor();

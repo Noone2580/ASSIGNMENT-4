@@ -6,13 +6,14 @@ public class BaseDoor
 {
     public Vector2 Position = Vector2.Zero;
     public Vector2 EndPosition = Vector2.Zero;
-    public float Rotation = 0f;
+    public Vector2 ExitGridPosition = Vector2.Zero;
+    public int RoomCode = 0;
 
     public Vector2 SpriteOffset = Vector2.Zero;
     public Vector2 NewSpriteOffset = Vector2.Zero;
+    public float Rotation = 0f;
 
-
-    public void Setup() 
+    public void Setup()
     {
         SetRotation(Rotation);
     }
