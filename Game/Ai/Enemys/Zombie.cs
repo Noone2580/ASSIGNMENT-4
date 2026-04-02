@@ -58,7 +58,7 @@ public class Zombie : BaseEnemy
                 Velocity = Vector2.Zero;
                 Position = EnterRoomDoor;
                 InRoom = true;
-                RoomName = $"{GetGame.CurrentRoom}";
+                GridPosition = GetGame.Grid.CurrentRoomPosition;
             }
         }
     }

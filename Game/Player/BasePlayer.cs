@@ -7,10 +7,11 @@ public class BasePlayer : BaseCharacter
     public BaseItem[] Items = new BaseItem[0];
 
     public int PlayerIndex = 0;
+    public bool CanUseItems = true;
 
     // Inventory HUD
     const int InventorySlotCount = 6;
-    int InventoryIndex = 0;
+    public int InventoryIndex = 0;
 
     public override void CustomSetup()
     {
@@ -42,6 +43,7 @@ public class BasePlayer : BaseCharacter
             if (Items[i] != null)
             {
                 Items[i].RenderInv(new Vector2(x, y));
+                Items[i].Position = Position;
             }
 
             if (i == InventoryIndex)
@@ -99,7 +101,7 @@ public class BasePlayer : BaseCharacter
             {
                 if (GetGame == null)
                     return;
-                GetGame.DamageAllInRadius(this, Position, 100f, 1f, Direction * 600f);
+                GetGame.DamageAllInRadiusButSelf(this, Position, 100f, 1f, Direction * 600f);
             }
 
             // Inventory Input
@@ -124,7 +126,7 @@ public class BasePlayer : BaseCharacter
                 if (PickItem != null)
                 {
                     Items[InventoryIndex] = PickItem;
-
+                    Items[InventoryIndex].Owner = this;
                     Items[InventoryIndex].Position = Vector2.Zero;
                 }
             }

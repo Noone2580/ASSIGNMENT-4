@@ -6,7 +6,7 @@ using System.Numerics;
 public class BaseAI : BaseCharacter
 {
     public BaseCharacter? Target;
-    public string RoomName { get; protected set; } = "";
+    public Vector2 GridPosition = Vector2.Zero;
     public bool InRoom { get; protected set; } = true;
 
     protected Vector2 EnterRoomDoor = Vector2.Zero;
@@ -18,7 +18,8 @@ public class BaseAI : BaseCharacter
 
         if (GetGame == null)
         { return; }
-        RoomName = $"{GetGame.CurrentRoom}";
+
+        GridPosition = GetGame.Grid.CurrentRoomPosition;
     }
 
     public virtual void NewRoom(Vector2 EnterDoorPos, Vector2 ExitDoorPos)
@@ -29,7 +30,7 @@ public class BaseAI : BaseCharacter
         EnterRoomDoor = EnterDoorPos;
         ExitRoomDoor = ExitDoorPos;
 
-        if (RoomName != $"{GetGame.CurrentRoom}")
+        if (GridPosition != GetGame.Grid.CurrentRoomPosition)
         {
             InRoom = false;
             SetTimer(0, 2);

@@ -190,6 +190,19 @@ public class BaseCharacter
         }
     }
 
+
+    public virtual void RenderNoUpate() 
+    {
+        // Sprite
+        // Body
+        Graphics.Rotation = VelRotation;
+        Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
+
+        //Legs
+        Graphics.Rotation = Rotation;
+        Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
+    }
+
     /// <summary>
     ///     Renders the pawn to the screen. Can be Overided
     /// </summary>
