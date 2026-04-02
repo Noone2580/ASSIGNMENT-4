@@ -22,6 +22,9 @@ public class Game
     BaseProjectile[] Projectiles = new BaseProjectile[200];
 
     public BaseRoom? CurrentRoom;
+    TextBoxDialogue GetDialoguePersonally = new TextBoxDialogue();
+    public BaseRoom CurrentRoom { get; protected set; } = new StartingRoom();
+
     public bool CanUseDoor = true;
     public RoomGrid Grid { get; protected set; } = new RoomGrid();
 
@@ -347,5 +350,11 @@ public class Game
                 Players[i].DrawInventoryHud();
         }
         //Console.WriteLine(Grid.CurrentRoomPosition);
+        // THIS IS FOR TESTING THE TEXT BOX
+
+        Text.Kerning = 2;
+
+        TextBox.Write("the the the\n\nwoo");
+        TextBox.Write(GetDialoguePersonally.NarrationText[0]);
     }
 }
