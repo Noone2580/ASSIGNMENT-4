@@ -5,9 +5,9 @@ using System.Threading;
 
 // Double \n\n for new lines. The font is kinda small. 
 
-public static class TextBoxDialogue
+public class TextBoxDialogue
 {
-    static string[] PlayerText =
+    public string[] PlayerText =
         [
         "",
         "",
@@ -15,15 +15,15 @@ public static class TextBoxDialogue
 
         ];
 
-    static string[] NarrationText =
+    public string[] NarrationText =
         [
-        "Welcome to 'The Wrath of Raph'.",
-        ""
+        "Welcome to 'The Wrath of Raph'.\n\nOur silly Resident Evil, Legend of Zelda, \n\nSignalis inspired game for assignment 4.",
+        "You must find the keys scattered across the ruins of mohawk campus,\n\nfight off hordes of zombies, and defeat the evil wizard\n\n'Raphael Ambrosius Costeau', or just 'Raph'."
 
 
         ];
 
-    static string[] SystemText =
+    public static string[] SystemText =
         [
         "You've encountered an Error",
         "You've avoided an Error",
@@ -31,7 +31,7 @@ public static class TextBoxDialogue
 
         ];
 
-    static string[] BossRaphText =
+    public static string[] BossRaphText =
        [
            "Ahhh, come to stop my minions of darkness?",
             "Foolish, FOOLISH! No mere mortal is capable of withstanding my Wrath.",

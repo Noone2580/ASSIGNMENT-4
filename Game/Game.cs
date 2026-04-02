@@ -20,6 +20,7 @@ public class Game
     BaseEnemy[] Enemies = new BaseEnemy[4];
     BaseItem[] Items = new BaseItem[0];
 
+    TextBoxDialogue GetDialoguePersonally = new TextBoxDialogue();
     public BaseRoom CurrentRoom { get; protected set; } = new StartingRoom();
 
     public bool CanUseDoor = true;
@@ -244,7 +245,10 @@ public class Game
                 Players[i].DrawInventoryHud();
         }
         // THIS IS FOR TESTING THE TEXT BOX
-        
+
+        Text.Kerning = 2;
+
         TextBox.Write("the the the\n\nwoo");
+        TextBox.Write(GetDialoguePersonally.NarrationText[0]);
     }
 }
