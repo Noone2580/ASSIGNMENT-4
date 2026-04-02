@@ -212,6 +212,9 @@ public class Game
 
         CurrentRoom.Render();
 
+        // For keeping the text Readable
+        Text.Kerning = 2; 
+
 
 
         for (int i = 0; i < Enemies.Length; i++)
@@ -246,9 +249,6 @@ public class Game
         }
         // THIS IS FOR TESTING THE TEXT BOX
 
-        Text.Kerning = 2;
-
-        TextBox.Write("the the the\n\nwoo");
         TextBox.Write(GetDialoguePersonally.NarrationText[0]);
     }
 }
