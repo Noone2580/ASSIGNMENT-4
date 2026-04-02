@@ -4,7 +4,7 @@ using MohawkGame2D;
 
 public class RoomGrid
 {
-    public int GridSize = 20;
+    public int GridSize = 50;
     public Vector4[] Rooms = new Vector4[0];
     public Vector2 CurrentRoomPosition = Vector2.Zero;
     protected BaseRoom[] RoomTypes = new BaseRoom[0];
@@ -114,6 +114,14 @@ public class RoomGrid
             new HallwayVertical(),
             new HallwayHorizontal()
             ];
+
+
+        //This is where the Map is created. 
+        //Vector 2 controls grid coordinates. 
+        //  x
+        //  x  x   x   x   x  x
+        //     x       x      x
+
 
 
 
