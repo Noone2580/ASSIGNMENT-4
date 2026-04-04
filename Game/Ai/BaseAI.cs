@@ -83,6 +83,4 @@ public class BaseAI : BaseCharacter
 
         return GetGame.GetAllAis()[Index];
     }
-
-
 }
