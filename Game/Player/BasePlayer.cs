@@ -19,45 +19,97 @@ public class BasePlayer : BaseCharacter
         Items = new BaseItem[InventorySlotCount];
     }
 
+    public virtual void Interect()
+    {
+        if (GetGame == null) { return; }
+
+        BaseItem PickItem = GetGame.PickupItem(Position);
+        if (PickItem != null)
+        {
+            if (Items[InventoryIndex] != null)
+            {
+                Items[InventoryIndex].Drop(Position, GetGame.Grid.CurrentRoomPosition);
+            }
+
+            Items[InventoryIndex] = PickItem;
+            Items[InventoryIndex].Owner = this;
+            Items[InventoryIndex].Position = Vector2.Zero;
+        }
+    }
+
     /// <summary>
     ///     Draws the Hud to the screen.
     /// </summary>
-    public void DrawInventoryHud()
+    public void DrawHud()
     {
+        float WindowGap = 5;
         float slotWidth = 72;
         float slotHeight = 72;
         float gap = 12;
         float totalWidth = (InventorySlotCount * slotWidth) + ((InventorySlotCount - 1) * gap);
 
-        float startX = (Window.Width - totalWidth) / 2;
-        float y = 20;
+        float startX = (75);
+        float startY = (75);
+        float y = WindowGap;
+        int OffsetIndex = 0;
 
-        for (int i = 0; i < InventorySlotCount; i++)
+        switch (PlayerIndex)
         {
-            float x = startX + (i * (slotWidth + gap));
+            case 0:
+                for (int i = 0; i < InventorySlotCount; i++)
+                {
 
-            Draw.FillColor = new Color(20, 20, 20, 190);
-            Draw.LineColor = Color.Black;
-            Draw.LineSize = 2;
-            Draw.Rectangle(x, y, slotWidth, slotHeight);
-            if (Items[i] != null)
-            {
-                Items[i].RenderInv(new Vector2(x, y));
-                Items[i].Position = Position;
-            }
+                    if (i < InventorySlotCount / 2)
+                    {
+                        float x = startX + (i * (slotWidth + gap));
 
-            if (i == InventoryIndex)
-            {
-                Draw.FillColor = Color.Clear;
-                Draw.LineColor = Color.Yellow;
-                Draw.LineSize = 4;
-                Draw.Rectangle(x - 3, y - 3, slotWidth + 6, slotHeight + 6);
-            }
+                        Draw.FillColor = new Color(20, 20, 20, 190);
+                        Draw.LineColor = Color.Black;
+                        Draw.LineSize = 2;
+                        Draw.Rectangle(x, y, slotWidth, slotHeight);
+                        if (Items[i] != null)
+                        {
+                            Items[i].RenderInv(new Vector2(x, y));
+                            Items[i].Position = Position;
+                        }
 
-            Text.Draw($"{i + 1}", (int)(x + 30), (int)(y + 24));
+                        if (i == InventoryIndex)
+                        {
+                            Draw.FillColor = Color.Clear;
+                            Draw.LineColor = Color.Yellow;
+                            Draw.LineSize = 4;
+                            Draw.Rectangle(x - 3, y - 3, slotWidth + 6, slotHeight + 6);
+                        }
+
+                        //Text.Draw($"{i + 1}", (int)(x + 30), (int)(y + 24));
+                    }
+                    else
+                    {
+                        y = startY + (OffsetIndex * (slotWidth + gap));
+                        float x = WindowGap;
+                        OffsetIndex += 1;
+
+                        Draw.FillColor = new Color(20, 20, 20, 190);
+                        Draw.LineColor = Color.Black;
+                        Draw.LineSize = 2;
+                        Draw.Rectangle(x, y, slotWidth, slotHeight);
+                        if (Items[i] != null)
+                        {
+                            Items[i].RenderInv(new Vector2(x, y));
+                            Items[i].Position = Position;
+                        }
+
+                        if (i == InventoryIndex)
+                        {
+                            Draw.FillColor = Color.Clear;
+                            Draw.LineColor = Color.Yellow;
+                            Draw.LineSize = 4;
+                            Draw.Rectangle(x - 3, y - 3, slotWidth + 6, slotHeight + 6);
+                        }
+                    }
+                }
+                break;
         }
-
-        Text.Draw("Inventory", (int)(startX), (int)(y - 22));
     }
 
     /// <summary>
@@ -121,14 +173,7 @@ public class BasePlayer : BaseCharacter
 
             if (Input.IsKeyboardKeyPressed(KeyboardInput.F))
             {
-                BaseItem PickItem = GetGame.PickupItem(Position);
-
-                if (PickItem != null)
-                {
-                    Items[InventoryIndex] = PickItem;
-                    Items[InventoryIndex].Owner = this;
-                    Items[InventoryIndex].Position = Vector2.Zero;
-                }
+                Interect();
             }
 
             if (Input.IsKeyboardKeyPressed(KeyboardInput.One))

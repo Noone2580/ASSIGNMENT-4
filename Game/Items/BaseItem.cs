@@ -5,26 +5,34 @@ using MohawkGame2D;
 
 public class BaseItem
 {
+    // Game Vars
+    public Game? GetGame;
+    public float[] Timers { get; protected set; } = new float[200];
+    public BaseCharacter? Owner;
+
+    // Item Vars
     public Vector2 Position = Vector2.Zero;
     public string Name = "";
-    public Vector2 GridPosition = Vector2.Zero;
-    public bool InRoom = false;
     public bool InInvetory = false;
     public string Description = "";
     public int ID = 0;
     public bool CanPickup = true;
-    public float PickupRadius = 10f;
+    public float PickupRadius = 50f;
 
+    // Room Vars
     public int RoomCode { get; set; } = 0;
+    public Vector2 GridPosition = Vector2.Zero;
+    public bool InRoom = false;
 
-    public BaseCharacter? Owner;
-
+    // Textures
     public Texture2D InventoryTexture;
     public string InventoryTextureLocation = "../../../Assets/Textures/Inv_Pistol.png";
+    public Vector2 InventorySpriteLocation = Vector2.Zero;
     public Texture2D HoldingTexture;
     public string HoldingTextureLocation = string.Empty;
 
-    public Game? GetGame;
+    
+
 
     public void Setup(Game game, Vector2 GridSpawn, Vector2 position) 
     {
@@ -43,11 +51,20 @@ public class BaseItem
 
     public bool PickUp() 
     {
-        if(!CanPickup)
+        if(!CanPickup && InInvetory)
             return false;
 
         InInvetory = true;
         return true;
+    }
+
+    public void Drop(Vector2 position, Vector2 gridPosition) 
+    {
+        GetGame.AddItem(this);
+        Position = position;
+        GridPosition = gridPosition;
+        InInvetory = false;
+        CanPickup = true;
     }
 
     public virtual void NewRoom(BaseRoom NewRoom)
@@ -89,6 +106,29 @@ public class BaseItem
     {
         Console.WriteLine("AHHHHH!");
 
+    }
+
+    /// <summary>
+    ///     Sets a Timer on a index and takes time.
+    /// </summary>
+    public void SetTimer(int TimerIndex, float setTime) // Sets a new timer
+    {
+        Timers[TimerIndex] = setTime + Time.SecondsElapsed;
+    }
+
+    /// <summary>
+    ///     Checks if a Timer at a index is done.
+    ///     Returns a bool.
+    /// </summary>
+    public bool IsTimerDone(int TimerIndex)
+    {
+        if (Time.SecondsElapsed >= Timers[TimerIndex])
+        {
+            Timers[TimerIndex] = 0;
+            return true;
+        }
+        else
+            return false;
     }
 
     /// <summary>
