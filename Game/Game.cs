@@ -374,6 +374,9 @@ public class Game
                 Players[i].DrawHud();
         }
 
-        TextBox.Write(GetDialoguePersonally.BossRaphText[0]);
+        // THIS IS FOR TESTING THE TEXT BOX
+        //Text.Kerning = 2;
+
+        //TextBox.Write(GetDialoguePersonally.BossRaphText[0]);
     }
 }
