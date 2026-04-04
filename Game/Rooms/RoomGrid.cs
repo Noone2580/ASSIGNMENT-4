@@ -125,7 +125,7 @@ public class RoomGrid
         //  2           |   -  -|       |   -
         //  3       |   |       2       x       x
         //  4       |-  -   -   -       2       x  Key2
-        //  5   x   x           1   x   x       x
+        //  5 Start x           1   x   x       x
         //  6                   x  Boss x       x
         //  7           x   2   x   x   x   x   1
         //  8   x   3   x       x           3

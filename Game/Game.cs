@@ -43,7 +43,7 @@ public class Game
         Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
         // Where the player starts
-        Grid.CurrentRoomPosition = new Vector2(1,0);
+        Grid.CurrentRoomPosition = new Vector2(1,5);
 
         CurrentRoom = Grid.GetRoomClassAtGrid(Grid.CurrentRoomPosition);
         CurrentRoom.Setup(this, Grid.CurrentRoomPosition,0);
