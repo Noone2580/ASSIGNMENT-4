@@ -356,6 +356,6 @@ public class Game
         //Console.WriteLine(Grid.CurrentRoomPosition);
         // THIS IS FOR TESTING THE TEXT BOX
 
-        TextBox.Write(GetDialoguePersonally.NarrationText[0]);
+        //TextBox.Write(GetDialoguePersonally.NarrationText[0]);
     }
 }
