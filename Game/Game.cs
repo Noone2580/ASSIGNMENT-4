@@ -35,6 +35,8 @@ public class Game
         // Set up window
         Window.SetTitle("TEST");
         Window.SetSize(1100, 900);
+        Window.TargetFPS = 60;
+
         // Remove outlines
         Draw.LineColor = Color.Clear;
 
@@ -103,6 +105,24 @@ public class Game
         return RoomCal;
     }
 
+    public int AddItem(BaseItem item)
+    {
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i] == null)
+            {
+                Items[i] = item;
+                return i;
+            }
+        }
+
+        return -1;
+    }
+    public void RemoveItem(int Index)
+    {
+        Items[Index] = null;
+    }
+
     public int AddProjectile(BaseProjectile projectile)
     {
         for (int i = 0; i < Projectiles.Length; i++)
@@ -131,7 +151,7 @@ public class Game
         {
             if (Items[i] != null)
             {
-                if (Vector2.Distance(position, Items[i].Position) <= DIS && Items[i].InRoom && Items[i].CanPickup)
+                if (Vector2.Distance(position, Items[i].Position) <= DIS && Vector2.Distance(position, Items[i].Position) <= Items[i].PickupRadius && Items[i].InRoom && Items[i].CanPickup)
                 {
                     DIS = Vector2.Distance(position, Items[i].Position);
                     CloseItem = Items[i];
@@ -347,14 +367,12 @@ public class Game
             }
         }
 
-        // Draw player inv on top
+        // Draw player Hud on top
         for (int i = 0; i < Players.Length; i++)
         {
             if (Players[i] != null)
-                Players[i].DrawInventoryHud();
+                Players[i].DrawHud();
         }
-        //Console.WriteLine(Grid.CurrentRoomPosition);
-        // THIS IS FOR TESTING THE TEXT BOX
 
         TextBox.Write(GetDialoguePersonally.BossRaphText[0]);
     }

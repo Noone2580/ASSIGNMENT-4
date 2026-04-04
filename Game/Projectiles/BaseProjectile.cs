@@ -12,17 +12,17 @@ public class BaseProjectile
     public float HitRange { get; protected set; } = 10f;
     public float Damage { get; protected set; } = 10f;
     public float HitFroce { get; protected set; } = 100f;
-    string RoomName = "";
+    Vector2 RoomPostion = Vector2.Zero;
 
     public int ProIndex = 0;
 
-    public void Setup(Game game, BaseCharacter owner, Vector2 Spawnposition, Vector2 Speed)
+    public void Setup(Game game, BaseCharacter owner,float damage, Vector2 Spawnposition, Vector2 Speed)
     {
         GetGame = game;
         Owner = owner;
+        Damage = damage;
         Position = Spawnposition;
         Velocity = Speed;
-        RoomName = $"{GetGame.CurrentRoom}";
 
         ProIndex = GetGame.AddProjectile(this);
     }
