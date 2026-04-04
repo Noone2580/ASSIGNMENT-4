@@ -4,6 +4,8 @@ using System.Numerics;
 using System.Threading;
 
 // Double \n\n for new lines. The font is kinda small. 
+// Most of this is self expanetory. These are string arrays that have a bunch of dialogue saved that can be called within the game.cs 
+// when needed. 
 
 public class TextBoxDialogue
 {
@@ -41,7 +43,7 @@ public class TextBoxDialogue
             "What a Fool you are!",
             "Choosing to noot answer me.\n\nCowardly!\n\nNo matter, none can stop the great Raph-am!",
             //Dialogue after claiming the first key
-            "I sense a presence in the building"
+            "I sense a presence in this dominion.",
 
 
             //Dialogue when you enter Raph's Lair 
