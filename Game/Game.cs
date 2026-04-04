@@ -45,7 +45,7 @@ public class Game
         Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
         // Where the player starts
-        Grid.CurrentRoomPosition = new Vector2(1,0);
+        Grid.CurrentRoomPosition = new Vector2(1,5);
 
         CurrentRoom = Grid.GetRoomClassAtGrid(Grid.CurrentRoomPosition);
         CurrentRoom.Setup(this, Grid.CurrentRoomPosition,0);
@@ -332,6 +332,11 @@ public class Game
 
         CurrentRoom.Render();
 
+        // For keeping the text Readable
+        Text.Kerning = 2; 
+
+
+
         for (int i = 0; i < Enemies.Length; i++)
         {
             if (Enemies[i] != null)
@@ -369,10 +374,6 @@ public class Game
                 Players[i].DrawHud();
         }
 
-        // THIS IS FOR TESTING THE TEXT BOX
-        //Text.Kerning = 2;
-
-        //TextBox.Write("the the the\n\nwoo");
-        //TextBox.Write(GetDialoguePersonally.NarrationText[0]);
+        TextBox.Write(GetDialoguePersonally.BossRaphText[0]);
     }
 }
