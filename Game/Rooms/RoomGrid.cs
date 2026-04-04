@@ -119,7 +119,8 @@ public class RoomGrid
         // This is where the Map is created. 
         // Vector 2 controls grid coordinates. 
         // The third number controls where the doors are generated, and the fourth number controls the keycard level required. 
-        // Below is a frame of reference for what the map should look like 
+        // Below is a frame of reference for what the map should look like. 
+        // Numbers represent the required level of Keycard to proceed. 
         //  0   1   2   3   4   5   6   7   8   9   10
         //  1      Key1 x
         //  2           |   -  -|       |   -
