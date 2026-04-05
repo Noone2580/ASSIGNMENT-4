@@ -22,11 +22,12 @@ public class AssulitRifle : BaseWeapon
     {
         if (GetGame == null || Owner == null) return;
 
-        if (IsTimerDone(0))
+        if (IsTimerDone(0) && Ammo > 0 )
         {
             SetTimer(0, FireRate);
             BaseProjectile Bullet = new BaseProjectile();
             Bullet.Setup(GetGame, Owner, Damage, Position, direction * ProSpeed);
+            Ammo--;
         }
     }
 

@@ -24,6 +24,7 @@ public class BaseCharacter
     public Vector2 Direction = Vector2.Zero;
     public float HitBoxSize { get; protected set; } = 15f;
     public float Grip = 5f;
+    public float DamageResistance = 1f;
 
     // Body Sprites and Offsets
     public Texture2D BodyTexture  ;
@@ -43,10 +44,10 @@ public class BaseCharacter
     public void Setup(Game game)
     {
         GetGame = game;
+        CustomSetup();
+        HP = MaxHP;
         BodyTexture = Graphics.LoadTexture(BodyTextureLocation);
         LegsTexture = Graphics.LoadTexture(LegsTextureLocation);
-        HP = MaxHP;
-        CustomSetup();
 
     }
 
@@ -63,6 +64,7 @@ public class BaseCharacter
     /// </summary>
     public virtual void TakeDamage(float Damage, Vector2 HitForce)
     {
+        Damage *= DamageResistance;
         HP -= Damage;
         Velocity += HitForce;
         if (HP <= 0)
@@ -116,10 +118,10 @@ public class BaseCharacter
     /// </summary>
     public virtual void Move(Vector2 Mag)
     {
+        if (Mag == Vector2.Zero) return;
         Mag = Vector2.Normalize(Mag);
 
         Velocity += (Mag * MovementSpeed) / 2;
-
     }
 
     /// <summary>
@@ -198,9 +200,9 @@ public class BaseCharacter
         Graphics.Rotation = VelRotation;
         Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
 
-        //Legs
-        Graphics.Rotation = Rotation;
-        Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
+        ////Legs
+        //Graphics.Rotation = Rotation;
+        //Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
     }
 
     /// <summary>
@@ -223,9 +225,9 @@ public class BaseCharacter
         Graphics.Rotation = VelRotation;
         Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
 
-        //Legs
-        Graphics.Rotation = Rotation;
-        Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
+        ////Legs
+        //Graphics.Rotation = Rotation;
+        //Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
 
     }
 }

@@ -94,7 +94,6 @@ public class BaseItem
     /// <param name="direction"></param>
     public virtual void UseItemFrame(Vector2 position, Vector2 direction)
     {
-        Console.WriteLine("Hello!");
     }
     /// <summary>
     ///     For useing the item's main function. Can be overided.
@@ -103,7 +102,6 @@ public class BaseItem
     /// <param name="direction"></param>
     public virtual void UseItem(Vector2 position, Vector2 direction) 
     {
-        Console.WriteLine("Hello!");
     }
 
     /// <summary>
@@ -113,7 +111,6 @@ public class BaseItem
     /// <param name="direction"></param>
     public virtual void StopUsingItem(Vector2 position, Vector2 direction) 
     {
-        Console.WriteLine("Goodbye");
     }
 
     /// <summary>
@@ -123,7 +120,6 @@ public class BaseItem
     /// <param name="direction"></param>
     public virtual void UseItemSpacl(Vector2 position, Vector2 direction) 
     {
-        Console.WriteLine("AHHHHH!");
 
     }
 

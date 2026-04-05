@@ -9,31 +9,34 @@ public class Zombie : BaseEnemy
     {
         base.CustomSetup();
         MovementSpeed = MohawkGame2D.Random.Float(30f, 80f);
-        MaxHP = 5f;
+        MaxHP = 25f;
         HP = MaxHP;
         AttackDamage = 1f;
         AttackRange = 45f;
         TargetSlowdown = 6.5f;
-        Position = MohawkGame2D.Random.Vector2(new Vector2(0), new Vector2(400));
+        BodyTextureLocation = "../../../Assets/Textures/Zombie.png";
+
     }
 
     public override void Render()
     {
-        if (InRoom)
-        {
-            Target = GetClosetPlayer();
-            BaseAI KeepAway = GetClosetAI();
-            Direction = Target.Position - Position;
+        Target = GetClosetPlayer();
 
-            //Console.WriteLine($"{Target} {Time.SecondsElapsed} {Direction}");
+        if (InRoom && Target != null)
+        {
+            BaseAI? KeepAway = GetClosetAI();
+
+            if(GetClosetAI() != null)
+                KeepAway = GetClosetAI();
+
+            Direction = Target.Position - Position;
 
             base.Render();
             Move(Direction);
 
-            if (Vector2.Distance(KeepAway.Position, Position) <= HitBoxSize)
+            if (KeepAway != null && Vector2.Distance(KeepAway.Position, Position) <= HitBoxSize)
             {
                 Vector2 DirPos = (Position - KeepAway.Position) * (HitBoxSize);
-
                 Position += DirPos * Time.DeltaTime;
             }
 
@@ -41,7 +44,6 @@ public class Zombie : BaseEnemy
             {
                 Target.Velocity -= Target.Velocity * TargetSlowdown * Time.DeltaTime;
                 Velocity -= (Velocity * TargetSlowdown * 1.4f) * Time.DeltaTime;
-
                 if (IsTimerDone(4))
                 {
                     SetTimer(4, AttackCooldown);

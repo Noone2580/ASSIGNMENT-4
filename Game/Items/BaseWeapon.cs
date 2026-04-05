@@ -4,8 +4,8 @@ using MohawkGame2D;
 
 public class BaseWeapon : BaseItem
 {
-    public int AmmoIndex = 0;
-    public int Ammo = 0;
+    public int AmmoType = 0;
+    public int Ammo = 5;
     public int MaxAmmo = 5;
     public float ProSpeed = 950f;
     public float Damage = 20;
@@ -21,11 +21,12 @@ public class BaseWeapon : BaseItem
     {
         if (GetGame == null || Owner == null) return;
 
-        if (IsTimerDone(0))
+        if (IsTimerDone(0) && Ammo > 0)
         {
             SetTimer(0, FireRate);
             BaseProjectile Bullet = new BaseProjectile();
             Bullet.Setup(GetGame, Owner, Damage, Position, direction * ProSpeed);
+            Ammo--;
         }
     }
 

@@ -22,7 +22,7 @@ public class Shotgun : BaseWeapon
     {
         if (GetGame == null || Owner == null) return;
 
-        if (IsTimerDone(0))
+        if (IsTimerDone(0) && Ammo > 0 )
         {
             SetTimer(0, FireRate);
 
@@ -34,6 +34,7 @@ public class Shotgun : BaseWeapon
 
                 Bullet.Setup(GetGame, Owner, Damage / NumPel, Position, Shot * ProSpeed);
             }
+            Ammo--;
         }
     }
 }

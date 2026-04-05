@@ -17,6 +17,18 @@ public class BaseEnemy : BaseAI
         MovementSpeed = 100f;
     }
 
+    public override void Die()
+    {
+        int IN = 0;
+        for(int i =0; i < GetGame.GetAllAis().Length; i++) 
+        {
+            if (GetGame.GetAllAis()[i] == this)
+                IN = i;
+        }
+
+        GetGame.RemoveEnemy(IN);
+    }
+
     public override void RenderNoUpdate()
     {
         if (InRoom)

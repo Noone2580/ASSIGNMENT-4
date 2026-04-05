@@ -7,7 +7,7 @@ public class BaseAI : BaseCharacter
 {
     public BaseCharacter? Target;
     public Vector2 GridPosition = Vector2.Zero;
-    public bool InRoom { get; protected set; } = true;
+    public bool InRoom { get; set; } = true;
 
     protected Vector2 EnterRoomDoor = Vector2.Zero;
     protected Vector2 ExitRoomDoor = Vector2.Zero;
@@ -82,5 +82,9 @@ public class BaseAI : BaseCharacter
         }
 
         return GetGame.GetAllAis()[Index];
+    }
+
+    public override void Die() 
+    {
     }
 }

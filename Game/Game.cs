@@ -18,9 +18,10 @@ public class Game
 
     // Game Vars
     BasePlayer[] Players = new BasePlayer[1];
-    BaseEnemy[] Enemies = new BaseEnemy[4];
+    BaseEnemy[] Enemies = new BaseEnemy[30];
     BaseItem[] Items = new BaseItem[25];
     BaseProjectile[] Projectiles = new BaseProjectile[200];
+    public Boss? TheBoss;
     public float[] Timers { get; protected set; } = new float[200];
 
 
@@ -64,22 +65,20 @@ public class Game
             Players[i].Position = Start;
         }
 
-        //for (int i = 0; i < Enemies.Length; i++)
-        //{
-        //    Enemies[i] = new Zombie();
-        //    Enemies[i].Setup(this);
-        //    Enemies[i].Position += Start;
 
-        //}
 
         // Debug Romove SOON!
-        AddItem(new Key(),Grid.CurrentRoomPosition, Start);
-        AddItem(new BlueKey(),Grid.CurrentRoomPosition, Start + new Vector2(72,0));
-        AddItem(new RedKey(),Grid.CurrentRoomPosition, Start + new Vector2(72 * 2, 0));
-        AddItem(new Pistol(),Grid.CurrentRoomPosition, Start + new Vector2(72 * 3, 0));
-        AddItem(new Kinfe(),Grid.CurrentRoomPosition, Start + new Vector2(72 * 4, 0));
-        AddItem(new Shotgun(),Grid.CurrentRoomPosition, Start + new Vector2(72 * 5, 0));
-        AddItem(new AssulitRifle(),Grid.CurrentRoomPosition, Start + new Vector2(72 * 5, 0));
+        AddItem(new Key(), Grid.CurrentRoomPosition, Start);
+        AddItem(new BlueKey(), Grid.CurrentRoomPosition, Start + new Vector2(72, 0));
+        AddItem(new RedKey(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 2, 0));
+        AddItem(new Pistol(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 3, 0));
+        AddItem(new Kinfe(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 4, 0));
+        AddItem(new Shotgun(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 5, 0));
+        AddItem(new AssulitRifle(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 5, 0));
+        AddEnemy(new Zombie(), Grid.CurrentRoomPosition, Start);
+
+        AddEnemy(new Cultist(), Grid.CurrentRoomPosition,Start);
+        AddEnemy(new Cultist(), Grid.CurrentRoomPosition,Start);
 
     }
 
@@ -131,6 +130,29 @@ public class Game
             return false;
     }
 
+    public int AddEnemy(BaseEnemy item, Vector2 gridPosition, Vector2 position)
+    {
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            if (Enemies[i] == null)
+            {
+                Enemies[i] = item;
+                Enemies[i].Setup(this);
+                Enemies[i].GridPosition = gridPosition;
+                Enemies[i].Position = position;
+                if (Grid.CurrentRoomPosition == gridPosition)
+                    Enemies[i].InRoom = true;
+                return i;
+            }
+        }
+
+        return -1;
+    }
+    public void RemoveEnemy(int Index)
+    {
+        Enemies[Index] = null;
+    }
+
     public int AddItem(BaseItem item, Vector2 gridPosition, Vector2 position)
     {
         for (int i = 0; i < Items.Length; i++)
@@ -138,7 +160,7 @@ public class Game
             if (Items[i] == null)
             {
                 Items[i] = item;
-                Items[i].Setup(this,gridPosition,position);
+                Items[i].Setup(this, gridPosition, position);
                 Items[i].NewRoom();
                 return i;
             }
@@ -174,8 +196,6 @@ public class Game
         float DIS = 9999999999f;
         BaseItem CloseItem = null;
         int Index = 0;
-
-        Console.WriteLine("Pick");
 
         for (int i = 0; i < Items.Length; i++)
         {
@@ -357,7 +377,8 @@ public class Game
         Vector2[] AiPositions = new Vector2[Enemies.Length];
         for (int i = 0; i < Enemies.Length; i++)
         {
-            AiPositions[i] = Enemies[i].Position;
+            if (Enemies[i] != null)
+                AiPositions[i] = Enemies[i].Position;
         }
         return AiPositions;
     }

@@ -145,18 +145,21 @@ public class BasePlayer : BaseCharacter
                     return;
                 Items[InventoryIndex].UseItem(Position, Direction);
             }
-            if (Input.IsMouseButtonReleased(MouseInput.Right))
-            {
-                if (Items[InventoryIndex] == null)
-                    return;
-                Items[InventoryIndex].StopUsingItem(Position, Direction);
-            }
-            if (Input.IsMouseButtonDown(MouseInput.Left)) 
+
+            if (Input.IsMouseButtonDown(MouseInput.Left))
             {
                 if (Items[InventoryIndex] == null)
                     return;
                 Items[InventoryIndex].UseItemFrame(Position, Direction);
             }
+
+            if (Input.IsMouseButtonReleased(MouseInput.Left))
+            {
+                if (Items[InventoryIndex] == null)
+                    return;
+                Items[InventoryIndex].StopUsingItem(Position, Direction);
+            }
+            
 
             // Use Item Spacl
             if (Input.IsKeyboardKeyPressed(KeyboardInput.R))
