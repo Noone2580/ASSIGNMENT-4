@@ -191,7 +191,7 @@ public class BaseCharacter
     }
 
 
-    public virtual void RenderNoUpate() 
+    public virtual void RenderNoUpdate() 
     {
         // Sprite
         // Body

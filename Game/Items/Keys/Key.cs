@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Numerics;
+using MohawkGame2D;
 
 public class Key : BaseKeys
 {
@@ -6,7 +8,7 @@ public class Key : BaseKeys
     {
         base.CustomSetup();
 
-        InventoryTextureLocation = "../../../Assets/Textures/Key.png";
-        RoomCode = 0;
+        InventorySpriteLocation = new Vector2(0, 72 * 2);
+        RoomCode = 1;
     }
 }

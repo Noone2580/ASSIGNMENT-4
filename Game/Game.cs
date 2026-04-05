@@ -13,26 +13,33 @@ namespace MohawkGame2D;
 /// </summary>
 public class Game
 {
-    // Place your variables here:
+    // Spawn position:
     Vector2 Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
+    // Game Vars
     BasePlayer[] Players = new BasePlayer[1];
     BaseEnemy[] Enemies = new BaseEnemy[4];
-    BaseItem[] Items = new BaseItem[0];
+    BaseItem[] Items = new BaseItem[25];
     BaseProjectile[] Projectiles = new BaseProjectile[200];
+    public float[] Timers { get; protected set; } = new float[200];
 
-    public BaseRoom? CurrentRoom;
-    TextBoxDialogue GetDialoguePersonally = new TextBoxDialogue();
 
-    public bool CanUseDoor = true;
+    // Text and dialogue
+    public TextBoxDialogue GetDialoguePersonally = new TextBoxDialogue();
+    string CurrentText = "";
+
+    // Rooms and Grid Vars
     public RoomGrid Grid { get; protected set; } = new RoomGrid();
+    public BaseRoom? CurrentRoom;
+    public bool CanUseDoor = true;
+
 
     /// <summary>
     ///     Setup runs once before the game loop begins.
     /// </summary>
     public void Setup()
     {
-        // Set up window
+        // Setup window
         Window.SetTitle("TEST");
         Window.SetSize(1100, 900);
         Window.TargetFPS = 60;
@@ -45,10 +52,10 @@ public class Game
         Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
         // Where the player starts
-        Grid.CurrentRoomPosition = new Vector2(1,5);
+        Grid.CurrentRoomPosition = new Vector2(1, 5);
 
         CurrentRoom = Grid.GetRoomClassAtGrid(Grid.CurrentRoomPosition);
-        CurrentRoom.Setup(this, Grid.CurrentRoomPosition,0);
+        CurrentRoom.Setup(this, Grid.CurrentRoomPosition, 0);
 
         for (int i = 0; i < Players.Length; i++)
         {
@@ -57,27 +64,23 @@ public class Game
             Players[i].Position = Start;
         }
 
-        for (int i = 0; i < Enemies.Length; i++)
-        {
-            Enemies[i] = new Zombie();
-            Enemies[i].Setup(this);
-            Enemies[i].Position += Start;
+        //for (int i = 0; i < Enemies.Length; i++)
+        //{
+        //    Enemies[i] = new Zombie();
+        //    Enemies[i].Setup(this);
+        //    Enemies[i].Position += Start;
 
-        }
+        //}
 
         // Debug Romove SOON!
-        Items = new BaseItem[3];
-        Items[0] = new BaseWeapon();
-        Items[0].Setup(this, Grid.CurrentRoomPosition, Start);
-        Items[0].NewRoom(CurrentRoom);
+        AddItem(new Key(),Grid.CurrentRoomPosition, Start);
+        AddItem(new BlueKey(),Grid.CurrentRoomPosition, Start + new Vector2(72,0));
+        AddItem(new RedKey(),Grid.CurrentRoomPosition, Start + new Vector2(72 * 2, 0));
+        AddItem(new Pistol(),Grid.CurrentRoomPosition, Start + new Vector2(72 * 3, 0));
+        AddItem(new Kinfe(),Grid.CurrentRoomPosition, Start + new Vector2(72 * 4, 0));
+        AddItem(new Shotgun(),Grid.CurrentRoomPosition, Start + new Vector2(72 * 5, 0));
+        AddItem(new AssulitRifle(),Grid.CurrentRoomPosition, Start + new Vector2(72 * 5, 0));
 
-        Items[1] = new Keycard();
-        Items[1].Setup(this, Grid.CurrentRoomPosition, Start + new Vector2(100, 0));
-        Items[1].NewRoom(CurrentRoom);
-
-        Items[2] = new Key();
-        Items[2].Setup(this, Grid.CurrentRoomPosition, Start + new Vector2(200, 0));
-        Items[2].NewRoom(CurrentRoom);
     }
 
     public float[] GetRoomCal()
@@ -105,13 +108,38 @@ public class Game
         return RoomCal;
     }
 
-    public int AddItem(BaseItem item)
+    /// <summary>
+    ///     Sets a Timer on a index and takes time.
+    /// </summary>
+    public void SetTimer(int TimerIndex, float setTime) // Sets a new timer
+    {
+        Timers[TimerIndex] = setTime + Time.SecondsElapsed;
+    }
+
+    /// <summary>
+    ///     Checks if a Timer at a index is done.
+    ///     Returns a bool.
+    /// </summary>
+    public bool IsTimerDone(int TimerIndex)
+    {
+        if (Time.SecondsElapsed >= Timers[TimerIndex])
+        {
+            Timers[TimerIndex] = 0;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public int AddItem(BaseItem item, Vector2 gridPosition, Vector2 position)
     {
         for (int i = 0; i < Items.Length; i++)
         {
             if (Items[i] == null)
             {
                 Items[i] = item;
+                Items[i].Setup(this,gridPosition,position);
+                Items[i].NewRoom();
                 return i;
             }
         }
@@ -147,6 +175,8 @@ public class Game
         BaseItem CloseItem = null;
         int Index = 0;
 
+        Console.WriteLine("Pick");
+
         for (int i = 0; i < Items.Length; i++)
         {
             if (Items[i] != null)
@@ -168,6 +198,15 @@ public class Game
         }
 
         return CloseItem;
+    }
+
+    public bool TryOpenDoor()
+    {
+        if (CurrentRoom == null)
+            return false;
+        bool can = CurrentRoom.CheckIfPlayerInDoor();
+
+        return can;
     }
 
     public void EnterNewRoom(Vector2 NewRoom, Vector2 EnterDoorPosition, Vector2 ExitDoorPostion)
@@ -199,7 +238,7 @@ public class Game
                 for (int i = 0; i < Items.Length; i++)
                 {
                     if (Items[i] != null)
-                        Items[i].NewRoom(CurrentRoom);
+                        Items[i].NewRoom();
                 }
             }
         }
@@ -289,7 +328,11 @@ public class Game
 
     }
 
-
+    public void StartDialogue(string Text, float Time)
+    {
+        CurrentText = Text;
+        SetTimer(0, Time);
+    }
 
     public BasePlayer[] GetAllPlayers()
     {
@@ -319,6 +362,47 @@ public class Game
         return AiPositions;
     }
 
+    public void TextBoxRender()
+    {
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            if (Enemies[i] != null)
+                Enemies[i].RenderNoUpdate();
+        }
+
+        for (int i = 0; i < Players.Length; i++)
+        {
+            if (Players[i] != null)
+                Players[i].RenderNoUpdate();
+        }
+
+        // Draws shaows
+        Graphics.Rotation = 0;
+        Graphics.Draw(CurrentRoom.RoomLightTexture, Vector2.Zero);
+
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i] != null)
+                Items[i].Render();
+        }
+
+        for (int i = 0; i < Projectiles.Length; ++i)
+        {
+            if (Projectiles[i] != null)
+            {
+                Projectiles[i].RenderNoUpdate();
+            }
+        }
+
+        // Draw player Hud on top
+        for (int i = 0; i < Players.Length; i++)
+        {
+            if (Players[i] != null)
+                Players[i].DrawHud();
+        }
+        TextBox.Write(CurrentText);
+    }
+
     /// <summary>
     ///     Update runs every frame.
     /// </summary>
@@ -333,8 +417,13 @@ public class Game
         CurrentRoom.Render();
 
         // For keeping the text Readable
-        Text.Kerning = 2; 
+        Text.Kerning = 2;
 
+        if (!IsTimerDone(0))
+        {
+            TextBoxRender();
+            return;
+        }
 
 
         for (int i = 0; i < Enemies.Length; i++)
@@ -374,9 +463,5 @@ public class Game
                 Players[i].DrawHud();
         }
 
-        // THIS IS FOR TESTING THE TEXT BOX
-        //Text.Kerning = 2;
-
-        //TextBox.Write(GetDialoguePersonally.BossRaphText[0]);
     }
 }

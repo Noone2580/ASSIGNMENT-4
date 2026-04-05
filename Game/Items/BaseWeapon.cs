@@ -12,6 +12,11 @@ public class BaseWeapon : BaseItem
     public float Range = 10;
     public float FireRate = .2f;
 
+    public override void CustomSetup()
+    {
+        base.CustomSetup();
+    }
+
     public override void UseItem(Vector2 position, Vector2 direction)
     {
         if (GetGame == null || Owner == null) return;

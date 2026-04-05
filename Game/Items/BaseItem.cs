@@ -26,7 +26,7 @@ public class BaseItem
 
     // Textures
     public Texture2D InventoryTexture;
-    public string InventoryTextureLocation = "../../../Assets/Textures/Inv_Pistol.png";
+    string InventoryTextureLocation = "../../../Assets/Textures/Items.png";
     public Vector2 InventorySpriteLocation = Vector2.Zero;
     public Texture2D HoldingTexture;
     public string HoldingTextureLocation = string.Empty;
@@ -51,28 +51,29 @@ public class BaseItem
 
     public bool PickUp() 
     {
-        if(!CanPickup && InInvetory)
+        if(!CanPickup || InInvetory)
             return false;
 
+        GetGame.StartDialogue(GetGame.GetDialoguePersonally.PlayerText[0], 1f);
         InInvetory = true;
         return true;
     }
 
     public void Drop(Vector2 position, Vector2 gridPosition) 
     {
-        GetGame.AddItem(this);
+        GetGame.AddItem(this, gridPosition, position);
         Position = position;
         GridPosition = gridPosition;
         InInvetory = false;
         CanPickup = true;
     }
 
-    public virtual void NewRoom(BaseRoom NewRoom)
+    public virtual void NewRoom()
     {
         if (InInvetory)
+        {
             return;
-        if (NewRoom == null) 
-            return;
+        }
 
         if (GridPosition == GetGame.Grid.CurrentRoomPosition)
         {
@@ -84,9 +85,17 @@ public class BaseItem
             InRoom = false;
             return;
         }
-
     }
 
+    /// <summary>
+    ///     For useing the item's main function evey frame. Can be overided.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="direction"></param>
+    public virtual void UseItemFrame(Vector2 position, Vector2 direction)
+    {
+        Console.WriteLine("Hello!");
+    }
     /// <summary>
     ///     For useing the item's main function. Can be overided.
     /// </summary>
@@ -95,6 +104,16 @@ public class BaseItem
     public virtual void UseItem(Vector2 position, Vector2 direction) 
     {
         Console.WriteLine("Hello!");
+    }
+
+    /// <summary>
+    ///     stop useing the item's main function. Can be overided.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="direction"></param>
+    public virtual void StopUsingItem(Vector2 position, Vector2 direction) 
+    {
+        Console.WriteLine("Goodbye");
     }
 
     /// <summary>
@@ -136,9 +155,9 @@ public class BaseItem
     /// </summary>
     public virtual void RenderInv(Vector2 position) 
     {
-        Graphics.Draw(InventoryTexture, position);
+        Graphics.DrawSubset(InventoryTexture, position, InventorySpriteLocation, new Vector2(72f, 72f));
     }
-
+    
     /// <summary>
     ///     Used for rendering the holding item
     /// </summary>
@@ -148,7 +167,8 @@ public class BaseItem
     {
         Position = position;
         Graphics.Rotation = rotation;
-        Graphics.Draw(HoldingTexture, position);
+        //Graphics.DrawSubset(InventoryTexture, position, InventorySpriteLocation, new Vector2(72f, 72f));
+        Graphics.Rotation = 0;
     }
 
     /// <summary>
@@ -159,8 +179,8 @@ public class BaseItem
         if (InRoom)
         {
             Graphics.Rotation = 0f;
-            Vector2 Offset = new Vector2(InventoryTexture.Width / 2, InventoryTexture.Height / 2);
-            Graphics.Draw(InventoryTexture, Position - Offset);
+            Vector2 Offset = new Vector2(72 / 2, 72 / 2);
+            Graphics.DrawSubset(InventoryTexture, Position - Offset, InventorySpriteLocation, new Vector2(72f,72f));
         }
     }
 }

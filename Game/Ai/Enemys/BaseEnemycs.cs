@@ -17,7 +17,13 @@ public class BaseEnemy : BaseAI
         MovementSpeed = 100f;
     }
 
-
+    public override void RenderNoUpdate()
+    {
+        if (InRoom)
+        {
+            base.RenderNoUpdate();
+        }
+    }
 
     public override void Render()
     {

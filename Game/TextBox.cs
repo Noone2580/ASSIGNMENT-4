@@ -12,18 +12,21 @@ public static class TextBox
     
     public static Font BitCount;
 
-    public static void initialize()
+    public static void Initialize()
     {
         BitCount = Text.LoadFont("..\\..\\..\\Game\\Fonts\\Bitcount - Regular.ttf");
     }
 
     public static void Write(string text)
     {
-        Draw.FillColor = Color.Black;
-        Draw.Rectangle(190,690,720,220);
+        //Draw.FillColor = Color.Black;
+        //Draw.Rectangle(190,690,720,220);
+
+        Draw.LineColor = Color.Black;
         Draw.FillColor = Color.White;
         Draw.Rectangle(200, 700, 700, 200);
         Text.Draw(text, new Vector2(210,710), BitCount);
+        Draw.LineColor = Color.Clear;
     }
 }
 

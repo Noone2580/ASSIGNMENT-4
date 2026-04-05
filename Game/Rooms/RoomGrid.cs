@@ -24,6 +24,7 @@ public class RoomGrid
 	///		 <item>"|" ThreeWayBottom</item>
 	///		 <item>| HallwayVertical</item>
 	///		 <item>-- HallwayHorizontal</item>
+	///		 <item>-|- BossRoom</item>
 	///		</list>
     /// </summary>
 	/// <remarks><em><b>Returns</b></em> the index of the new Room</remarks>
@@ -112,7 +113,8 @@ public class RoomGrid
             new ThreeWayTop(),
             new ThreeWayBottom(),
             new HallwayVertical(),
-            new HallwayHorizontal()
+            new HallwayHorizontal(),
+            new BossRoom()
             ];
 
 
@@ -175,7 +177,7 @@ public class RoomGrid
 
         //Row 6 
         AddRoom(new Vector2(5, 6), 0, 0);
-        AddRoom(new Vector2(6, 6), 0, 3);
+        AddRoom(new Vector2(6, 6), 11, 3);
         AddRoom(new Vector2(7, 6), 0, 0);
 
         AddRoom(new Vector2(9, 6), 0, 0);

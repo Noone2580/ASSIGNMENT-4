@@ -6,7 +6,6 @@ public class Keycard : BaseKeys
     {
         base.CustomSetup();
 
-        InventoryTextureLocation = "../../../Assets/Textures/Keycard.png";
         RoomCode = 1;
     }
 }
