@@ -140,7 +140,7 @@ public class RoomGrid
         //Row 1
         AddRoom(new Vector2(2, 1), 0, 0);
         GetGame.AddItem(new Key(), new Vector2(2, 1), new Vector2(Window.Width / 2, Window.Height / 2));
-        GetGame.AddEnemy(new Zombie(), new Vector2(2, 1), new Vector2(Window.Width / 2, Window.Height / 2));
+        GetGame.AddEnemy(new Zombie(), new Vector2(2, 5), new Vector2(Window.Width / 2, Window.Height / 2));
 
         AddRoom(new Vector2(3, 1), 2, 0);
 
