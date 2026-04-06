@@ -106,52 +106,65 @@ public class BaseRoom
                         for (int j = 0; j < Players.Length; j++)
                         {
                             if (Vector2.Distance(Players[j].Position, Doors[i].Position) <= 100)
+                            {
+                                int RoomIndex = Grid.GetIndexAtGrid(Doors[i].ExitGridPosition);
+                                Vector4 RoomVec = Grid.GetRoomAtIndex(RoomIndex);
+
                                 if (Players[j].Items[Players[j].InventoryIndex] != null && Players[j].Items[Players[j].InventoryIndex].RoomCode == Doors[i].RoomCode)
                                 {
-                                    int RoomIndex = Grid.GetIndexAtGrid(Doors[i].ExitGridPosition);
-                                    Vector4 RoomVec = Grid.GetRoomAtIndex(RoomIndex);
-                                    
-                                    GetGame.StartDialogue("It unlocks", 1f);
-
-                                    Graphics.UnloadTexture(RoomTexture);
-                                    Graphics.UnloadTexture(RoomLightTexture);
-
                                     // Unlock Door
-                                    Grid.SetRoomAtIndex(RoomIndex, new Vector4(RoomVec.X, RoomVec.Y, RoomVec.Z, 0));
-
-                                    GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
+                                    if (RoomVec.Z == 11)
+                                    {
+                                        RoomVec.W--;
+                                        Grid.SetRoomAtIndex(RoomIndex, RoomVec);
+                                        RoomVec = Grid.GetRoomAtIndex(RoomIndex);
+                                        GetGame.StartDialogue($"You take one lock off. {RoomVec.W}", 1.5f);
+                                        Doors[i].RoomCode = (int)RoomVec.W;
+                                        Reset = false;
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        RoomVec.W = 0;
+                                        Grid.SetRoomAtIndex(RoomIndex, RoomVec);
+                                        GetGame.StartDialogue("It unlocks", 1f);
+                                        GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
+                                        Graphics.UnloadTexture(RoomTexture);
+                                        Graphics.UnloadTexture(RoomLightTexture);
+                                    }
                                     Reset = false;
                                     return true;
                                 }
 
                                 else
-                                {
-                                    GetGame.StartDialogue("It's locked", 1f);
-                                    return false;
-                                }
+                                    GetGame.StartDialogue($"It's locked. Key level {Doors[i].RoomCode} needed", 1f);
+                                return false;
+                            }
                         }
                     }
-                    else
-
-                        if (Vector2.Distance(Players[0].Position, Doors[i].Position) <= 80)
-                        {
-                            Graphics.UnloadTexture(RoomTexture);
-                            Graphics.UnloadTexture(RoomLightTexture);
-                            GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
-                            Reset = false;
-                            return true;
-                        }
                 }
-
-                else if (Vector2.Distance(Players[0].Position, Doors[i].Position) >= 80)
+                else
                 {
-                    GetGame.CanUseDoor = Reset;
+                    if (Vector2.Distance(Players[0].Position, Doors[i].Position) <= 80)
+                    {
+                        Graphics.UnloadTexture(RoomTexture);
+                        Graphics.UnloadTexture(RoomLightTexture);
+                        GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
+                        Reset = false;
+                        return true;
+                    }
                 }
             }
-        }
 
+            else if (Vector2.Distance(Players[0].Position, Doors[i].Position) >= 80)
+            {
+                GetGame.CanUseDoor = Reset;
+            }
+        }
         return false;
+
     }
+
 
     public bool CheckIfInDoor()
     {

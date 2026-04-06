@@ -130,8 +130,8 @@ public class RoomGrid
         //  2           |   -  -|       |   -
         //  3       |   |       2       x       x
         //  4       |-  -   -   -       2       x  Key2
-        //  5 Start x           1   x   x       x
-        //  6                   x  Boss x       x
+        //  5 Start x           1   -   x       x
+        //  6                   |  Boss |       x
         //  7           x   2   x   x   x   x   1
         //  8   x   3   x       x           3
         //  9           x                   x
@@ -152,6 +152,8 @@ public class RoomGrid
 
         //Row 3
         AddRoom(new Vector2(2, 3), 9, 0);
+            GetGame.AddItem(new Pistol(), new Vector2(2, 3), new Vector2(Window.Width / 2, Window.Height / 2));
+
         AddRoom(new Vector2(3, 3), 9, 0);
         AddRoom(new Vector2(5, 3), 9, 2);
         AddRoom(new Vector2(7, 3), 0, 0);
@@ -167,23 +169,24 @@ public class RoomGrid
 
         AddRoom(new Vector2(9, 4), 0, 0);
         AddRoom(new Vector2(10, 4), 0, 1);
-            GetGame.AddItem(new BlueKey(), new Vector2(2, 1), new Vector2(Window.Width / 2, Window.Height / 2));
+            GetGame.AddItem(new BlueKey(), new Vector2(10, 4), new Vector2(Window.Width / 2, Window.Height / 2));
 
 
         //Row 5
         AddRoom(new Vector2(1, 5), 0, 0);
         AddRoom(new Vector2(2, 5), 0, 0);
+            GetGame.AddItem(new Kinfe(), new Vector2(2, 5), new Vector2(Window.Width / 2, Window.Height / 2));
 
         AddRoom(new Vector2(5, 5), 0, 1);
-        AddRoom(new Vector2(6, 5), 0, 0);
+        AddRoom(new Vector2(6, 5), 10, 0);
         AddRoom(new Vector2(7, 5), 0, 0);
 
         AddRoom(new Vector2(9, 5), 0, 0);
 
         //Row 6 
-        AddRoom(new Vector2(5, 6), 0, 0);
-        AddRoom(new Vector2(6, 6), 11, 0);// Boss Room
-        AddRoom(new Vector2(7, 6), 0, 0);
+        AddRoom(new Vector2(5, 6), 9, 0);
+        AddRoom(new Vector2(6, 6), 11, 3);// Boss Room
+        AddRoom(new Vector2(7, 6), 9, 0);
 
         AddRoom(new Vector2(9, 6), 0, 0);
 

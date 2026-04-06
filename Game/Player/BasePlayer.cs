@@ -17,7 +17,7 @@ public class BasePlayer : BaseCharacter
     {
         base.CustomSetup();
         Items = new BaseItem[InventorySlotCount];
-        MovementSpeed = 50f;
+        MovementSpeed = 55f;
     }
 
     public virtual void Interact()

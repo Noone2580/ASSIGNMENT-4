@@ -6,7 +6,7 @@ using System.Numerics;
 /// </summary>
 public class BossRoom : BaseRoom
 {
-    Vector2[] CultistSpawn = [ new Vector2(150), new Vector2(Window.Width -150, Window.Height -150)]; 
+    Vector2[] CultistSpawn = [ new Vector2(150), new Vector2(Window.Width -150, 150)]; 
 
     public override void CustomSetup()
     {

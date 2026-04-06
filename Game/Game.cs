@@ -288,13 +288,22 @@ public class Game
 
         for (int i = 0; i < Enemies.Length; i++)
         {
-            if (self != null && Enemies[i] != null && self != Enemies[i])
+            if (self != null && Enemies[i] != null && self != Enemies[i] && Enemies[i].InRoom)
             {
                 if (Vector2.Distance(Enemies[i].Position, position) - Enemies[i].HitBoxSize <= radius)
                 {
                     Hit = true;
                     Enemies[i].TakeDamage(damage, force);
                 }
+            }
+        }
+
+        if (TheBoss != null && TheBoss.InRoom && TheBoss != self)
+        {
+            if (Vector2.Distance(TheBoss.Position, position) - TheBoss.HitBoxSize <= radius)
+            {
+                TheBoss.TakeDamage(damage, force);
+                Hit = true;
             }
         }
 
@@ -316,13 +325,12 @@ public class Game
 
         for (int i = 0; i < Enemies.Length; i++)
         {
-            if (Enemies[i] != null)
+            if (Enemies[i] != null && Enemies[i].InRoom)
             {
                 if (Vector2.Distance(Enemies[i].Position, position) - Enemies[i].HitBoxSize <= radius)
                 {
                     Enemies[i].TakeDamage(damage, force);
                     Hit = true;
-                    Console.WriteLine("gggggggg");
                 }
             }
         }
@@ -335,12 +343,19 @@ public class Game
                 {
                     Players[i].TakeDamage(damage, force);
                     Hit = true;
-                    Console.WriteLine("gggggggg");
                 }
             }
         }
-        return Hit;
+        if (TheBoss != null && TheBoss.InRoom)
+        {
+            if (Vector2.Distance(TheBoss.Position, position) - TheBoss.HitBoxSize <= radius)
+            {
+                TheBoss.TakeDamage(damage, force);
+                Hit = true;
+            }
+        }
 
+        return Hit;
     }
 
     public void StartDialogue(string Text, float Time)
