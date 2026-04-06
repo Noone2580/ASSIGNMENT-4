@@ -182,7 +182,7 @@ public class RoomGrid
 
         //Row 6 
         AddRoom(new Vector2(5, 6), 0, 0);
-        AddRoom(new Vector2(6, 6), 11, 3);
+        AddRoom(new Vector2(6, 6), 11, 0);// Boss Room
         AddRoom(new Vector2(7, 6), 0, 0);
 
         AddRoom(new Vector2(9, 6), 0, 0);

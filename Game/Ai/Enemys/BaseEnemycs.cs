@@ -18,13 +18,24 @@ public class BaseEnemy : BaseAI
     public override void Die()
     {
         int IN = 0;
-        for(int i =0; i < GetGame.GetAllAis().Length; i++) 
+        for (int i = 0; i < GetGame.GetAllAis().Length; i++)
         {
             if (GetGame.GetAllAis()[i] == this)
                 IN = i;
         }
 
         GetGame.RemoveEnemy(IN);
+    }
+
+    public void TryEnterRoom()
+    {
+        if (IsTimerDone(0))
+        {
+            Velocity = Vector2.Zero;
+            Position = EnterRoomDoor;
+            InRoom = true;
+            GridPosition = GetGame.Grid.CurrentRoomPosition;
+        }
     }
 
     public override void RenderNoUpdate()

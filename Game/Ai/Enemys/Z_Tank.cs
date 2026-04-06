@@ -23,18 +23,19 @@ public class Z_Tank : BaseEnemy
         if (InRoom)
         {
             Target = GetClosetPlayer();
-            BaseAI KeepAway = GetClosetAI();
-            Direction = Target.Position - Position;
+            BaseAI? KeepAway = GetClosetAI();
 
-            //Console.WriteLine($"{Target} {Time.SecondsElapsed} {Direction}");
+            if (GetClosetAI() != null)
+                KeepAway = GetClosetAI();
+
+            Direction = Target.Position - Position;
 
             base.Render();
             Move(Direction);
 
-            if (Vector2.Distance(KeepAway.Position, Position) <= HitBoxSize)
+            if (KeepAway != null && Vector2.Distance(KeepAway.Position, Position) <= HitBoxSize)
             {
                 Vector2 DirPos = (Position - KeepAway.Position) * (HitBoxSize);
-
                 Position += DirPos * Time.DeltaTime;
             }
 
@@ -42,7 +43,6 @@ public class Z_Tank : BaseEnemy
             {
                 Target.Velocity -= Target.Velocity * TargetSlowdown * Time.DeltaTime;
                 Velocity -= (Velocity * TargetSlowdown * 1.4f) * Time.DeltaTime;
-
                 if (IsTimerDone(4))
                 {
                     SetTimer(4, AttackCooldown);
@@ -54,13 +54,7 @@ public class Z_Tank : BaseEnemy
         }
         else
         {
-            if (IsTimerDone(0))
-            {
-                Velocity = Vector2.Zero;
-                Position = EnterRoomDoor;
-                InRoom = true;
-                GridPosition = GetGame.Grid.CurrentRoomPosition;
-            }
+            TryEnterRoom();
         }
     }
 }

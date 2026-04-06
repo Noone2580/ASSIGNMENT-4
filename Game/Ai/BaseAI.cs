@@ -33,7 +33,11 @@ public class BaseAI : BaseCharacter
         if (GridPosition != GetGame.Grid.CurrentRoomPosition)
         {
             InRoom = false;
-            SetTimer(0, 2);
+
+            float time = Vector2.Distance(Position, EnterRoomDoor) / MovementSpeed * .3f;
+            Console.WriteLine(time);
+
+            SetTimer(0, time);
         }
         else
         {

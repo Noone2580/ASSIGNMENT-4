@@ -44,20 +44,30 @@ public class Cultist : BaseEnemy
 
     public override void Render()
     {
-        base.Render();
-
-        if (HealTarget == null) { FindHealTarget(); return; }
-
-        ProtectTarget();
-        if (HealTarget != GetGame.TheBoss || GetGame.TheBoss == null)
+        if (InRoom)
         {
-            Direction = HealTarget.Position - Position;
+            base.Render();
 
-            if (Vector2.Distance(HealTarget.Position, Position) > 100f)
+            if (HealTarget == null) { FindHealTarget(); return; }
+
+            ProtectTarget();
+
+            if (HealTarget != GetGame.TheBoss || GetGame.TheBoss == null)
             {
-                Move(Direction);
+                Direction = HealTarget.Position - Position;
+
+                if (Vector2.Distance(HealTarget.Position, Position) > 100f)
+                {
+                    Move(Direction);
+                }
+                return;
+            }
+
+            if(HealTarget == GetGame.TheBoss) 
+            {
+                Direction = HealTarget.Position - Position;
             }
         }
-
+        else { TryEnterRoom(); }
     }
 }

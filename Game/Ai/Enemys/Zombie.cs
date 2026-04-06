@@ -20,13 +20,12 @@ public class Zombie : BaseEnemy
 
     public override void Render()
     {
-        Target = GetClosetPlayer();
-
-        if (InRoom && Target != null)
+        if (InRoom)
         {
+            Target = GetClosetPlayer();
             BaseAI? KeepAway = GetClosetAI();
 
-            if(GetClosetAI() != null)
+            if (GetClosetAI() != null)
                 KeepAway = GetClosetAI();
 
             Direction = Target.Position - Position;
@@ -53,15 +52,9 @@ public class Zombie : BaseEnemy
             else
                 SetTimer(4, AttackCooldown);
         }
-        else 
+        else
         {
-            if (IsTimerDone(0)) 
-            {
-                Velocity = Vector2.Zero;
-                Position = EnterRoomDoor;
-                InRoom = true;
-                GridPosition = GetGame.Grid.CurrentRoomPosition;
-            }
+            TryEnterRoom();
         }
     }
 }

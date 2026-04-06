@@ -65,19 +65,7 @@ public class Game
             Players[i].Position = Start;
         }
 
-
-
         // Debug Romove SOON!
-        AddItem(new Ammo_Pistol(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 3, 0));
-        AddItem(new Pistol(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 3, 0));
-        AddItem(new Guitar(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 4, 0));
-        AddItem(new Shotgun(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 5, 0));
-        AddItem(new AssulitRifle(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 5, 0));
-        AddEnemy(new Spiter(), Grid.CurrentRoomPosition, new Vector2(150));
-
-        AddEnemy(new Cultist(), Grid.CurrentRoomPosition,Start);
-        AddEnemy(new Cultist(), Grid.CurrentRoomPosition,Start);
-
     }
 
     public float[] GetRoomCal()
@@ -126,6 +114,15 @@ public class Game
         }
         else
             return false;
+    }
+
+    public void SpawnBoss()
+    {
+        TheBoss = new Boss();
+        TheBoss.GridPosition = Grid.CurrentRoomPosition;
+        TheBoss.InRoom = true;
+        TheBoss.Position = new Vector2(Window.Width / 2, 200);
+        TheBoss.Setup(this);
     }
 
     public int AddEnemy(BaseEnemy item, Vector2 gridPosition, Vector2 position)
@@ -456,6 +453,9 @@ public class Game
             if (Players[i] != null)
                 Players[i].Render();
         }
+
+        if (TheBoss != null)
+            TheBoss.Render();
 
         // Draws shaows
         Graphics.Rotation = 0;

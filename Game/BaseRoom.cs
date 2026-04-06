@@ -30,7 +30,7 @@ public class BaseRoom
     protected int LightIndex = 2;
 
 
-    Game? GetGame;
+    public Game? GetGame;
 
     public string RoomName { get; protected set; } = "";
     public int RoomCode { get; protected set; } = 0;

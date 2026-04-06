@@ -75,13 +75,7 @@ public class Spiter : BaseEnemy
         }
         else
         {
-            if (IsTimerDone(0))
-            {
-                Velocity = Vector2.Zero;
-                Position = EnterRoomDoor;
-                InRoom = true;
-                GridPosition = GetGame.Grid.CurrentRoomPosition;
-            }
+            TryEnterRoom();
         }
     }
 }
