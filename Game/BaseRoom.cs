@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using MohawkGame2D;
 
 /// <summary>
@@ -8,8 +7,6 @@ using MohawkGame2D;
 public class BaseRoom
 {
     public BaseDoor[] Doors = new BaseDoor[4];
-
-    //public BaseRoom[] ConectedRooms = new BaseRoom[4];
 
     public float LeftWallCal;
     public float RightWallCal;
@@ -28,7 +25,6 @@ public class BaseRoom
         "../../../Assets/Textures/T_Floor_Lighting_6.png"
         ];
     protected int LightIndex = 2;
-
 
     public Game? GetGame;
 
@@ -60,6 +56,27 @@ public class BaseRoom
 
         RoomTexture = Graphics.LoadTexture(RoomTextureLocation);
         RoomLightTexture = Graphics.LoadTexture(RoomLightTextureLocation[LightIndex]);
+
+        if (GridPosition != GetGame.StartGrid)
+            for (int i = 0; i < Random.Integer(0, 10); i++)
+            {
+                int EE = Random.Integer(0, 4);
+                switch (EE)
+                {
+                    case 0:
+                        GetGame.AddEnemy(new Zombie(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+                        break;
+                    case 1:
+                        GetGame.AddEnemy(new Z_Tank(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+                        break;
+                    case 2:
+                        GetGame.AddEnemy(new Spiter(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+                        break;
+                    case 3:
+                        GetGame.AddEnemy(new Cultist(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+                        break;
+                }
+            }
     }
 
     /// <summary>
@@ -72,7 +89,7 @@ public class BaseRoom
 
     public void AddDoor(int index, Vector2 position, Vector2 endPosition, Vector2 connectedRoom)
     {
-        Console.WriteLine(GridPosition + connectedRoom);
+        //Console.WriteLine(GridPosition + connectedRoom);
         if (Grid.GetRoomAtGrid(GridPosition + connectedRoom) == Vector4.Zero)
             return;
         Doors[index] = new BaseDoor();
@@ -125,12 +142,12 @@ public class BaseRoom
                                     }
                                     else
                                     {
+                                        Graphics.UnloadTexture(RoomTexture);
+                                        Graphics.UnloadTexture(RoomLightTexture);
                                         RoomVec.W = 0;
                                         Grid.SetRoomAtIndex(RoomIndex, RoomVec);
                                         GetGame.StartDialogue("It unlocks", 1f);
                                         GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
-                                        Graphics.UnloadTexture(RoomTexture);
-                                        Graphics.UnloadTexture(RoomLightTexture);
                                     }
                                     Reset = false;
                                     return true;
@@ -150,7 +167,7 @@ public class BaseRoom
                         Reset = false;
                         return true;
                     }
-                    
+
                 }
                 else if (Vector2.Distance(Players[0].Position, Doors[i].Position) >= 80)
                 {

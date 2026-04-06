@@ -24,12 +24,29 @@ public class BaseEnemy : BaseAI
                 IN = i;
         }
 
+        if (MohawkGame2D.Random.Bool()) 
+        {
+            int ammo = MohawkGame2D.Random.Integer(0,2);
+            switch (ammo) 
+            {
+                case 0:
+                    GetGame.AddItem(new Ammo_Pistol(), GridPosition, Position);
+                    break;
+                case 1:
+                    GetGame.AddItem(new Ammo_Shotgun(), GridPosition, Position);
+                    break;
+                case 2:
+                    GetGame.AddItem(new Ammo_AssulitRifle(), GridPosition, Position);
+                    break;
+            }
+        }
+
         GetGame.RemoveEnemy(IN);
     }
 
     public void TryEnterRoom()
     {
-        if (IsTimerDone(0))
+        if (IsTimerDone(0) && IsReady)
         {
             Velocity = Vector2.Zero;
             Position = EnterRoomDoor;

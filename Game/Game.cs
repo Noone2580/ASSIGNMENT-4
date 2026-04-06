@@ -15,6 +15,7 @@ public class Game
 {
     // Spawn position:
     Vector2 Start = new Vector2(Window.Width / 2, Window.Height / 2);
+    public Vector2 StartGrid = new Vector2(1, 5);
 
     // Game Vars
     BasePlayer[] Players = new BasePlayer[1];
@@ -53,7 +54,7 @@ public class Game
         Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
         // Where the player starts
-        Grid.CurrentRoomPosition = new Vector2(1, 5);
+        Grid.CurrentRoomPosition = StartGrid;
 
         CurrentRoom = Grid.GetRoomClassAtGrid(Grid.CurrentRoomPosition);
         CurrentRoom.Setup(this, Grid.CurrentRoomPosition, 0);
@@ -132,11 +133,13 @@ public class Game
             if (Enemies[i] == null)
             {
                 Enemies[i] = item;
-                Enemies[i].Setup(this);
                 Enemies[i].GridPosition = gridPosition;
                 Enemies[i].Position = position;
                 if (Grid.CurrentRoomPosition == gridPosition)
+                {
+                    Enemies[i].Setup(this);
                     Enemies[i].InRoom = true;
+                }
                 return i;
             }
         }
@@ -248,7 +251,11 @@ public class Game
                 for (int i = 0; i < Enemies.Length; i++)
                 {
                     if (Enemies[i] != null)
+                    {
+                        if (!Enemies[i].IsReady && Enemies[i].GridPosition == Grid.CurrentRoomPosition)
+                            Enemies[i].Setup(this);
                         Enemies[i].NewRoom(EnterDoorPosition, ExitDoorPostion);
+                    }
                 }
                 for (int i = 0; i < Items.Length; i++)
                 {

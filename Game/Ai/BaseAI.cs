@@ -5,6 +5,7 @@ using System.Numerics;
 
 public class BaseAI : BaseCharacter
 {
+    public bool IsReady = false;
     public BaseCharacter? Target;
     public Vector2 GridPosition = Vector2.Zero;
     public bool InRoom { get; set; } = true;
@@ -20,11 +21,12 @@ public class BaseAI : BaseCharacter
         { return; }
 
         GridPosition = GetGame.Grid.CurrentRoomPosition;
+        IsReady = true;
     }
 
     public virtual void NewRoom(Vector2 EnterDoorPos, Vector2 ExitDoorPos)
     {
-        if (GetGame == null)
+        if (GetGame == null || !IsReady)
         { return; }
 
         EnterRoomDoor = EnterDoorPos;
@@ -35,8 +37,6 @@ public class BaseAI : BaseCharacter
             InRoom = false;
 
             float time = Vector2.Distance(Position, EnterRoomDoor) / MovementSpeed * .3f;
-            Console.WriteLine(time);
-
             SetTimer(0, time);
         }
         else

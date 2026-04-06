@@ -17,6 +17,7 @@ public class BaseAmmo : BaseItem
 
     public int TakeAmmo(int ammo)
     {
+        ammo = int.Clamp(Ammo, 0, ammo);
         Ammo = int.Clamp(Ammo - ammo, 0, MaxAmmo);
         if (Ammo <= 0)
         {
@@ -28,7 +29,7 @@ public class BaseAmmo : BaseItem
                 }
             }
         }
-        return Ammo;
+        return ammo;
     }
 
     public override void RenderInv(Vector2 position)

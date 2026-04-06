@@ -36,7 +36,7 @@ public class BaseWeapon : BaseItem
     {
         base.UseItemSpacl(position, direction);
 
-        if(OwnerAsPlayer == null) return;
+        if(OwnerAsPlayer == null || Ammo >= MaxAmmo) return;
 
         for (int i = 0; i < OwnerAsPlayer.Items.Length; i++)
         {
@@ -44,10 +44,11 @@ public class BaseWeapon : BaseItem
             if (OwnerAsPlayer.Items[i] is BaseAmmo)
             {
                 BaseAmmo ammo = (BaseAmmo)OwnerAsPlayer.Items[i];
-                if (ammo == null) return;
+
                 if (ammo.AmmoType == AmmoType)
                 {
-                    Ammo = ammo.TakeAmmo(MaxAmmo - Ammo);
+                    Ammo += ammo.TakeAmmo(MaxAmmo - Ammo);
+                    return;
                 }
             }
         }

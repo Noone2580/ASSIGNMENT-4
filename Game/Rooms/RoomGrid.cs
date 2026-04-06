@@ -127,7 +127,7 @@ public class RoomGrid
         // Numbers represent the required level of Keycard to proceed. 
         //  0   1   2   3   4   5   6   7   8   9   10
         //  1      Key1 x
-        //  2           |   -  -|       |   -
+        //  2           |   Gt -|       |   SG
         //  3       |   |       2       x       x
         //  4       |-  -   -   -       2       x  Key2
         //  5 Start x           1   -   x       x
@@ -135,7 +135,7 @@ public class RoomGrid
         //  7           x   2   x   x   x   x   1
         //  8   x   3   x       x           3
         //  9           x                   x
-        //  10         Key3                 x
+        //  10         Key3                 AS
 
         //Row 1
         AddRoom(new Vector2(2, 1), 0, 0);
@@ -144,11 +144,14 @@ public class RoomGrid
 
         //Row 2
         AddRoom(new Vector2(3, 2), 9, 0);
-        AddRoom(new Vector2(4, 2), 3, 0);
+        AddRoom(new Vector2(4, 2), 0, 0);
+        GetGame.AddItem(new Guitar(), new Vector2(4, 2), new Vector2(Window.Width / 2, Window.Height / 2));
+
         AddRoom(new Vector2(5, 2), 2, 0);
 
         AddRoom(new Vector2(7, 2), 1, 0);
         AddRoom(new Vector2(8, 2), 0, 0);
+            GetGame.AddItem(new Shotgun(), new Vector2(8, 2), new Vector2(Window.Width / 2, Window.Height / 2));
 
         //Row 3
         AddRoom(new Vector2(2, 3), 9, 0);
@@ -218,6 +221,7 @@ public class RoomGrid
             GetGame.AddItem(new RedKey(), new Vector2(3, 10), new Vector2(Window.Width / 2, Window.Height / 2));
 
         AddRoom(new Vector2(8, 10), 0, 0);
+            GetGame.AddItem(new AssulitRifle(), new Vector2(8, 10), new Vector2(Window.Width / 2, Window.Height / 2));
 
 
     }
