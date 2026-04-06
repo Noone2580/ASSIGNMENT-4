@@ -10,7 +10,7 @@ public class Cultist : BaseEnemy
     public override void CustomSetup()
     {
         base.CustomSetup();
-        MovementSpeed = 20;
+        MovementSpeed = 15f;
         MaxHP = 50f;
         HP = MaxHP;
         BodyTextureLocation = "../../../Assets/Textures/Culist.png";
@@ -20,15 +20,15 @@ public class Cultist : BaseEnemy
     {
         if (GetGame == null) return;
 
-        if (GetGame.TheBoss != null)
+        if (GetGame.TheBoss != null && GetGame.TheBoss.InRoom)
         {
             HealTarget = GetGame.TheBoss;
             return;
         }
 
-        BaseCharacter character = GetGame.GetAllAis()[Random.Integer(0, GetGame.GetAllAis().Length - 1)];
+        BaseAI character = GetGame.GetAllAis()[Random.Integer(0, GetGame.GetAllAis().Length - 1)];
 
-        if (character != null && character != this)
+        if (character != null && character != this && character.InRoom)
         {
             HealTarget = character;
         }
@@ -52,7 +52,11 @@ public class Cultist : BaseEnemy
         if (HealTarget != GetGame.TheBoss || GetGame.TheBoss == null)
         {
             Direction = HealTarget.Position - Position;
-            Move(Direction);
+
+            if (Vector2.Distance(HealTarget.Position, Position) > 100f)
+            {
+                Move(Direction);
+            }
         }
 
     }

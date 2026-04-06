@@ -8,7 +8,7 @@ public class Zombie : BaseEnemy
     public override void CustomSetup()
     {
         base.CustomSetup();
-        MovementSpeed = MohawkGame2D.Random.Float(30f, 80f);
+        MovementSpeed = MohawkGame2D.Random.Float(30f, 60f);
         MaxHP = 25f;
         HP = MaxHP;
         AttackDamage = 1f;

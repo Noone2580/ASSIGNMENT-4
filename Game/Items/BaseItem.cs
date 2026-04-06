@@ -8,6 +8,7 @@ public class BaseItem
     // Game Vars
     public Game? GetGame;
     public float[] Timers { get; protected set; } = new float[200];
+    public BasePlayer? OwnerAsPlayer;
     public BaseCharacter? Owner;
 
     // Item Vars
@@ -34,11 +35,12 @@ public class BaseItem
     
 
 
-    public void Setup(Game game, Vector2 GridSpawn, Vector2 position) 
+    public void Setup(Game game, Vector2 GridSpawn, Vector2 position, int index) 
     {
         GetGame = game;
         GridPosition = GridSpawn;
         Position = position;
+        ID = index;
         CustomSetup();
         InventoryTexture = Graphics.LoadTexture(InventoryTextureLocation);
         //HoldingTexture = Graphics.LoadTexture(HoldingTextureLocation);

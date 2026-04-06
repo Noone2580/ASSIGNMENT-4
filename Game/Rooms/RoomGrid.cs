@@ -4,6 +4,7 @@ using MohawkGame2D;
 
 public class RoomGrid
 {
+    Game? GetGame;
     public int GridSize = 50;
     public Vector4[] Rooms = new Vector4[0];
     public Vector2 CurrentRoomPosition = Vector2.Zero;
@@ -98,8 +99,9 @@ public class RoomGrid
         return Rooms[index];
     }
 
-    public void Setup()
+    public void Setup(Game game)
     {
+        GetGame = game;
         Rooms = new Vector4[GridSize];
         RoomTypes =
             [
@@ -137,6 +139,7 @@ public class RoomGrid
 
         //Row 1
         AddRoom(new Vector2(2, 1), 0, 0);
+            GetGame.AddItem(new Key(), new Vector2(2, 1), new Vector2(Window.Width/2 , Window.Height/2));
         AddRoom(new Vector2(3, 1), 2, 0);
 
         //Row 2
@@ -164,6 +167,8 @@ public class RoomGrid
 
         AddRoom(new Vector2(9, 4), 0, 0);
         AddRoom(new Vector2(10, 4), 0, 1);
+            GetGame.AddItem(new BlueKey(), new Vector2(2, 1), new Vector2(Window.Width / 2, Window.Height / 2));
+
 
         //Row 5
         AddRoom(new Vector2(1, 5), 0, 0);
@@ -207,6 +212,7 @@ public class RoomGrid
 
         //Row 10
         AddRoom(new Vector2(3, 10), 0, 0);
+            GetGame.AddItem(new RedKey(), new Vector2(3, 10), new Vector2(Window.Width / 2, Window.Height / 2));
 
         AddRoom(new Vector2(8, 10), 0, 0);
 

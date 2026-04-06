@@ -17,6 +17,7 @@ public class BasePlayer : BaseCharacter
     {
         base.CustomSetup();
         Items = new BaseItem[InventorySlotCount];
+        MovementSpeed = 50f;
     }
 
     public virtual void Interact()
@@ -33,6 +34,7 @@ public class BasePlayer : BaseCharacter
 
             Items[InventoryIndex] = PickItem;
             Items[InventoryIndex].Owner = this;
+            Items[InventoryIndex].OwnerAsPlayer = this;
             Items[InventoryIndex].Position = Vector2.Zero;
             return;
         }

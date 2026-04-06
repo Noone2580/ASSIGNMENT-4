@@ -3,15 +3,15 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using MohawkGame2D;
 
-public class Kinfe : BaseWeapon
+public class Guitar : BaseWeapon
 {
     public override void CustomSetup()
     {
         base.CustomSetup();
-        FireRate = .3f;
-        InventorySpriteLocation = new Vector2(0, 0);
-        Damage = 10;
-        Range = 80;
+        FireRate = .7f;
+        InventorySpriteLocation = new Vector2(72*2, 0);
+        Damage = 35;
+        Range = 150;
     }
 
     public override void UseItem(Vector2 position, Vector2 direction)

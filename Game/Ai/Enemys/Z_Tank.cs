@@ -9,13 +9,13 @@ public class Z_Tank : BaseEnemy
     {
         base.CustomSetup();
         MovementSpeed = MohawkGame2D.Random.Float(20f, 40f);
-        MaxHP = 20f;
+        MaxHP = 40f;
         HP = MaxHP;
         AttackDamage = 5f;
         AttackRange = 45f;
         AttackCooldown = 2f;
         TargetSlowdown = 8f;
-        Position = MohawkGame2D.Random.Vector2(new Vector2(0), new Vector2(400));
+        BodyTextureLocation = "../../../Assets/Textures/Tank.png";
     }
 
     public override void Render()

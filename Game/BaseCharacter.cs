@@ -16,7 +16,7 @@ public class BaseCharacter
     // User Vars
     public float MaxHP = 100f;
     public float HP { get; protected set; } = 100f;
-    public float MovementSpeed = 120f;
+    public float MovementSpeed = 60f;
     public Vector2 Position = Vector2.Zero;
     public Vector2 Velocity = Vector2.Zero;
     public float Rotation { get; protected set; } = 0f;
@@ -118,8 +118,8 @@ public class BaseCharacter
     /// </summary>
     public virtual void Move(Vector2 Mag)
     {
-        if (Mag == Vector2.Zero) return;
         Mag = Vector2.Normalize(Mag);
+        if (Mag == Vector2.Zero) return;
 
         Velocity += (Mag * MovementSpeed) / 2;
     }
@@ -196,13 +196,13 @@ public class BaseCharacter
     public virtual void RenderNoUpdate() 
     {
         // Sprite
-        // Body
-        Graphics.Rotation = VelRotation;
-        Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
+        //// Legs
+        //Graphics.Rotation = VelRotation;
+        //Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
 
-        ////Legs
-        //Graphics.Rotation = Rotation;
-        //Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
+        // Body
+        Graphics.Rotation = Rotation;
+        Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
     }
 
     /// <summary>
@@ -221,13 +221,11 @@ public class BaseCharacter
         UpdateRotation();
 
         // Sprite
-        // Body
-        Graphics.Rotation = VelRotation;
-        Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
+        //Graphics.Rotation = VelRotation;
+        //Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
 
-        ////Legs
-        //Graphics.Rotation = Rotation;
-        //Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
+        Graphics.Rotation = Rotation;
+        Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
 
     }
 }

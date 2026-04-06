@@ -16,6 +16,7 @@ public class AssulitRifle : BaseWeapon
         Damage = 1;
         MaxAmmo = 25;
         Ammo = MaxAmmo;
+        AmmoType = 2;
     }
 
     public override void UseItemFrame(Vector2 position, Vector2 direction)

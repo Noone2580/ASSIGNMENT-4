@@ -48,7 +48,7 @@ public class Game
         // Remove outlines
         Draw.LineColor = Color.Clear;
 
-        Grid.Setup();
+        Grid.Setup(this);
 
         Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
@@ -68,14 +68,12 @@ public class Game
 
 
         // Debug Romove SOON!
-        AddItem(new Key(), Grid.CurrentRoomPosition, Start);
-        AddItem(new BlueKey(), Grid.CurrentRoomPosition, Start + new Vector2(72, 0));
-        AddItem(new RedKey(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 2, 0));
+        AddItem(new Ammo_Pistol(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 3, 0));
         AddItem(new Pistol(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 3, 0));
-        AddItem(new Kinfe(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 4, 0));
+        AddItem(new Guitar(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 4, 0));
         AddItem(new Shotgun(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 5, 0));
         AddItem(new AssulitRifle(), Grid.CurrentRoomPosition, Start + new Vector2(72 * 5, 0));
-        AddEnemy(new Zombie(), Grid.CurrentRoomPosition, Start);
+        AddEnemy(new Spiter(), Grid.CurrentRoomPosition, new Vector2(150));
 
         AddEnemy(new Cultist(), Grid.CurrentRoomPosition,Start);
         AddEnemy(new Cultist(), Grid.CurrentRoomPosition,Start);
@@ -160,7 +158,7 @@ public class Game
             if (Items[i] == null)
             {
                 Items[i] = item;
-                Items[i].Setup(this, gridPosition, position);
+                Items[i].Setup(this, gridPosition, position, i);
                 Items[i].NewRoom();
                 return i;
             }

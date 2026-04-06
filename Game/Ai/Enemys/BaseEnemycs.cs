@@ -13,8 +13,6 @@ public class BaseEnemy : BaseAI
     public override void CustomSetup()
     {
         base.CustomSetup();
-
-        MovementSpeed = 100f;
     }
 
     public override void Die()
