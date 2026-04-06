@@ -20,7 +20,6 @@ public class BaseAI : BaseCharacter
         if (GetGame == null)
         { return; }
 
-        GridPosition = GetGame.Grid.CurrentRoomPosition;
         IsReady = true;
     }
 

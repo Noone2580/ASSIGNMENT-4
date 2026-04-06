@@ -20,6 +20,7 @@ public class Zombie : BaseEnemy
 
     public override void Render()
     {
+        Console.WriteLine(Position);
         if (InRoom)
         {
             Target = GetClosetPlayer();
@@ -28,10 +29,11 @@ public class Zombie : BaseEnemy
             if (GetClosetAI() != null)
                 KeepAway = GetClosetAI();
             if (Target != null)
+            {
                 Direction = Target.Position - Position;
-
+                Move(Direction);
+            }
             base.Render();
-            Move(Direction);
 
             if (KeepAway != null && Vector2.Distance(KeepAway.Position, Position) <= HitBoxSize)
             {

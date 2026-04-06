@@ -28,10 +28,12 @@ public class Z_Tank : BaseEnemy
             if (GetClosetAI() != null)
                 KeepAway = GetClosetAI();
             if (Target != null)
+            {
                 Direction = Target.Position - Position;
+                Move(Direction);
+            }
 
             base.Render();
-            Move(Direction);
 
             if (KeepAway != null && Vector2.Distance(KeepAway.Position, Position) <= HitBoxSize)
             {

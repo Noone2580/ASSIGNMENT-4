@@ -119,7 +119,7 @@ public class BaseCharacter
     public virtual void Move(Vector2 Mag)
     {
         Mag = Vector2.Normalize(Mag);
-        if (Mag == Vector2.Zero) return;
+        if (Mag == Vector2.Zero || Mag == Vector2.NaN) return;
 
         Velocity += (Mag * MovementSpeed) / 2;
     }

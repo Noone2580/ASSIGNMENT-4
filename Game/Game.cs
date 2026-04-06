@@ -253,7 +253,11 @@ public class Game
                     if (Enemies[i] != null)
                     {
                         if (!Enemies[i].IsReady && Enemies[i].GridPosition == Grid.CurrentRoomPosition)
+                        {
+                            Console.WriteLine("Hello");
                             Enemies[i].Setup(this);
+                            Enemies[i].InRoom = true;
+                        }
                         Enemies[i].NewRoom(EnterDoorPosition, ExitDoorPostion);
                     }
                 }
