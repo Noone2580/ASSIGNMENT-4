@@ -154,7 +154,8 @@ public class BaseRoom
                                 }
 
                                 else
-                                    GetGame.StartDialogue($"It's locked. Key level {Doors[i].RoomCode} needed", 1f);
+                                    // Altered the text slightly to be in line with other Dialogue
+                                    GetGame.StartDialogue($"System:\n\nIt's locked. Key level {Doors[i].RoomCode} needed", 1f);
                                 return false;
                             }
                         }
