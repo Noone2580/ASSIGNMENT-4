@@ -16,7 +16,7 @@ public class BaseCharacter
     // User Vars
     public float MaxHP = 100f;
     public float HP { get; protected set; } = 100f;
-    public float MovementSpeed = 120f;
+    public float MovementSpeed = 60f;
     public Vector2 Position = Vector2.Zero;
     public Vector2 Velocity = Vector2.Zero;
     public float Rotation { get; protected set; } = 0f;
@@ -24,6 +24,7 @@ public class BaseCharacter
     public Vector2 Direction = Vector2.Zero;
     public float HitBoxSize { get; protected set; } = 15f;
     public float Grip = 5f;
+    public float DamageResistance = 1f;
 
     // Body Sprites and Offsets
     public Texture2D BodyTexture  ;
@@ -43,10 +44,10 @@ public class BaseCharacter
     public void Setup(Game game)
     {
         GetGame = game;
+        CustomSetup();
+        HP = MaxHP;
         BodyTexture = Graphics.LoadTexture(BodyTextureLocation);
         LegsTexture = Graphics.LoadTexture(LegsTextureLocation);
-        HP = MaxHP;
-        CustomSetup();
 
     }
 
@@ -63,6 +64,7 @@ public class BaseCharacter
     /// </summary>
     public virtual void TakeDamage(float Damage, Vector2 HitForce)
     {
+        Damage *= DamageResistance;
         HP -= Damage;
         Velocity += HitForce;
         if (HP <= 0)
@@ -117,9 +119,9 @@ public class BaseCharacter
     public virtual void Move(Vector2 Mag)
     {
         Mag = Vector2.Normalize(Mag);
+        if (Mag == Vector2.Zero) return;
 
         Velocity += (Mag * MovementSpeed) / 2;
-
     }
 
     /// <summary>
@@ -191,14 +193,14 @@ public class BaseCharacter
     }
 
 
-    public virtual void RenderNoUpate() 
+    public virtual void RenderNoUpdate() 
     {
         // Sprite
-        // Body
-        Graphics.Rotation = VelRotation;
-        Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
+        //// Legs
+        //Graphics.Rotation = VelRotation;
+        //Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
 
-        //Legs
+        // Body
         Graphics.Rotation = Rotation;
         Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
     }
@@ -219,11 +221,9 @@ public class BaseCharacter
         UpdateRotation();
 
         // Sprite
-        // Body
-        Graphics.Rotation = VelRotation;
-        Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
+        //Graphics.Rotation = VelRotation;
+        //Graphics.Draw(LegsTexture, NewLegsSpriteOffset + Position);
 
-        //Legs
         Graphics.Rotation = Rotation;
         Graphics.Draw(BodyTexture, NewBodySpriteOffset + Position);
 

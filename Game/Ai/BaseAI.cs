@@ -5,9 +5,10 @@ using System.Numerics;
 
 public class BaseAI : BaseCharacter
 {
+    public bool IsReady = false;
     public BaseCharacter? Target;
     public Vector2 GridPosition = Vector2.Zero;
-    public bool InRoom { get; protected set; } = true;
+    public bool InRoom { get; set; } = true;
 
     protected Vector2 EnterRoomDoor = Vector2.Zero;
     protected Vector2 ExitRoomDoor = Vector2.Zero;
@@ -20,11 +21,12 @@ public class BaseAI : BaseCharacter
         { return; }
 
         GridPosition = GetGame.Grid.CurrentRoomPosition;
+        IsReady = true;
     }
 
     public virtual void NewRoom(Vector2 EnterDoorPos, Vector2 ExitDoorPos)
     {
-        if (GetGame == null)
+        if (GetGame == null || !IsReady)
         { return; }
 
         EnterRoomDoor = EnterDoorPos;
@@ -33,7 +35,9 @@ public class BaseAI : BaseCharacter
         if (GridPosition != GetGame.Grid.CurrentRoomPosition)
         {
             InRoom = false;
-            SetTimer(0, 2);
+
+            float time = Vector2.Distance(Position, EnterRoomDoor) / MovementSpeed * .3f;
+            SetTimer(0, time);
         }
         else
         {
@@ -82,5 +86,9 @@ public class BaseAI : BaseCharacter
         }
 
         return GetGame.GetAllAis()[Index];
+    }
+
+    public override void Die() 
+    {
     }
 }

@@ -9,13 +9,13 @@ public class Z_Tank : BaseEnemy
     {
         base.CustomSetup();
         MovementSpeed = MohawkGame2D.Random.Float(20f, 40f);
-        MaxHP = 20f;
+        MaxHP = 40f;
         HP = MaxHP;
         AttackDamage = 5f;
         AttackRange = 45f;
         AttackCooldown = 2f;
         TargetSlowdown = 8f;
-        Position = MohawkGame2D.Random.Vector2(new Vector2(0), new Vector2(400));
+        BodyTextureLocation = "../../../Assets/Textures/Tank.png";
     }
 
     public override void Render()
@@ -23,18 +23,19 @@ public class Z_Tank : BaseEnemy
         if (InRoom)
         {
             Target = GetClosetPlayer();
-            BaseAI KeepAway = GetClosetAI();
-            Direction = Target.Position - Position;
+            BaseAI? KeepAway = GetClosetAI();
 
-            //Console.WriteLine($"{Target} {Time.SecondsElapsed} {Direction}");
+            if (GetClosetAI() != null)
+                KeepAway = GetClosetAI();
+
+            Direction = Target.Position - Position;
 
             base.Render();
             Move(Direction);
 
-            if (Vector2.Distance(KeepAway.Position, Position) <= HitBoxSize)
+            if (KeepAway != null && Vector2.Distance(KeepAway.Position, Position) <= HitBoxSize)
             {
                 Vector2 DirPos = (Position - KeepAway.Position) * (HitBoxSize);
-
                 Position += DirPos * Time.DeltaTime;
             }
 
@@ -42,7 +43,6 @@ public class Z_Tank : BaseEnemy
             {
                 Target.Velocity -= Target.Velocity * TargetSlowdown * Time.DeltaTime;
                 Velocity -= (Velocity * TargetSlowdown * 1.4f) * Time.DeltaTime;
-
                 if (IsTimerDone(4))
                 {
                     SetTimer(4, AttackCooldown);
@@ -54,13 +54,7 @@ public class Z_Tank : BaseEnemy
         }
         else
         {
-            if (IsTimerDone(0))
-            {
-                Velocity = Vector2.Zero;
-                Position = EnterRoomDoor;
-                InRoom = true;
-                GridPosition = GetGame.Grid.CurrentRoomPosition;
-            }
+            TryEnterRoom();
         }
     }
 }

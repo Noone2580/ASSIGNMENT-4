@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using MohawkGame2D;
 
 /// <summary>
@@ -8,8 +7,6 @@ using MohawkGame2D;
 public class BaseRoom
 {
     public BaseDoor[] Doors = new BaseDoor[4];
-
-    //public BaseRoom[] ConectedRooms = new BaseRoom[4];
 
     public float LeftWallCal;
     public float RightWallCal;
@@ -29,8 +26,7 @@ public class BaseRoom
         ];
     protected int LightIndex = 2;
 
-
-    Game? GetGame;
+    public Game? GetGame;
 
     public string RoomName { get; protected set; } = "";
     public int RoomCode { get; protected set; } = 0;
@@ -60,6 +56,27 @@ public class BaseRoom
 
         RoomTexture = Graphics.LoadTexture(RoomTextureLocation);
         RoomLightTexture = Graphics.LoadTexture(RoomLightTextureLocation[LightIndex]);
+
+        if (GridPosition != GetGame.StartGrid)
+            for (int i = 0; i < Random.Integer(0, 10); i++)
+            {
+                int EE = Random.Integer(0, 4);
+                switch (EE)
+                {
+                    case 0:
+                        GetGame.AddEnemy(new Zombie(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+                        break;
+                    case 1:
+                        GetGame.AddEnemy(new Z_Tank(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+                        break;
+                    case 2:
+                        GetGame.AddEnemy(new Spiter(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+                        break;
+                    case 3:
+                        GetGame.AddEnemy(new Cultist(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+                        break;
+                }
+            }
     }
 
     /// <summary>
@@ -72,7 +89,7 @@ public class BaseRoom
 
     public void AddDoor(int index, Vector2 position, Vector2 endPosition, Vector2 connectedRoom)
     {
-        Console.WriteLine(GridPosition + connectedRoom);
+        //Console.WriteLine(GridPosition + connectedRoom);
         if (Grid.GetRoomAtGrid(GridPosition + connectedRoom) == Vector4.Zero)
             return;
         Doors[index] = new BaseDoor();
@@ -84,10 +101,10 @@ public class BaseRoom
         Doors[index].Setup();
     }
 
-    public void CheckIfPlayerInDoor()
+    public bool CheckIfPlayerInDoor()
     {
         if (GetGame == null)
-            return;
+            return false;
 
         BasePlayer[] Players = GetGame.GetAllPlayers();
         bool Reset = true;
@@ -105,38 +122,82 @@ public class BaseRoom
                         // Goes through all Players and checks if they are in the Door way and have the right Key
                         for (int j = 0; j < Players.Length; j++)
                         {
-                            if (Vector2.Distance(Players[j].Position, Doors[i].Position) <= 100 &&
-                                Players[j].Items[Players[j].InventoryIndex] != null &&
-                                Players[j].Items[Players[j].InventoryIndex].RoomCode == Doors[i].RoomCode)
+                            if (Vector2.Distance(Players[j].Position, Doors[i].Position) <= 100)
                             {
-
-
                                 int RoomIndex = Grid.GetIndexAtGrid(Doors[i].ExitGridPosition);
                                 Vector4 RoomVec = Grid.GetRoomAtIndex(RoomIndex);
 
-                                Graphics.UnloadTexture(RoomTexture);
-                                Graphics.UnloadTexture(RoomLightTexture);
+                                if (Players[j].Items[Players[j].InventoryIndex] != null && Players[j].Items[Players[j].InventoryIndex].RoomCode == Doors[i].RoomCode)
+                                {
+                                    // Unlock Door
+                                    if (RoomVec.Z == 11)
+                                    {
+                                        RoomVec.W--;
+                                        Grid.SetRoomAtIndex(RoomIndex, RoomVec);
+                                        RoomVec = Grid.GetRoomAtIndex(RoomIndex);
+                                        GetGame.StartDialogue($"You take one lock off. {RoomVec.W}", 1.5f);
+                                        Doors[i].RoomCode = (int)RoomVec.W;
+                                        Reset = false;
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        Graphics.UnloadTexture(RoomTexture);
+                                        Graphics.UnloadTexture(RoomLightTexture);
+                                        RoomVec.W = 0;
+                                        Grid.SetRoomAtIndex(RoomIndex, RoomVec);
+                                        GetGame.StartDialogue("It unlocks", 1f);
+                                        GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
+                                    }
+                                    Reset = false;
+                                    return true;
+                                }
 
-                                // Unlock Door
-                                Grid.SetRoomAtIndex(RoomIndex, new Vector4(RoomVec.X, RoomVec.Y, RoomVec.Z, 0));
-
-                                GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
-                                Reset = false;
-                                return;
+                                else
+                                    GetGame.StartDialogue($"It's locked. Key level {Doors[i].RoomCode} needed", 1f);
+                                return false;
                             }
                         }
                     }
-                    else
+                    else if (Vector2.Distance(Players[0].Position, Doors[i].Position) <= 80)
+                    {
+                        Graphics.UnloadTexture(RoomTexture);
+                        Graphics.UnloadTexture(RoomLightTexture);
+                        GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
+                        Reset = false;
+                        return true;
+                    }
+
+                }
+                else if (Vector2.Distance(Players[0].Position, Doors[i].Position) >= 80)
+                {
+                    GetGame.CanUseDoor = Reset;
+                }
+            }
+        }
+        return false;
+    }
 
 
-                        if (Vector2.Distance(Players[0].Position, Doors[i].Position) <= 80)
-                        {
-                            Graphics.UnloadTexture(RoomTexture);
-                            Graphics.UnloadTexture(RoomLightTexture);
-                            GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
-                            Reset = false;
-                            return;
-                        }
+    public bool CheckIfInDoor()
+    {
+        if (GetGame == null)
+            return false;
+
+        BasePlayer[] Players = GetGame.GetAllPlayers();
+        bool Reset = true;
+
+        for (int i = 0; i < Doors.Length; i++)
+        {
+            if (Doors[i] != null)
+            {
+                if (GetGame.CanUseDoor)
+                {
+                    if (Vector2.Distance(Players[0].Position, Doors[i].Position) <= 80)
+                    {
+                        Reset = false;
+                        return true;
+                    }
                 }
 
                 else if (Vector2.Distance(Players[0].Position, Doors[i].Position) >= 80)
@@ -145,6 +206,8 @@ public class BaseRoom
                 }
             }
         }
+
+        return false;
     }
 
     public virtual void Render()
@@ -157,7 +220,7 @@ public class BaseRoom
                 Doors[i].Render();
         }
 
-        CheckIfPlayerInDoor();
+        CheckIfInDoor();
 
         if (RoomName != "")
             Text.Draw(RoomName, Window.Width / 2, 40);

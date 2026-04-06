@@ -31,7 +31,7 @@ public class BaseDoor
 
     public void Render()
     {
-        Draw.FillColor = Color.Green;
+        Draw.FillColor = Color.Gray;
         Draw.Circle(Position, 50);
     }
 }

@@ -17,9 +17,10 @@ public class BasePlayer : BaseCharacter
     {
         base.CustomSetup();
         Items = new BaseItem[InventorySlotCount];
+        MovementSpeed = 55f;
     }
 
-    public virtual void Interect()
+    public virtual void Interact()
     {
         if (GetGame == null) { return; }
 
@@ -33,8 +34,12 @@ public class BasePlayer : BaseCharacter
 
             Items[InventoryIndex] = PickItem;
             Items[InventoryIndex].Owner = this;
+            Items[InventoryIndex].OwnerAsPlayer = this;
             Items[InventoryIndex].Position = Vector2.Zero;
+            return;
         }
+
+        GetGame.TryOpenDoor();
     }
 
     /// <summary>
@@ -72,17 +77,17 @@ public class BasePlayer : BaseCharacter
                             Items[i].RenderInv(new Vector2(x, y));
                             Items[i].Position = Position;
                         }
-
                         if (i == InventoryIndex)
                         {
                             Draw.FillColor = Color.Clear;
                             Draw.LineColor = Color.Yellow;
                             Draw.LineSize = 4;
                             Draw.Rectangle(x - 3, y - 3, slotWidth + 6, slotHeight + 6);
+                            if (Items[i] != null)
+                                Items[i].RenderHolding(Rotation, Position);
                         }
-
-                        //Text.Draw($"{i + 1}", (int)(x + 30), (int)(y + 24));
                     }
+
                     else
                     {
                         y = startY + (OffsetIndex * (slotWidth + gap));
@@ -96,17 +101,19 @@ public class BasePlayer : BaseCharacter
                         if (Items[i] != null)
                         {
                             Items[i].RenderInv(new Vector2(x, y));
-                            Items[i].Position = Position;
                         }
-
                         if (i == InventoryIndex)
                         {
                             Draw.FillColor = Color.Clear;
                             Draw.LineColor = Color.Yellow;
                             Draw.LineSize = 4;
                             Draw.Rectangle(x - 3, y - 3, slotWidth + 6, slotHeight + 6);
+                            if (Items[i] != null)
+                                Items[i].RenderHolding(Rotation, Position);
                         }
                     }
+
+
                 }
                 break;
         }
@@ -140,6 +147,22 @@ public class BasePlayer : BaseCharacter
                     return;
                 Items[InventoryIndex].UseItem(Position, Direction);
             }
+
+            if (Input.IsMouseButtonDown(MouseInput.Left))
+            {
+                if (Items[InventoryIndex] == null)
+                    return;
+                Items[InventoryIndex].UseItemFrame(Position, Direction);
+            }
+
+            if (Input.IsMouseButtonReleased(MouseInput.Left))
+            {
+                if (Items[InventoryIndex] == null)
+                    return;
+                Items[InventoryIndex].StopUsingItem(Position, Direction);
+            }
+            
+
             // Use Item Spacl
             if (Input.IsKeyboardKeyPressed(KeyboardInput.R))
             {
@@ -153,7 +176,7 @@ public class BasePlayer : BaseCharacter
             {
                 if (GetGame == null)
                     return;
-                GetGame.DamageAllInRadiusButSelf(this, Position, 100f, 1f, Direction * 600f);
+                GetGame.DamageAllInRadiusButSelf(this, Position, 50f, 1f, Direction * 600f);
             }
 
             // Inventory Input
@@ -173,7 +196,7 @@ public class BasePlayer : BaseCharacter
 
             if (Input.IsKeyboardKeyPressed(KeyboardInput.F))
             {
-                Interect();
+                Interact();
             }
 
             if (Input.IsKeyboardKeyPressed(KeyboardInput.One))
