@@ -31,7 +31,21 @@ public class BaseDoor
 
     public void Render()
     {
-        Draw.FillColor = Color.Gray;
+        switch (RoomCode)
+        {
+            case 0:
+                Draw.FillColor = Color.DarkGray;
+                break;
+            case 1:
+                Draw.FillColor = Color.Gray;
+                break;
+            case 2:
+                Draw.FillColor = Color.Blue;
+                break;
+            case 3:
+                Draw.FillColor = Color.Red;
+                break;
+        }
         Draw.Circle(Position, 50);
     }
 }

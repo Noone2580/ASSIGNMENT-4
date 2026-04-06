@@ -10,6 +10,7 @@ public class HallwayVertical : BaseRoom
     {
         RoomName = "Start";
         Doors = new BaseDoor[2];
+        LightIndex = 9;
 
         AddDoor(0,
             new Vector2(Window.Width / 2, 0),

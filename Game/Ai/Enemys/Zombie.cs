@@ -20,7 +20,6 @@ public class Zombie : BaseEnemy
 
     public override void Render()
     {
-        Console.WriteLine(Position);
         if (InRoom)
         {
             Target = GetClosetPlayer();

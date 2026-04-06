@@ -10,7 +10,7 @@ public class ThreeWayLeft : BaseRoom
     {
         RoomName = "Start";
         Doors = new BaseDoor[3];
-
+        LightIndex = 6;
 
         AddDoor(0,
             new Vector2(0, Window.Height / 2),

@@ -10,6 +10,7 @@ public class ThreeWayTop : BaseRoom
     {
         RoomName = "Start";
         Doors = new BaseDoor[3];
+        LightIndex = 7;
 
         AddDoor(0,
             new Vector2(Window.Width, Window.Height / 2),

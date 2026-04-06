@@ -10,6 +10,7 @@ public class BottomRightCorner : BaseRoom
     {
         RoomName = "Start";
         Doors = new BaseDoor[2];
+        LightIndex = 4;
 
         AddDoor(0,
             new Vector2(0, Window.Height / 2),

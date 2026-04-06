@@ -15,16 +15,9 @@ public class BaseRoom
 
     public Texture2D RoomTexture;
     public Texture2D RoomLightTexture;
-    public string RoomTextureLocation = "../../../Assets/Textures/T_Floor.png";
-    public string[] RoomLightTextureLocation = ["../../../Assets/Textures/T_Floor_Lighting_A.png",
-        "../../../Assets/Textures/T_Floor_Lighting_1.png",
-        "../../../Assets/Textures/T_Floor_Lighting_2.png",
-        "../../../Assets/Textures/T_Floor_Lighting_3.png",
-        "../../../Assets/Textures/T_Floor_Lighting_4.png",
-        "../../../Assets/Textures/T_Floor_Lighting_5.png",
-        "../../../Assets/Textures/T_Floor_Lighting_6.png"
-        ];
-    protected int LightIndex = 2;
+    public string RoomTextureLocation = "../../../Assets/Textures/T_Floor_0.png";
+    public string RoomLightTextureLocation = "../../../Assets/Textures/T_Room_Lighting_0.png";
+    protected int LightIndex = 0;
 
     public Game? GetGame;
 
@@ -49,13 +42,15 @@ public class BaseRoom
         RightWallCal = Window.Width - 50;
         TopWallCal = 50;
         BottomWallCal = Window.Height - 50;
-
         ThisRoomIndex = Grid.GetIndexAtGrid(GridPosition);
 
         CustomSetup();
 
+        RoomLightTextureLocation = $"../../../Assets/Textures/T_Room_Lighting_{LightIndex}.png";
+        RoomTextureLocation = $"../../../Assets/Textures/T_Floor_{LightIndex}.png";
+
         RoomTexture = Graphics.LoadTexture(RoomTextureLocation);
-        RoomLightTexture = Graphics.LoadTexture(RoomLightTextureLocation[LightIndex]);
+        RoomLightTexture = Graphics.LoadTexture(RoomLightTextureLocation);
 
         //if (GridPosition != GetGame.StartGrid)
         //    for (int i = 0; i < Random.Integer(0, 10); i++)
