@@ -40,7 +40,7 @@ public class Spiter : BaseEnemy
                 Position += DirPos * Time.DeltaTime;
             }
 
-            if (Vector2.Distance(Target.Position, Position) <= 100f)
+            if (Target != null && Vector2.Distance(Target.Position, Position) <= 100f)
             {
                 SetTimer(3, SpitRate);
                 Direction = Target.Position - Position;
@@ -60,6 +60,7 @@ public class Spiter : BaseEnemy
                     SetTimer(4, AttackCooldown);
                 return;
             }
+            if (Target == null) { return; }
 
             MoveTo = Vector2.Normalize((Target.Position + Target.Direction * 300f) - Position);
             Direction = Vector2.Normalize(Target.Position - Position);

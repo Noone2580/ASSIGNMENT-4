@@ -57,26 +57,26 @@ public class BaseRoom
         RoomTexture = Graphics.LoadTexture(RoomTextureLocation);
         RoomLightTexture = Graphics.LoadTexture(RoomLightTextureLocation[LightIndex]);
 
-        if (GridPosition != GetGame.StartGrid)
-            for (int i = 0; i < Random.Integer(0, 10); i++)
-            {
-                int EE = Random.Integer(0, 4);
-                switch (EE)
-                {
-                    case 0:
-                        GetGame.AddEnemy(new Zombie(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
-                        break;
-                    case 1:
-                        GetGame.AddEnemy(new Z_Tank(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
-                        break;
-                    case 2:
-                        GetGame.AddEnemy(new Spiter(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
-                        break;
-                    case 3:
-                        GetGame.AddEnemy(new Cultist(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
-                        break;
-                }
-            }
+        //if (GridPosition != GetGame.StartGrid)
+        //    for (int i = 0; i < Random.Integer(0, 10); i++)
+        //    {
+        //        int EE = Random.Integer(0, 4);
+        //        switch (EE)
+        //        {
+        //            case 0:
+        //                GetGame.AddEnemy(new Zombie(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+        //                break;
+        //            case 1:
+        //                GetGame.AddEnemy(new Z_Tank(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+        //                break;
+        //            case 2:
+        //                GetGame.AddEnemy(new Spiter(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+        //                break;
+        //            case 3:
+        //                GetGame.AddEnemy(new Cultist(), GridPosition, Random.Vector2(new Vector2(RightWallCal, BottomWallCal), new Vector2(LeftWallCal, TopWallCal)));
+        //                break;
+        //        }
+        //    }
     }
 
     /// <summary>
