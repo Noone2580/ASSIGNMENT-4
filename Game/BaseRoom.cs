@@ -142,10 +142,7 @@ public class BaseRoom
                             }
                         }
                     }
-                }
-                else
-                {
-                    if (Vector2.Distance(Players[0].Position, Doors[i].Position) <= 80)
+                    else if (Vector2.Distance(Players[0].Position, Doors[i].Position) <= 80)
                     {
                         Graphics.UnloadTexture(RoomTexture);
                         Graphics.UnloadTexture(RoomLightTexture);
@@ -153,16 +150,15 @@ public class BaseRoom
                         Reset = false;
                         return true;
                     }
+                    
                 }
-            }
-
-            else if (Vector2.Distance(Players[0].Position, Doors[i].Position) >= 80)
-            {
-                GetGame.CanUseDoor = Reset;
+                else if (Vector2.Distance(Players[0].Position, Doors[i].Position) >= 80)
+                {
+                    GetGame.CanUseDoor = Reset;
+                }
             }
         }
         return false;
-
     }
 
 
