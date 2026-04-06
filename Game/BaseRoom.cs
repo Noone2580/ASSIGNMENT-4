@@ -135,7 +135,7 @@ public class BaseRoom
                                         RoomVec.W--;
                                         Grid.SetRoomAtIndex(RoomIndex, RoomVec);
                                         RoomVec = Grid.GetRoomAtIndex(RoomIndex);
-                                        GetGame.StartDialogue($"You take one lock off. {RoomVec.W}", 1.5f);
+                                        GetGame.StartDialogue($"System:\n\nYou take one lock off. {RoomVec.W}", 1.5f);
                                         Doors[i].RoomCode = (int)RoomVec.W;
                                         Reset = false;
                                         return true;
@@ -146,7 +146,7 @@ public class BaseRoom
                                         Graphics.UnloadTexture(RoomLightTexture);
                                         RoomVec.W = 0;
                                         Grid.SetRoomAtIndex(RoomIndex, RoomVec);
-                                        GetGame.StartDialogue("It unlocks", 1f);
+                                        GetGame.StartDialogue("System:\n\nIt unlocks", 1f);
                                         GetGame.EnterNewRoom(Doors[i].ExitGridPosition, Doors[i].EndPosition, Doors[i].Position);
                                     }
                                     Reset = false;
@@ -154,7 +154,7 @@ public class BaseRoom
                                 }
 
                                 else
-                                    GetGame.StartDialogue($"It's locked. Key level {Doors[i].RoomCode} needed", 1f);
+                                    GetGame.StartDialogue($"System:\n\nIt's locked. Key level {Doors[i].RoomCode} needed", 1f);
                                 return false;
                             }
                         }
