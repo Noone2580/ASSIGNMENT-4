@@ -139,7 +139,9 @@ public class RoomGrid
 
         //Row 1
         AddRoom(new Vector2(2, 1), 0, 0);
-            GetGame.AddItem(new Key(), new Vector2(2, 1), new Vector2(Window.Width/2 , Window.Height/2));
+        GetGame.AddItem(new Key(), new Vector2(2, 1), new Vector2(Window.Width / 2, Window.Height / 2));
+        GetGame.AddEnemy(new Zombie(), new Vector2(2, 1), new Vector2(Window.Width / 2, Window.Height / 2));
+
         AddRoom(new Vector2(3, 1), 2, 0);
 
         //Row 2
@@ -151,11 +153,11 @@ public class RoomGrid
 
         AddRoom(new Vector2(7, 2), 1, 0);
         AddRoom(new Vector2(8, 2), 0, 0);
-            GetGame.AddItem(new Shotgun(), new Vector2(8, 2), new Vector2(Window.Width / 2, Window.Height / 2));
+        GetGame.AddItem(new Shotgun(), new Vector2(8, 2), new Vector2(Window.Width / 2, Window.Height / 2));
 
         //Row 3
         AddRoom(new Vector2(2, 3), 9, 0);
-            GetGame.AddItem(new Pistol(), new Vector2(2, 3), new Vector2(Window.Width / 2, Window.Height / 2));
+        GetGame.AddItem(new Pistol(), new Vector2(2, 3), new Vector2(Window.Width / 2, Window.Height / 2));
 
         AddRoom(new Vector2(3, 3), 9, 0);
         AddRoom(new Vector2(5, 3), 9, 2);
@@ -173,13 +175,13 @@ public class RoomGrid
 
         AddRoom(new Vector2(9, 4), 0, 0);
         AddRoom(new Vector2(10, 4), 0, 1);
-            GetGame.AddItem(new BlueKey(), new Vector2(10, 4), new Vector2(Window.Width / 2, Window.Height / 2));
+        GetGame.AddItem(new BlueKey(), new Vector2(10, 4), new Vector2(Window.Width / 2, Window.Height / 2));
 
 
         //Row 5
         AddRoom(new Vector2(1, 5), 0, 0);
         AddRoom(new Vector2(2, 5), 0, 0);
-            GetGame.AddItem(new Kinfe(), new Vector2(2, 5), new Vector2(Window.Width / 2, Window.Height / 2));
+        GetGame.AddItem(new Kinfe(), new Vector2(2, 5), new Vector2(Window.Width / 2, Window.Height / 2));
 
         AddRoom(new Vector2(5, 5), 0, 1);
         AddRoom(new Vector2(6, 5), 10, 0);
@@ -221,10 +223,10 @@ public class RoomGrid
 
         //Row 10
         AddRoom(new Vector2(3, 10), 0, 0);
-            GetGame.AddItem(new RedKey(), new Vector2(3, 10), new Vector2(Window.Width / 2, Window.Height / 2));
+        GetGame.AddItem(new RedKey(), new Vector2(3, 10), new Vector2(Window.Width / 2, Window.Height / 2));
 
         AddRoom(new Vector2(8, 10), 0, 0);
-            GetGame.AddItem(new AssulitRifle(), new Vector2(8, 10), new Vector2(Window.Width / 2, Window.Height / 2));
+        GetGame.AddItem(new AssulitRifle(), new Vector2(8, 10), new Vector2(Window.Width / 2, Window.Height / 2));
 
 
     }

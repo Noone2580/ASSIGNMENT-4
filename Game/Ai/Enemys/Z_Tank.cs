@@ -27,8 +27,8 @@ public class Z_Tank : BaseEnemy
 
             if (GetClosetAI() != null)
                 KeepAway = GetClosetAI();
-
-            Direction = Target.Position - Position;
+            if (Target != null)
+                Direction = Target.Position - Position;
 
             base.Render();
             Move(Direction);
@@ -39,7 +39,7 @@ public class Z_Tank : BaseEnemy
                 Position += DirPos * Time.DeltaTime;
             }
 
-            if (Vector2.Distance(Target.Position, Position) <= AttackRange)
+            if (Target != null && Vector2.Distance(Target.Position, Position) <= AttackRange)
             {
                 Target.Velocity -= Target.Velocity * TargetSlowdown * Time.DeltaTime;
                 Velocity -= (Velocity * TargetSlowdown * 1.4f) * Time.DeltaTime;
