@@ -135,7 +135,7 @@ public class RoomGrid
         //  7           x   2   x   x   x   x   1
         //  8   x   3   x       x           3
         //  9           x                   x
-        //  10         Key3                 AS
+        //  10         Key3                 AR
 
         //Row 1
         AddRoom(new Vector2(2, 1), 0, 0);
@@ -208,6 +208,8 @@ public class RoomGrid
 
         //Row 8
         AddRoom(new Vector2(1, 8), 0, 0);
+            //Probably should be an ammo stash or something. 
+            GetGame.AddItem(new Ammo_Pistol(),new Vector2(1,8),new Vector2(Window.Width / 2,Window.Height / 1.5f));
         AddRoom(new Vector2(2, 8), 0, 3);
         AddRoom(new Vector2(3, 8), 0, 0);
 
