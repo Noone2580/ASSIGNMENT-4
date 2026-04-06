@@ -1,7 +1,7 @@
-﻿using MohawkGame2D;
-using System;
+﻿using System;
 using System.Numerics;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using MohawkGame2D;
+
 
 public class Boss : BaseEnemy
 {
@@ -15,6 +15,11 @@ public class Boss : BaseEnemy
     {
         base.CustomSetup();
         BodyTextureLocation = "../../../Assets/Textures/Boss.png";
+    }
+
+    public override void TakeDamage(float Damage, Vector2 HitForce)
+    {
+        base.TakeDamage(Damage, HitForce);
 
     }
 
