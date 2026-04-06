@@ -141,12 +141,17 @@ public class RoomGrid
         AddRoom(new Vector2(2, 1), 0, 0);
         GetGame.AddItem(new Key(), new Vector2(2, 1), new Vector2(Window.Width / 2, Window.Height / 2));
         
-
         AddRoom(new Vector2(3, 1), 2, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(3,1), new Vector2(Window.Width / 5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(3,1), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(3,1), new Vector2(Window.Width / 5f, Window.Height / 1.5f));
 
         //Row 2
         AddRoom(new Vector2(3, 2), 9, 0);
-        AddRoom(new Vector2(4, 2), 0, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(3, 2), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(3, 2), new Vector2(Window.Width / 5f, Window.Height / 1.5f));
+
+        AddRoom(new Vector2(4, 2), 3, 0);
         GetGame.AddItem(new Guitar(), new Vector2(4, 2), new Vector2(Window.Width / 2, Window.Height / 2));
 
         AddRoom(new Vector2(5, 2), 2, 0);
@@ -169,6 +174,13 @@ public class RoomGrid
             GetGame.AddEnemy(new Zombie(), new Vector2(2, 4), new Vector2(Window.Width / 2, Window.Height / 2));
         AddRoom(new Vector2(3, 4), 7, 0);
         AddRoom(new Vector2(4, 4), 0, 0);
+            //Early Roadblock room, has a lot of zombies in it to dis-incentivize the player progressing the wrong way
+        GetGame.AddEnemy(new Zombie(), new Vector2(4, 4), new Vector2(Window.Width / 2.5f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(4, 4), new Vector2(Window.Width / 1.5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(4, 4), new Vector2(Window.Width / 1.5f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(4, 4), new Vector2(Window.Width / 2.5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(4, 4), new Vector2(Window.Width / 1f, Window.Height / 1.5f));
+
         AddRoom(new Vector2(5, 4), 0, 0);
 
         AddRoom(new Vector2(7, 4), 0, 2);
@@ -181,8 +193,9 @@ public class RoomGrid
         //Row 5
         AddRoom(new Vector2(1, 5), 0, 0);
         AddRoom(new Vector2(2, 5), 0, 0);
-            GetGame.AddItem(new Kinfe(), new Vector2(2, 5), new Vector2(Window.Width / 2, Window.Height / 2));
-        
+        GetGame.AddItem(new Kinfe(), new Vector2(2, 5), new Vector2(Window.Width / 2, Window.Height / 2));
+        //Enemy spawn testing,
+        GetGame.AddEnemy(new Zombie(), new Vector2(2, 5), new Vector2(Window.Width / 1f, Window.Height / 1.5f));
 
         AddRoom(new Vector2(5, 5), 0, 1);
         AddRoom(new Vector2(6, 5), 10, 0);
@@ -204,6 +217,9 @@ public class RoomGrid
         AddRoom(new Vector2(6, 7), 0, 0);
         AddRoom(new Vector2(7, 7), 0, 0);
         AddRoom(new Vector2(8, 7), 0, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(8, 7), new Vector2(Window.Width / 2f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(8, 7), new Vector2(Window.Width / 1.8f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(8, 7), new Vector2(Window.Width / 1.5f, Window.Height / 1.5f));
         AddRoom(new Vector2(9, 7), 0, 1);
 
         //Row 8
