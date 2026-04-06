@@ -42,7 +42,7 @@ public class Game
     public void Setup()
     {
         // Setup window
-        Window.SetTitle("TEST");
+        Window.SetTitle("The Wrath of Raph");
         Window.SetSize(1100, 900);
         Window.TargetFPS = 60;
 
