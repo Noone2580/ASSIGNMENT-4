@@ -144,7 +144,7 @@ public class RoomGrid
 
         //Row 2
         AddRoom(new Vector2(3, 2), 9, 0);
-        AddRoom(new Vector2(4, 2), 0, 0);
+        AddRoom(new Vector2(4, 2), 3, 0);
         AddRoom(new Vector2(5, 2), 2, 0);
 
         AddRoom(new Vector2(7, 2), 1, 0);
