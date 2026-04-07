@@ -17,6 +17,7 @@ public class BaseEnemy : BaseAI
 
     public override void Die()
     {
+        if(GetGame == null) return;
         int IN = 0;
         for (int i = 0; i < GetGame.GetAllAis().Length; i++)
         {
