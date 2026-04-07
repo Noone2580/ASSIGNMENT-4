@@ -35,6 +35,12 @@ public class Boss : BaseEnemy
         }
     }
 
+    public override void Die()
+    {
+        base.Die();
+        GetGame.EnterNewRoom(GetGame.StartGrid, new Vector2(0), new Vector2(0));
+    }
+
     public override void Render()
     {
         DamageResistance = float.Clamp(DamageResistance, 0.2f, 1f);
