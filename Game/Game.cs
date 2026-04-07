@@ -19,8 +19,8 @@ public class Game
 
     // Game Vars
     BasePlayer[] Players = new BasePlayer[1];
-    BaseEnemy[] Enemies = new BaseEnemy[30];
-    BaseItem[] Items = new BaseItem[25];
+    BaseEnemy[] Enemies = new BaseEnemy[100];
+    BaseItem[] Items = new BaseItem[100];
     BaseProjectile[] Projectiles = new BaseProjectile[200];
     public Boss? TheBoss;
     public float[] Timers { get; protected set; } = new float[200];
