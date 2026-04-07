@@ -210,7 +210,7 @@ public class RoomGrid
         AddRoom(new Vector2(2, 5), 0, 0);
         GetGame.AddItem(new Kinfe(), new Vector2(2, 5), new Vector2(Window.Width / 2, Window.Height / 2));
         //Enemy spawn testing,
-        GetGame.AddEnemy(new Zombie(), new Vector2(2, 5), new Vector2(Window.Width / 1f, Window.Height / 1.5f));
+        //GetGame.AddEnemy(new Zombie(), new Vector2(2, 5), new Vector2(Window.Width / 1f, Window.Height / 1.5f));
 
         AddRoom(new Vector2(5, 5), 0, 1);
         AddRoom(new Vector2(6, 5), 10, 0);
