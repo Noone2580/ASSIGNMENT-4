@@ -133,7 +133,7 @@ public class RoomGrid
         //  5 Start x           1   -   x       x
         //  6                   |  Boss |       x
         //  7           x   2   x   x   x   x   1
-        //  8   x   3   x       x           3
+        //  8   x   3   x      FE           3
         //  9           x                   x
         //  10         Key3                 AR
 
@@ -254,10 +254,14 @@ public class RoomGrid
         AddRoom(new Vector2(1, 8), 0, 0);
             //Probably should be an ammo stash or something. 
             GetGame.AddItem(new Ammo_Pistol(),new Vector2(1,8),new Vector2(Window.Width / 2,Window.Height / 1.5f));
+            GetGame.AddItem(new Ammo_AssulitRifle(),new Vector2(1,8),new Vector2(Window.Width / 2,Window.Height / .5f));
+            GetGame.AddItem(new Ammo_Shotgun(),new Vector2(1,8),new Vector2(Window.Width / 2,Window.Height / 2f));
         AddRoom(new Vector2(2, 8), 0, 3);
         AddRoom(new Vector2(3, 8), 0, 0);
 
         AddRoom(new Vector2(5, 8), 0, 0);
+        GetGame.AddItem(new FireExtinguisher(), new Vector2(5, 8), new Vector2(Window.Width / 2, Window.Height / 1.5f));
+
 
         AddRoom(new Vector2(8, 8), 0, 3);
 
