@@ -155,8 +155,15 @@ public class RoomGrid
         GetGame.AddItem(new Guitar(), new Vector2(4, 2), new Vector2(Window.Width / 2, Window.Height / 2));
 
         AddRoom(new Vector2(5, 2), 2, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(5, 2), new Vector2(Window.Width / 5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(5, 2), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(5, 2), new Vector2(Window.Width / 5f, Window.Height / 1.5f));
 
         AddRoom(new Vector2(7, 2), 1, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(7, 2), new Vector2(Window.Width / 5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(7, 2), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(7, 2), new Vector2(Window.Width / 5f, Window.Height / 1.5f));
+
         AddRoom(new Vector2(8, 2), 0, 0);
             GetGame.AddItem(new Shotgun(), new Vector2(8, 2), new Vector2(Window.Width / 2, Window.Height / 2));
 
@@ -179,13 +186,21 @@ public class RoomGrid
         GetGame.AddEnemy(new Zombie(), new Vector2(4, 4), new Vector2(Window.Width / 1.5f, Window.Height / 2.5f));
         GetGame.AddEnemy(new Zombie(), new Vector2(4, 4), new Vector2(Window.Width / 1.5f, Window.Height / 1.5f));
         GetGame.AddEnemy(new Zombie(), new Vector2(4, 4), new Vector2(Window.Width / 2.5f, Window.Height / 2.5f));
-        GetGame.AddEnemy(new Zombie(), new Vector2(4, 4), new Vector2(Window.Width / 1f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Spiter(), new Vector2(4, 4), new Vector2(Window.Width / 1f, Window.Height / 1.5f));
 
         AddRoom(new Vector2(5, 4), 0, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(5, 4), new Vector2(Window.Width / 5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(5, 4), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Spiter(), new Vector2(5, 4), new Vector2(Window.Width / 5f, Window.Height / 1.5f));
+
 
         AddRoom(new Vector2(7, 4), 0, 2);
 
         AddRoom(new Vector2(9, 4), 0, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(9, 4), new Vector2(Window.Width / 5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Spiter(), new Vector2(9, 4), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(9, 4), new Vector2(Window.Width / 5f, Window.Height / 1.5f));
+
         AddRoom(new Vector2(10, 4), 0, 1);
             GetGame.AddItem(new BlueKey(), new Vector2(10, 4), new Vector2(Window.Width / 2, Window.Height / 2));
 
@@ -199,23 +214,36 @@ public class RoomGrid
 
         AddRoom(new Vector2(5, 5), 0, 1);
         AddRoom(new Vector2(6, 5), 10, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(6, 5), new Vector2(Window.Width / 3f, Window.Height / 3.5f));
+        GetGame.AddEnemy(new Spiter(), new Vector2(6, 5), new Vector2(Window.Width / 2f, Window.Height / 3.5f));
         AddRoom(new Vector2(7, 5), 0, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(6, 5), new Vector2(Window.Width / 1.5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(6, 5), new Vector2(Window.Width / 4.5f, Window.Height / 1.5f));
 
         AddRoom(new Vector2(9, 5), 0, 0);
 
         //Row 6 
         AddRoom(new Vector2(5, 6), 9, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(5, 6), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
         AddRoom(new Vector2(6, 6), 11, 3);// Boss Room
         AddRoom(new Vector2(7, 6), 9, 0);
-
+        GetGame.AddEnemy(new Zombie(), new Vector2(7, 6), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
         AddRoom(new Vector2(9, 6), 0, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(9, 6), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
 
         //Row 7
         AddRoom(new Vector2(3, 7), 0, 0);
+        GetGame.AddEnemy(new Spiter(), new Vector2(3, 7), new Vector2(Window.Width / 2f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(3, 7), new Vector2(Window.Width / 1.8f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Z_Tank(), new Vector2(3, 7), new Vector2(Window.Width / 1.5f, Window.Height / 1.5f));
         AddRoom(new Vector2(4, 7), 0, 2);
         AddRoom(new Vector2(5, 7), 0, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(5, 7), new Vector2(Window.Width / 2f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(5, 7), new Vector2(Window.Width / 1.5f, Window.Height / 1.5f));
         AddRoom(new Vector2(6, 7), 0, 0);
         AddRoom(new Vector2(7, 7), 0, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(7, 7), new Vector2(Window.Width / 2f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(7, 7), new Vector2(Window.Width / 1.8f, Window.Height / 1.5f));
         AddRoom(new Vector2(8, 7), 0, 0);
         GetGame.AddEnemy(new Zombie(), new Vector2(8, 7), new Vector2(Window.Width / 2f, Window.Height / 2.5f));
         GetGame.AddEnemy(new Zombie(), new Vector2(8, 7), new Vector2(Window.Width / 1.8f, Window.Height / 1.5f));
@@ -235,8 +263,24 @@ public class RoomGrid
 
         //Row 9 
         AddRoom(new Vector2(3, 9), 0, 0);
+        GetGame.AddEnemy(new Zombie(), new Vector2(3, 9), new Vector2(Window.Width / 2.5f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Z_Tank(), new Vector2(3, 9), new Vector2(Window.Width / 1.5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Spiter(), new Vector2(3, 9), new Vector2(Window.Width / 1.5f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(3, 9), new Vector2(Window.Width / 2.5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(3, 9), new Vector2(Window.Width / 1f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Z_Tank(), new Vector2(3, 9), new Vector2(Window.Width / 5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(3, 9), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(3, 9), new Vector2(Window.Width / 5f, Window.Height / 1.5f));
 
         AddRoom(new Vector2(8, 9), 0, 0);
+        GetGame.AddEnemy(new Z_Tank(), new Vector2(8, 9), new Vector2(Window.Width / 2.5f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Spiter(), new Vector2(8, 9), new Vector2(Window.Width / 1.5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Spiter(), new Vector2(8, 9), new Vector2(Window.Width / 1.5f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(8, 9), new Vector2(Window.Width / 2.5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(8, 9), new Vector2(Window.Width / 1f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Z_Tank(), new Vector2(8, 9), new Vector2(Window.Width / 5f, Window.Height / 2.5f));
+        GetGame.AddEnemy(new Zombie(), new Vector2(8, 9), new Vector2(Window.Width / 8f, Window.Height / 1.5f));
+        GetGame.AddEnemy(new Z_Tank(), new Vector2(8, 9), new Vector2(Window.Width / 5f, Window.Height / 1.5f));
 
         //Row 10
         AddRoom(new Vector2(3, 10), 0, 0);
