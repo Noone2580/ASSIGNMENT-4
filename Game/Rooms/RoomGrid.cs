@@ -255,7 +255,8 @@ public class RoomGrid
             //Probably should be an ammo stash or something. 
             GetGame.AddItem(new Ammo_Pistol(),new Vector2(1,8),new Vector2(Window.Width / 2,Window.Height / 1.5f));
             GetGame.AddItem(new Ammo_AssulitRifle(),new Vector2(1,8),new Vector2(Window.Width / 2,Window.Height / .5f));
-            GetGame.AddItem(new Ammo_Shotgun(),new Vector2(1,8),new Vector2(Window.Width / 2,Window.Height / 2f));
+            GetGame.AddItem(new Ammo_Shotgun(),new Vector2(1,8),new Vector2(Window.Width / 2,Window.Height / 2.5f));
+            GetGame.AddItem(new Medkit(),new Vector2(1,8),new Vector2(Window.Width / 1.5f,Window.Height / 2f));
         AddRoom(new Vector2(2, 8), 0, 3);
         AddRoom(new Vector2(3, 8), 0, 0);
 
