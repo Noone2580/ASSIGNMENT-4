@@ -55,7 +55,7 @@ public class TextBoxDialogue
             "Raph-am:\n\nWhat a Fool you are!",
             "Raph-am:\n\nChoosing to not answer me.\n\nCowardly!\n\nNo matter, none can stop the great Raph-am!",
             //Dialogue after claiming the first key                     3-4
-            "Raph-am:\n\nFoolish!\n\nYou dare try in vain to stop me?\n\nContinue further and you shall meet a swift end.",
+            "Raph-am:\n\nFoolish!\n\nYou dare try in vain to stop me?\n\nContinue further and you shall meet\n\n a swift end.",
             "Raph-am:\n\nIf not to my undead minions,\n\nthen perhaps to the next wave\n\nof undead minions!",
             //After claiming the second key                             5-6
             "Raph-am:\n\nAnother?!",
