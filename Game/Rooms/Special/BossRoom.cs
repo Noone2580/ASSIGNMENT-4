@@ -54,7 +54,7 @@ public class BossRoom : BaseRoom
         {
             GetGame.SetTimer(9, 10f);
 
-            switch (Random.Integer(0, 2))
+            switch (Random.Integer(0, 3))
             {
                 case 0:
                     GetGame.AddItem(new Ammo_Pistol(), GetGame.Grid.CurrentRoomPosition, new Vector2(Window.Width /2, Window.Height - 200));
@@ -64,6 +64,9 @@ public class BossRoom : BaseRoom
                     break;
                 case 2:
                     GetGame.AddItem(new Ammo_AssulitRifle(), GetGame.Grid.CurrentRoomPosition, new Vector2(Window.Width / 2, Window.Height - 200));
+                    break;
+                case 3:
+                    GetGame.AddItem(new Medkit(), GetGame.Grid.CurrentRoomPosition, new Vector2(Window.Width / 2, Window.Height - 200));
                     break;
             }
         }

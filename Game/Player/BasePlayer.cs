@@ -200,6 +200,11 @@ public class BasePlayer : BaseCharacter
 
             if (Input.IsKeyboardKeyPressed(KeyboardInput.F))
             {
+                if (!GetGame.IsTimerDone(0))
+                {
+                    GetGame.SetTimer(0, 0.1f);
+                    return;
+                }
                 Interact();
             }
 
