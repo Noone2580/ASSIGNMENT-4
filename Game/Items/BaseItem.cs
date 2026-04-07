@@ -56,7 +56,7 @@ public class BaseItem
         if(!CanPickup || InInvetory)
             return false;
 
-        GetGame.StartDialogue($"You picked up a {this}: {Description}", 1f);
+        GetGame.StartDialogue($"System:\n\nYou picked up a {this}: {Description}", 1f);
         InInvetory = true;
         return true;
     }
