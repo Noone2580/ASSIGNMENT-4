@@ -8,7 +8,7 @@ public class Medkit : BaseWeapon
         base.CustomSetup();
         FireRate = .4f;
         InventorySpriteLocation = new Vector2(0, 72 * 4);
-        Damage = -40;
+        Damage = -20;
         MaxAmmo = 2;
         Ammo = MaxAmmo;
         AmmoType = 8;
