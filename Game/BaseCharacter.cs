@@ -22,7 +22,7 @@ public class BaseCharacter
     public float Rotation { get; protected set; } = 0f;
     public float VelRotation { get; protected set; } = 0f;
     public Vector2 Direction = Vector2.Zero;
-    public float HitBoxSize { get; protected set; } = 15f;
+    public float HitBoxSize { get; protected set; } = 23f;
     public float Grip = 5f;
     public float DamageResistance = 1f;
 
