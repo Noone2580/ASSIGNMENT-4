@@ -42,6 +42,10 @@ public class BasePlayer : BaseCharacter
         GetGame.TryOpenDoor();
     }
 
+    public override void Die()
+    {
+    }
+
     /// <summary>
     ///     Draws the Hud to the screen.
     /// </summary>
@@ -217,6 +221,13 @@ public class BasePlayer : BaseCharacter
 
     public override void Render()
     {
+        if (HP <= 0)
+        {
+            Graphics.Tint = Color.Black;
+            Text.Size = 200;
+            Text.Color = Color.White;
+            Text.Draw("GAME OVER", new Vector2(Window.Width / 4, Window.Height / 2));
+        }
         Controlls();
         base.Render();
         Text.Draw($"{HP}", new Vector2(Position.X, Position.Y + 10));
