@@ -29,6 +29,12 @@ public class Game
     // Text and dialogue
     public TextBoxDialogue GetDialoguePersonally = new TextBoxDialogue();
     string CurrentText = "";
+    public bool StartingText = true;
+    public bool StartingTextPlayer = true;
+    public bool StartingBoss = true;
+    int StartingBossIndex = 0;
+    int KeyIndex = 0;
+    bool KeyDie = false;
 
     // Rooms and Grid Vars
     public RoomGrid Grid { get; protected set; } = new RoomGrid();
@@ -66,7 +72,8 @@ public class Game
             Players[i].Position = Start;
         }
 
-        // Debug Romove SOON!
+
+        StartDialogue(GetDialoguePersonally.NarrationText[0], 4.5f);
     }
 
     public float[] GetRoomCal()
@@ -212,6 +219,22 @@ public class Game
         {
             Items[Index] = null;
             CloseItem.PickUp();
+
+            if (CloseItem is Key && KeyIndex == 0)
+            {
+                StartDialogue(GetDialoguePersonally.BossRaphText[3], 5f);
+                KeyDie = true;
+            }
+            if (CloseItem is Key && KeyIndex == 1)
+            {
+                StartDialogue(GetDialoguePersonally.BossRaphText[5], 5f);
+                KeyDie = true;
+            }
+            if (CloseItem is Key && KeyIndex == 2)
+            {
+                StartDialogue(GetDialoguePersonally.BossRaphText[7], 5f);
+                KeyIndex++;
+            }
             return CloseItem;
         }
 
@@ -465,6 +488,42 @@ public class Game
             TextBoxRender();
             return;
         }
+        if (IsTimerDone(0))
+        {
+            if (StartingText)
+            {
+                StartDialogue(GetDialoguePersonally.NarrationText[1], 6f);
+                StartingText = false;
+            }
+            else if (StartingBoss)
+            {
+                StartDialogue(GetDialoguePersonally.BossRaphText[StartingBossIndex], 3f);
+                StartingBossIndex++;
+                if (StartingBossIndex >= 3)
+                    StartingBoss = false;
+            }
+            else if (StartingTextPlayer)
+            {
+                StartDialogue(GetDialoguePersonally.PlayerText[0], 3f);
+                StartingTextPlayer = false;
+            }
+            else if (KeyDie)
+            {
+                if (KeyIndex == 0)
+                {
+                    StartDialogue(GetDialoguePersonally.BossRaphText[4], 3f);
+                    KeyIndex++;
+                    KeyDie = false;
+                }
+                else if (KeyIndex == 1)
+                {
+                    StartDialogue(GetDialoguePersonally.BossRaphText[6], 3f);
+                    KeyIndex++;
+                    KeyDie = false;
+                }
+            }
+        }
+
 
 
         for (int i = 0; i < Enemies.Length; i++)
