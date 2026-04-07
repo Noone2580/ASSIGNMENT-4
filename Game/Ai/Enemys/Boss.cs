@@ -5,7 +5,7 @@ using MohawkGame2D;
 
 public class Boss : BaseEnemy
 {
-    int Phase = 0;
+    public int Phase = 0;
     float FireBallRate = 1f;
     float FireBallDamage = 10f;
     float ProSpeed = 400f;
