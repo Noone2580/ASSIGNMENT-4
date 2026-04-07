@@ -14,6 +14,10 @@ D = Right
 
 Mouse = Character aim
 
+1-6 = Hotbar selection
+
+Left Click = Use Selected Item from Hotbar
+
 F = Interact (pick up items, open doors, unlock locks)
 
 R = Reload (must have appropriate ammo type in inventory)
