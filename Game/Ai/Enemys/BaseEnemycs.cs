@@ -27,7 +27,7 @@ public class BaseEnemy : BaseAI
 
         if (MohawkGame2D.Random.Bool()) 
         {
-            int ammo = MohawkGame2D.Random.Integer(0,2);
+            int ammo = MohawkGame2D.Random.Integer(0,3);
             switch (ammo) 
             {
                 case 0:

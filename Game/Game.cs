@@ -1,5 +1,6 @@
 ﻿// Include the namespaces (code libraries) you need below.
 using Microsoft.VisualBasic;
+using Raylib_cs;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
@@ -56,7 +57,7 @@ public class Game
         Draw.LineColor = Color.Clear;
 
         Grid.Setup(this);
-
+        
         Start = new Vector2(Window.Width / 2, Window.Height / 2);
 
         // Where the player starts

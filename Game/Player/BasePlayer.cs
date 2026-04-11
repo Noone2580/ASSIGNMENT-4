@@ -115,6 +115,8 @@ public class BasePlayer : BaseCharacter
                             if (Items[i] != null)
                                 Items[i].RenderHolding(Rotation, Position);
                         }
+                        Draw.LineColor = Color.Black;
+
                     }
 
 
@@ -128,6 +130,67 @@ public class BasePlayer : BaseCharacter
     /// </summary>
     public virtual void Controlls()
     {
+        if (Input.GetConnectedControllerCount() > 0)
+        {
+
+            if (Input.GetControllerAxis(0, ControllerAxis.LeftX) >= 0.3 || Input.GetControllerAxis(0, ControllerAxis.LeftX) <= -0.3)
+                Move(new Vector2(Input.GetControllerAxis(0, ControllerAxis.LeftX), 0));
+            if (Input.GetControllerAxis(0, ControllerAxis.LeftY) >= 0.3 || Input.GetControllerAxis(0, ControllerAxis.LeftY) <= -0.3)
+                Move(new Vector2(0, Input.GetControllerAxis(0, ControllerAxis.LeftY)));
+
+            if (Input.GetControllerAxis(0, ControllerAxis.RightX) >= 0.1 || Input.GetControllerAxis(0, ControllerAxis.RightX) <= -0.1)
+                Direction = new Vector2(Input.GetControllerAxis(0, ControllerAxis.RightX), Direction.Y);
+            if (Input.GetControllerAxis(0, ControllerAxis.RightY) >= 0.1 || Input.GetControllerAxis(0, ControllerAxis.RightY) <= -0.1)
+                Direction = new Vector2(Direction.X, Input.GetControllerAxis(0, ControllerAxis.RightY));
+
+            if (Input.GetControllerAxis(0, ControllerAxis.RightTrigger) >= .5)
+            {
+                if (Items[InventoryIndex] == null)
+                    return;
+                Items[InventoryIndex].UseItem(Position, Direction);
+            }
+
+            if (Input.GetControllerAxis(0, ControllerAxis.LeftTrigger) >= .5)
+            {
+                if (GetGame == null)
+                    return;
+                GetGame.DamageAllInRadiusButSelf(this, Position, 50f, 1f, Direction * 600f);
+            }
+
+            if (Input.IsControllerButtonPressed(0, ControllerButton.RightFaceRight))
+            {
+                if (Items[InventoryIndex] == null)
+                    return;
+                Items[InventoryIndex].UseItemSpacl(Position, Direction);
+            }
+
+            if (Input.IsControllerButtonPressed(0, ControllerButton.RightFaceLeft))
+            {
+                if (!GetGame.IsTimerDone(0))
+                {
+                    GetGame.SetTimer(0, 0.1f);
+                    return;
+                }
+                Interact();
+            }
+
+            if (Input.IsControllerButtonPressed(0, ControllerButton.RightTrigger1))
+            {
+                InventoryIndex++;
+                if (InventoryIndex >= InventorySlotCount)
+                    InventoryIndex = 0;
+            }
+            if (Input.IsControllerButtonPressed(0, ControllerButton.LeftTrigger1))
+            {
+                InventoryIndex--;
+                if (InventoryIndex < 0)
+                    InventoryIndex = InventorySlotCount - 1;
+            }
+
+            return;
+        }
+
+
         // Keybored controlls
         if (PlayerIndex == 0)
         {
@@ -165,7 +228,7 @@ public class BasePlayer : BaseCharacter
                     return;
                 Items[InventoryIndex].StopUsingItem(Position, Direction);
             }
-            
+
 
             // Use Item Spacl
             if (Input.IsKeyboardKeyPressed(KeyboardInput.R))
